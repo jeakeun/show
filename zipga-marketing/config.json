@@ -1,0 +1,27 @@
+{
+  "app_name": "집가",
+  "play_package": "com.example.zipga",
+  "_참고_play_package": "출시 전 실제 패키지명으로 바꾸세요 (Play Console에서 확인)",
+  "campaign": "launch2026",
+  "channels": ["instagram", "youtube", "threads"],
+  "formats": ["reels", "shorts", "dm", "bio"],
+  "publish_slots": [
+    ["wed", "19:00"],
+    ["sat", "20:00"]
+  ],
+  "hashtags": {
+    "instagram": "#집가 #귀가 #모임",
+    "youtube": "#집가 #shorts",
+    "threads": ""
+  },
+  "clip": {
+    "min_sec": 30,
+    "max_sec": 50,
+    "max_candidates": 8,
+    "crop": "center"
+  },
+  "limits": {
+    "threads_max_chars": 500,
+    "instagram_max_chars": 2200
+  }
+}

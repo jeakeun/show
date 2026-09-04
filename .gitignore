@@ -1,0 +1,22 @@
+# 가상환경·캐시
+.venv/
+__pycache__/
+*.pyc
+# 영상·음원·대용량 결과물 (깃에 올리지 않음 — 원본은 메인 PC에 있음)
+output/
+assets/
+logs/
+*.mp4
+*.mov
+*.webm
+*.wav
+*.mp3
+*.zip
+# 비밀 파일 (절대 금지)
+secrets/
+*token*.json
+client_secret*.json
+.env
+.env.*
+topic.txt
+.claude/settings.local.json

@@ -1,0 +1,28 @@
+{
+  "region": "KR",
+  "niche": "트렌드 기반 지식/호기심 콘텐츠",
+  "topic_focus": "심리학, 뇌과학, 행동경제학(돈과 소비의 심리), 인간관계와 습관",
+  "topic_secondary": "우주와 천문학, 물리학, 과학적 미스터리, 가상현실과 미래 기술, 개인 금융(돈 관리와 투자 상식), AI와 AX(인공지능 활용, AI 전환 트렌드, 일상을 바꾸는 AI)",
+  "model": "claude-sonnet-5",
+  "channel_url": "https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA",
+  "privacy_status": "public",
+  "longform_weekdays": [2, 6],
+  "shorts": {
+    "voice": "ko-KR-SunHiNeural",
+    "rate": "+8%",
+    "width": 1080,
+    "height": 1920,
+    "target_chars": 190,
+    "subtitle_group_chars": 6,
+    "subtitle_font_size": 18
+  },
+  "longform": {
+    "voice": "ko-KR-InJoonNeural",
+    "rate": "+0%",
+    "width": 1920,
+    "height": 1080,
+    "target_chars": 6000,
+    "subtitle_group_chars": 26,
+    "subtitle_font_size": 16
+  }
+}

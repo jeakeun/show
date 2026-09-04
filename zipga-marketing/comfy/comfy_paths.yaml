@@ -1,0 +1,18 @@
+comfy_desktop_shared:
+    base_path: C:\Users\User\AppData\Local\Comfy-Desktop\ComfyUI-Shared\
+    is_default: true
+    checkpoints: models/checkpoints
+    diffusion_models: models/diffusion_models
+    unet: models/unet
+    loras: models/loras
+    vae: models/vae
+    clip: models/clip
+    text_encoders: models/text_encoders
+    clip_vision: models/clip_vision
+    controlnet: models/controlnet
+    embeddings: models/embeddings
+    upscale_models: models/upscale_models
+    audio_encoders: models/audio_encoders
+    model_patches: models/model_patches
+    style_models: models/style_models
+    vae_approx: models/vae_approx

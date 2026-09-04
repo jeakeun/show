@@ -1,0 +1,1 @@
+{first_sentence} | 점수 낮으면 집 가는 사이트, {app_name}

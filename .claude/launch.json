@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vtuber",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["vtuber/server.js"],
+      "port": 8977
+    }
+  ]
+}

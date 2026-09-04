@@ -1,0 +1,5 @@
+@echo off
+rem 주간 성과 분석 → 플레이북 갱신 (매주 일요일 저녁 작업 스케줄러가 호출)
+cd /d "%~dp0"
+".venv\Scripts\python.exe" -m src.insights >> "logs\insights.log" 2>&1
+exit /b %errorlevel%

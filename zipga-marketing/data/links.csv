@@ -1,0 +1,13 @@
+﻿account,channel,format,os,url,campaign_id
+a,instagram,reels,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dinstagram_reels%26utm_campaign%3Dlaunch2026,launch2026_a_instagram_reels
+a,instagram,shorts,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dinstagram_shorts%26utm_campaign%3Dlaunch2026,launch2026_a_instagram_shorts
+a,instagram,dm,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dinstagram_dm%26utm_campaign%3Dlaunch2026,launch2026_a_instagram_dm
+a,instagram,bio,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dinstagram_bio%26utm_campaign%3Dlaunch2026,launch2026_a_instagram_bio
+a,youtube,reels,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dyoutube_reels%26utm_campaign%3Dlaunch2026,launch2026_a_youtube_reels
+a,youtube,shorts,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dyoutube_shorts%26utm_campaign%3Dlaunch2026,launch2026_a_youtube_shorts
+a,youtube,dm,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dyoutube_dm%26utm_campaign%3Dlaunch2026,launch2026_a_youtube_dm
+a,youtube,bio,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dyoutube_bio%26utm_campaign%3Dlaunch2026,launch2026_a_youtube_bio
+a,threads,reels,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dthreads_reels%26utm_campaign%3Dlaunch2026,launch2026_a_threads_reels
+a,threads,shorts,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dthreads_shorts%26utm_campaign%3Dlaunch2026,launch2026_a_threads_shorts
+a,threads,dm,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dthreads_dm%26utm_campaign%3Dlaunch2026,launch2026_a_threads_dm
+a,threads,bio,android,https://play.google.com/store/apps/details?id=com.example.zipga&referrer=utm_source%3Da%26utm_medium%3Dthreads_bio%26utm_campaign%3Dlaunch2026,launch2026_a_threads_bio

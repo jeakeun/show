@@ -1,0 +1,8 @@
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s1.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s2.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s3.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s4.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s5.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s6.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/s7.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_pres/end.mp4'

@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>몽글이 - 버추얼 스트리머</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { width:100%; height:100%; overflow:hidden; background:#00b140; font-family:'Malgun Gothic',sans-serif; }
+  #stage { position:absolute; inset:0; width:100%; height:100%; }
+  /* 실제 캠 영상은 처리용으로만 쓰고 화면에는 절대 표시하지 않음 */
+  #cam { display:none !important; }
+  #camView { position:absolute; right:16px; bottom:16px; border-radius:12px;
+             border:3px solid rgba(255,255,255,.6); display:none; z-index:5; }
+  /* ---------- UI ---------- */
+  #ui { position:absolute; left:16px; bottom:16px; z-index:10; display:flex; gap:8px; align-items:center;
+        background:rgba(0,0,0,.55); padding:10px 14px; border-radius:14px; transition:opacity .4s; }
+  #ui.hidden { opacity:0; pointer-events:none; }
+  #ui button { border:none; border-radius:8px; padding:8px 12px; font-size:13px; cursor:pointer;
+               font-family:inherit; font-weight:bold; color:#fff; background:#444; }
+  #ui button:hover { filter:brightness(1.2); }
+  #ui select { border:none; border-radius:8px; padding:8px; font-size:13px; font-weight:bold;
+               font-family:inherit; background:#444; color:#fff; max-width:170px; cursor:pointer; }
+  .swatch { width:34px; height:34px; padding:0 !important; border:2px solid rgba(255,255,255,.5) !important; }
+  #status { position:absolute; left:16px; top:16px; z-index:10; padding:8px 14px; border-radius:999px;
+            background:rgba(0,0,0,.55); color:#fff; font-size:13px; font-weight:bold; display:flex;
+            align-items:center; gap:8px; transition:opacity .4s; }
+  #status.hidden { opacity:0; }
+  #dot { width:10px; height:10px; border-radius:50%; background:#e74c3c; }
+  #loading { position:absolute; inset:0; z-index:20; display:flex; flex-direction:column; gap:14px;
+             align-items:center; justify-content:center; background:#00b140; color:#fff; }
+  #loading h1 { font-size:26px; }
+  #loading p { font-size:15px; opacity:.85; }
+  .spin { width:44px; height:44px; border:5px solid rgba(255,255,255,.3); border-top-color:#fff;
+          border-radius:50%; animation:sp 1s linear infinite; }
+  @keyframes sp { to { transform:rotate(360deg); } }
+  #err { display:none; max-width:520px; background:rgba(0,0,0,.5); padding:16px 20px; border-radius:12px;
+         font-size:14px; line-height:1.7; }
+</style>
+</head>
+<body>
+<canvas id="stage"></canvas>
+<video id="cam" autoplay muted playsinline></video>
+<canvas id="camView" width="240" height="180"></canvas>
+
+<div id="status"><span id="dot"></span><span id="statusText">카메라 준비 중...</span></div>
+
+<div id="ui">
+  <span style="color:#fff;font-size:12px;font-weight:bold;">배경</span>
+  <button class="swatch" style="background:#00b140" data-bg="#00b140" title="크로마키 초록"></button>
+  <button class="swatch" style="background:#0047bb" data-bg="#0047bb" title="크로마키 파랑"></button>
+  <button class="swatch" style="background:#ff00ff" data-bg="#ff00ff" title="크로마키 마젠타"></button>
+  <button class="swatch" style="background:#222831" data-bg="#222831" title="어두운 배경"></button>
+  <select id="camSel" title="사용할 카메라 선택"><option>카메라 찾는 중...</option></select>
+  <button id="btnCam" title="내 얼굴은 절대 표시되지 않아요. 인식 상태를 점으로만 보여줍니다">트래킹 보기 (P)</button>
+  <button id="btnHide">UI 숨기기 (H)</button>
+</div>
+
+<div id="loading">
+  <div class="spin" id="spinner"></div>
+  <h1>몽글이 깨우는 중...</h1>
+  <p id="loadMsg">AI 얼굴 인식 모델을 내려받고 있어요 (처음 한 번만 걸려요)</p>
+  <div id="err"></div>
+</div>
+
+<script type="module">
+import { FilesetResolver, FaceLandmarker, HandLandmarker }
+  from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
+
+/* ================= 기본 셋업 ================= */
+const canvas = document.getElementById("stage");
+const ctx = canvas.getContext("2d");
+const video = document.getElementById("cam");
+const statusText = document.getElementById("statusText");
+const dot = document.getElementById("dot");
+let W = 0, H = 0;
+function resize(){ W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
+addEventListener("resize", resize); resize();
+
+let bgColor = "#00b140";
+document.querySelectorAll(".swatch").forEach(b => b.onclick = () => {
+  bgColor = b.dataset.bg; document.body.style.background = bgColor;
+});
+const ui = document.getElementById("ui"), statusEl = document.getElementById("status");
+let uiHidden = false;
+function toggleUI(force){ uiHidden = force !== undefined ? force : !uiHidden;
+  ui.classList.toggle("hidden", uiHidden); statusEl.classList.toggle("hidden", uiHidden); }
+document.getElementById("btnHide").onclick = () => toggleUI();
+const camView = document.getElementById("camView");
+document.getElementById("btnCam").onclick = () => {
+  camView.style.display = camView.style.display === "block" ? "none" : "block"; };
+addEventListener("keydown", e => {
+  if (e.key === "h" || e.key === "H" || e.key === "ㅗ") toggleUI();
+  if (e.key === "p" || e.key === "P" || e.key === "ㅔ") document.getElementById("btnCam").onclick();
+  if (e.key >= "1" && e.key <= "4") {
+    const sw = document.querySelectorAll(".swatch")[+e.key - 1]; if (sw) sw.onclick();
+  }
+});
+// 마우스가 4초간 안 움직이면 UI 자동 숨김
+let mouseTimer;
+addEventListener("mousemove", () => {
+  if (uiHidden) toggleUI(false);
+  clearTimeout(mouseTimer); mouseTimer = setTimeout(() => toggleUI(true), 4000);
+});
+mouseTimer = setTimeout(() => toggleUI(true), 4000);
+
+/* ================= 트래킹 상태값 (전부 0~1 또는 라디안, 부드럽게 보간됨) ================= */
+const S = {
+  present: 0,        // 사람 인식 여부 (0=없음 1=있음)
+  sleep: 0,          // 수면 모드 진행도
+  yaw: 0, pitch: 0, roll: 0,   // 고개 방향
+  blinkL: 0, blinkR: 0,
+  jaw: 0, smile: 0, brow: 0,
+  lookX: 0, lookY: 0,
+  // 팔: 캐릭터 공간의 손 위치
+  armL: { px: -185, py: 95, tx: 0.3, ty: 0.75, active: 0, lastSeen: -9e9 },
+  armR: { px: 185, py: 95, tx: 0.7, ty: 0.75, active: 0, lastSeen: -9e9 },
+};
+const lerp = (a, b, t) => a + (b - a) * t;
+// a 이하는 0, b 이상은 1, 사이는 부드럽게 (민감도 조절용)
+const smoothstep = (a, b, x) => {
+  const t = Math.max(0, Math.min(1, (x - a) / (b - a)));
+  return t * t * (3 - 2 * t);
+};
+
+let lastFaceTime = -99999;   // 마지막으로 얼굴 본 시각
+let wakeFlash = 0;           // 깨어날 때 "!" 이펙트
+let faceLm = null, handLm = null;
+let running = false;
+
+/* ================= AI 모델 로드 ================= */
+async function init(){
+  try {
+    const vision = await FilesetResolver.forVisionTasks(
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14/wasm");
+    document.getElementById("loadMsg").textContent = "얼굴 인식 모델 로드 중...";
+    faceLm = await FaceLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task",
+        delegate: "GPU" },
+      outputFaceBlendshapes: true,
+      runningMode: "VIDEO", numFaces: 1 });
+    document.getElementById("loadMsg").textContent = "손 인식 모델 로드 중...";
+    handLm = await HandLandmarker.createFromOptions(vision, {
+      baseOptions: {
+        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+        delegate: "GPU" },
+      runningMode: "VIDEO", numHands: 2 });
+    document.getElementById("loadMsg").textContent = "카메라 켜는 중... (권한 허용을 눌러주세요)";
+    try {
+      await openCam(localStorage.getItem("camId") || undefined);
+    } catch (e) {
+      await openCam(undefined);   // 저장된 카메라가 없어졌으면 기본 카메라로
+    }
+    await fillCamList();
+    document.getElementById("loading").style.display = "none";
+    running = true;
+  } catch (e) {
+    document.getElementById("spinner").style.display = "none";
+    const err = document.getElementById("err");
+    err.style.display = "block";
+    err.innerHTML = "문제가 생겼어요 😢<br><b>" + e.message + "</b><br><br>" +
+      "· 인터넷이 연결되어 있는지 확인해주세요 (처음 실행 시 모델 다운로드 필요)<br>" +
+      "· 브라우저 주소창 왼쪽 자물쇠에서 <b>카메라 권한을 허용</b>해주세요<br>" +
+      "· 다른 프로그램(줌, 디스코드 등)이 캠을 쓰고 있으면 꺼주세요<br>" +
+      "· <b>카메라를 못 찾는다고 나오면</b>: 웹캠이 연결 안 된 거예요. 갤럭시 폰을 USB로 연결하고<br>" +
+      "&nbsp;&nbsp;알림에서 <b>USB 설정 → 웹캠</b>을 선택한 뒤, 이 페이지를 새로고침(F5) 해주세요";
+  }
+}
+
+// 카메라 열기 (deviceId를 주면 그 카메라, 없으면 기본 카메라)
+async function openCam(deviceId){
+  if (video.srcObject) for (const t of video.srcObject.getTracks()) t.stop();
+  const stream = await navigator.mediaDevices.getUserMedia({
+    video: deviceId ? { deviceId: { exact: deviceId }, width: 640, height: 480 }
+                    : { width: 640, height: 480 },
+    audio: false });
+  video.srcObject = stream;
+  await new Promise(r => video.onloadedmetadata = r);
+  video.play();
+}
+
+// 카메라 목록 채우기 (드롭다운으로 폰/웹캠 전환 가능)
+async function fillCamList(){
+  const sel = document.getElementById("camSel");
+  const devs = (await navigator.mediaDevices.enumerateDevices()).filter(d => d.kind === "videoinput");
+  sel.innerHTML = "";
+  devs.forEach((d, i) => {
+    const o = document.createElement("option");
+    o.value = d.deviceId;
+    o.textContent = d.label || `카메라 ${i + 1}`;
+    sel.appendChild(o);
+  });
+  const cur = video.srcObject && video.srcObject.getVideoTracks()[0];
+  if (cur && cur.getSettings().deviceId) sel.value = cur.getSettings().deviceId;
+  sel.onchange = async () => {
+    localStorage.setItem("camId", sel.value);
+    try { await openCam(sel.value); } catch (e) { alert("이 카메라를 열 수 없어요: " + e.message); }
+  };
+}
+// 데모 모드(?demo=1): 카메라 없이 캐릭터 모습만 확인
+if (new URLSearchParams(location.search).has("demo")) {
+  document.getElementById("loading").style.display = "none";
+  statusText.textContent = "데모 모드 (카메라 꺼짐)";
+} else {
+  init();
+}
+
+/* ================= 트래킹 → 상태값 갱신 ================= */
+let lastVideoTime = -1;
+let frameCount = 0;
+
+function getBS(shapes){  // 블렌드셰이프 이름→점수 맵
+  const m = {};
+  for (const c of shapes) m[c.categoryName] = c.score;
+  return m;
+}
+
+// 트래킹 상태 미리보기: 실제 캠 영상 대신 인식된 점만 표시 (얼굴 노출 방지)
+const cvx = camView.getContext("2d");
+let lastHandLms = [];
+function renderCamView(faceLms){
+  if (camView.style.display !== "block") return;
+  cvx.fillStyle = "rgba(10,14,20,.92)";
+  cvx.fillRect(0, 0, 240, 180);
+  if (faceLms) {
+    cvx.fillStyle = "#2ecc71";
+    for (const p of faceLms) cvx.fillRect((1 - p.x) * 240, p.y * 180, 1.6, 1.6);
+  } else {
+    cvx.fillStyle = "#e74c3c"; cvx.font = "bold 13px Malgun Gothic"; cvx.textAlign = "center";
+    cvx.fillText("얼굴 인식 안 됨", 120, 92);
+  }
+  cvx.fillStyle = "#ffb84d";
+  for (const hand of lastHandLms) for (const p of hand) {
+    cvx.beginPath(); cvx.arc((1 - p.x) * 240, p.y * 180, 2.5, 0, Math.PI * 2); cvx.fill();
+  }
+}
+
+function track(now){
+  if (!running || video.currentTime === lastVideoTime) return;
+  lastVideoTime = video.currentTime;
+  frameCount++;
+
+  // ----- 얼굴 -----
+  const fr = faceLm.detectForVideo(video, now);
+  const hasFace = fr.faceLandmarks && fr.faceLandmarks.length > 0;
+  renderCamView(hasFace ? fr.faceLandmarks[0] : null);
+  if (hasFace) {
+    lastFaceTime = now;
+    const lm = fr.faceLandmarks[0];
+    // 고개 방향: 랜드마크 기하학으로 계산 (미러 기준)
+    const nose = lm[1], chin = lm[152], forehead = lm[10];
+    const cheekR = lm[234], cheekL = lm[454];        // 영상 기준 좌우
+    const eyeR = lm[33], eyeL = lm[263];
+    const faceW = Math.hypot(cheekL.x - cheekR.x, cheekL.y - cheekR.y);
+    const faceH = Math.hypot(chin.x - forehead.x, chin.y - forehead.y);
+    const midX = (cheekR.x + cheekL.x) / 2;
+    const yawRaw = (nose.x - midX) / faceW;           // -0.5 ~ 0.5
+    const eyeMidY = (eyeR.y + eyeL.y) / 2;
+    const pitchRaw = (nose.y - eyeMidY) / faceH - 0.33; // 기본자세 보정
+    const rollRaw = Math.atan2(eyeL.y - eyeR.y, eyeL.x - eyeR.x);
+    // 미러(거울)처럼 보이게 부호 반전
+    S.yaw   = lerp(S.yaw,   -yawRaw * 2.2, 0.25);
+    S.pitch = lerp(S.pitch,  pitchRaw * 2.2, 0.25);
+    S.roll  = lerp(S.roll,  -rollRaw * 0.9, 0.25);
+
+    if (fr.faceBlendshapes && fr.faceBlendshapes.length) {
+      const b = getBS(fr.faceBlendshapes[0].categories);
+      // 살짝 찡그린 정도(0.32 이하)는 무시, 제대로 감아야(0.7) 완전히 감기게
+      S.blinkL = lerp(S.blinkL, smoothstep(0.32, 0.7, b.eyeBlinkRight || 0), 0.6); // 미러라 좌우 교차
+      S.blinkR = lerp(S.blinkR, smoothstep(0.32, 0.7, b.eyeBlinkLeft || 0), 0.6);
+      S.jaw    = lerp(S.jaw, smoothstep(0.05, 0.5, b.jawOpen || 0), 0.5);
+      S.smile  = lerp(S.smile, ((b.mouthSmileLeft||0) + (b.mouthSmileRight||0)) / 2, 0.2);
+      S.brow   = lerp(S.brow, ((b.browInnerUp||0) + (b.browOuterUpLeft||0) + (b.browOuterUpRight||0)) / 3, 0.3);
+      const lookR = ((b.eyeLookOutLeft||0) + (b.eyeLookInRight||0)) / 2;   // 미러 기준 화면 오른쪽
+      const lookL = ((b.eyeLookOutRight||0) + (b.eyeLookInLeft||0)) / 2;
+      const lookU = ((b.eyeLookUpLeft||0) + (b.eyeLookUpRight||0)) / 2;
+      const lookD = ((b.eyeLookDownLeft||0) + (b.eyeLookDownRight||0)) / 2;
+      S.lookX = lerp(S.lookX, lookR - lookL, 0.3);
+      S.lookY = lerp(S.lookY, lookD - lookU, 0.3);
+    }
+  }
+
+  // ----- 손 (매 프레임 추적) -----
+  const hr = handLm.detectForVideo(video, now + 0.001);
+  lastHandLms = hr.landmarks || [];
+  const targets = lastHandLms.map(hand => {
+    const wrist = hand[0], mid = hand[9];
+    // 미러: x 반전. 손바닥 중심 근처를 기준점으로
+    return { x: 1 - (wrist.x * 0.4 + mid.x * 0.6), y: wrist.y * 0.4 + mid.y * 0.6 };
+  });
+  let tL = null, tR = null;
+  if (targets.length >= 2) {
+    targets.sort((a, b) => a.x - b.x);
+    tL = targets[0]; tR = targets[targets.length - 1];
+  } else if (targets.length === 1) {
+    if (targets[0].x < 0.5) tL = targets[0]; else tR = targets[0];
+  }
+  setArm(S.armL, tL, true, now);
+  setArm(S.armR, tR, false, now);
+}
+
+// 카메라의 손 위치를 캐릭터 손 위치로 매핑 (놓쳐도 0.25초 유지해서 안 끊기게)
+function setArm(arm, target, isLeft, now){
+  if (target) { arm.lastSeen = now; arm.tx = target.x; arm.ty = target.y; }
+  if (now - arm.lastSeen < 250) {
+    const px = (arm.tx - 0.5) * 760;
+    const py = (arm.ty - 0.55) * 640 - 40;
+    arm.px = lerp(arm.px, px, 0.38);
+    arm.py = lerp(arm.py, py, 0.38);
+    arm.active = lerp(arm.active, 1, 0.3);
+  } else {
+    arm.px = lerp(arm.px, isLeft ? -185 : 185, 0.08);
+    arm.py = lerp(arm.py, 95, 0.08);
+    arm.active = lerp(arm.active, 0, 0.08);
+  }
+}
+
+/* ================= 수면(자리비움) 상태 머신 ================= */
+const zzz = [];       // Zzz 파티클
+let lastZ = 0;
+let bubble = 0;       // 코 잠방울 크기
+
+function updateState(now){
+  const away = now - lastFaceTime > 2500;   // 2.5초간 얼굴 없으면 수면
+  const target = away ? 1 : 0;
+  const prevSleep = S.sleep;
+  S.sleep = lerp(S.sleep, target, target === 1 ? 0.025 : 0.09);
+  S.present = lerp(S.present, away ? 0 : 1, 0.1);
+  if (prevSleep > 0.5 && S.sleep <= 0.5) wakeFlash = 1;   // 잠에서 깸!
+  wakeFlash = Math.max(0, wakeFlash - 0.012);
+
+  if (S.sleep > 0.8 && now - lastZ > 1400) {
+    lastZ = now;
+    zzz.push({ x: 0, y: 0, age: 0 });
+  }
+  for (let i = zzz.length - 1; i >= 0; i--) {
+    zzz[i].age += 0.008;
+    if (zzz[i].age > 1) zzz.splice(i, 1);
+  }
+  bubble = S.sleep > 0.8 ? (Math.sin(now / 900) * 0.5 + 0.5) : 0;
+
+  // 상태 표시줄
+  if (!running) { dot.style.background = "#e74c3c"; statusText.textContent = "카메라 준비 중..."; }
+  else if (away) { dot.style.background = "#95a5a6"; statusText.textContent = "자리비움 - 몽글이 취침 중 zZ"; }
+  else { dot.style.background = "#2ecc71"; statusText.textContent = "트래킹 중!"; }
+}
+
+/* ================= 캐릭터 그리기 ================= */
+function draw(now){
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, W, H);
+
+  const t = now / 1000;
+  const u = Math.min(W, H) / 720;           // 크기 단위
+  const sl = S.sleep;                        // 0~1
+  // 숨쉬기: 잘 때 더 크고 느리게
+  const breath = Math.sin(t * (sl > 0.5 ? 1.6 : 2.2)) * (0.012 + sl * 0.02);
+  const cx = W / 2;
+  const cy = H / 2 + 120 * u + sl * 30 * u;  // 잘 때 살짝 주저앉음
+
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(u, u);
+  // 깨어날 때 통통 튀는 효과
+  const wakeBounce = wakeFlash > 0.9 ? Math.sin((1 - wakeFlash) * 40) * 0.06 * wakeFlash : 0;
+  ctx.scale(1 + wakeBounce, 1 - wakeBounce);
+
+  const OUT = "#5d3a1a";   // 외곽선 색
+  ctx.lineJoin = "round"; ctx.lineCap = "round";
+
+  /* ----- 꼬리 ----- */
+  const tailWag = Math.sin(t * (sl > 0.5 ? 0.8 : 3)) * (0.25 - sl * 0.15);
+  ctx.save();
+  ctx.translate(150, 40);
+  ctx.rotate(tailWag);
+  ctx.strokeStyle = OUT; ctx.lineWidth = 7; ctx.fillStyle = "#ffb84d";
+  ctx.beginPath();
+  ctx.moveTo(0, 20);
+  ctx.quadraticCurveTo(70, 0, 60, -60);
+  ctx.quadraticCurveTo(55, -95, 25, -85);
+  ctx.quadraticCurveTo(45, -75, 40, -55);
+  ctx.quadraticCurveTo(45, -5, -5, 45);
+  ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.restore();
+
+  /* ----- 몸통 ----- */
+  ctx.save();
+  ctx.scale(1 + breath * 0.5, 1 + breath);
+  ctx.fillStyle = "#ffb84d"; ctx.strokeStyle = OUT; ctx.lineWidth = 8;
+  ctx.beginPath();
+  ctx.ellipse(0, 60, 165, 145 - sl * 18, 0, 0, Math.PI * 2);
+  ctx.fill(); ctx.stroke();
+  // 배 무늬
+  ctx.fillStyle = "#fff3e0";
+  ctx.beginPath();
+  ctx.ellipse(0, 95, 100, 85 - sl * 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // 발
+  ctx.fillStyle = "#ffb84d";
+  for (const fx of [-75, 75]) {
+    ctx.beginPath();
+    ctx.ellipse(fx, 190 - sl * 20, 42, 26, 0, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+  }
+  ctx.restore();
+
+  /* ----- 머리 ----- */
+  const hy = S.yaw * 55;                       // 고개 좌우 → 머리 이동
+  const hp = S.pitch * 45 + sl * 55;           // 고개 위아래 + 잘 때 푹 숙임
+  const hr = S.roll + Math.sin(t * 0.9) * sl * 0.06 + sl * 0.12;  // 잘 때 꾸벅꾸벅
+  ctx.save();
+  ctx.translate(hy * 0.6, -120 + hp * 0.5);
+  ctx.rotate(hr);
+
+  // 귀 (잘 때 축 처짐)
+  const earDroop = sl * 0.7;
+  for (const side of [-1, 1]) {
+    ctx.save();
+    ctx.translate(side * 105, -105);
+    ctx.rotate(side * (0.25 + earDroop) + Math.sin(t * 5 + side) * 0.02 * (1 - sl));
+    ctx.fillStyle = "#ffb84d"; ctx.strokeStyle = OUT; ctx.lineWidth = 8;
+    ctx.beginPath();
+    ctx.moveTo(-38, 30);
+    ctx.quadraticCurveTo(-30, -55, 0, -60);
+    ctx.quadraticCurveTo(30, -55, 38, 30);
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#ff8fa3";
+    ctx.beginPath();
+    ctx.moveTo(-20, 18);
+    ctx.quadraticCurveTo(-15, -32, 0, -35);
+    ctx.quadraticCurveTo(15, -32, 20, 18);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+  }
+
+  // 얼굴 본체
+  ctx.fillStyle = "#ffc866"; ctx.strokeStyle = OUT; ctx.lineWidth = 8;
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 150, 130, 0, 0, Math.PI * 2);
+  ctx.fill(); ctx.stroke();
+
+  // 얼굴 요소들은 고개 방향에 따라 살짝 더 이동 (입체감)
+  const fx = hy * 0.8, fy = hp * 0.55;
+  ctx.save();
+  ctx.translate(fx, fy);
+
+  // 볼터치 (웃으면 진해짐)
+  ctx.fillStyle = `rgba(255,120,140,${0.35 + S.smile * 0.45})`;
+  for (const side of [-1, 1]) {
+    ctx.beginPath();
+    ctx.ellipse(side * 88, 38, 26, 17, 0, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  /* --- 눈 --- */
+  const eyeY = -18;
+  for (const side of [-1, 1]) {
+    const blink = side < 0 ? S.blinkL : S.blinkR;
+    const closed = Math.min(1, Math.max(blink, sl));   // 수면이면 무조건 감김
+    ctx.save();
+    ctx.translate(side * 52, eyeY);
+    if (closed > 0.94) {
+      // 완전히 감은 눈: 평화로운 곡선
+      ctx.strokeStyle = OUT; ctx.lineWidth = 7;
+      ctx.beginPath();
+      ctx.arc(0, -6, 24, 0.15 * Math.PI, 0.85 * Math.PI);
+      ctx.stroke();
+    } else {
+      // 흰자
+      ctx.fillStyle = "#fff";
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 30, 36, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // 눈 내부는 눈 모양으로 클리핑해서 그림
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 30, 36, 0, 0, Math.PI * 2);
+      ctx.clip();
+      // 눈동자 (시선 + 고개 방향 따라)
+      const px = S.lookX * 10 + S.yaw * 8, py = S.lookY * 8 + S.pitch * 6;
+      ctx.fillStyle = "#3d2314";
+      ctx.beginPath();
+      ctx.ellipse(px, py, 15, 19, 0, 0, Math.PI * 2);
+      ctx.fill();
+      // 반짝이
+      ctx.fillStyle = "#fff";
+      ctx.beginPath(); ctx.arc(px - 5, py - 7, 5.5, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(px + 6, py + 5, 2.5, 0, Math.PI * 2); ctx.fill();
+      // 눈꺼풀: 감은 정도만큼 위에서 부드럽게 내려옴 (반쯤 감기 가능)
+      if (closed > 0.02) {
+        const lidY = -37 + closed * 70;
+        ctx.fillStyle = "#ffc866";
+        ctx.beginPath();
+        ctx.moveTo(-33, -42);
+        ctx.lineTo(33, -42);
+        ctx.lineTo(33, lidY);
+        ctx.quadraticCurveTo(0, lidY + 9, -33, lidY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = OUT; ctx.lineWidth = 4.5;
+        ctx.beginPath();
+        ctx.moveTo(-31, lidY);
+        ctx.quadraticCurveTo(0, lidY + 9, 31, lidY);
+        ctx.stroke();
+      }
+      ctx.restore();
+      // 눈 외곽선
+      ctx.strokeStyle = OUT; ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.ellipse(0, 0, 30, 36, 0, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  /* --- 눈썹 --- */
+  ctx.strokeStyle = OUT; ctx.lineWidth = 6;
+  for (const side of [-1, 1]) {
+    const lift = S.brow * 16 - sl * 4;
+    ctx.beginPath();
+    ctx.moveTo(side * 30, eyeY - 48 - lift);
+    ctx.quadraticCurveTo(side * 52, eyeY - 58 - lift * 1.3, side * 74, eyeY - 46 - lift);
+    ctx.stroke();
+  }
+
+  /* --- 코 & 입 --- */
+  ctx.fillStyle = "#ff8fa3"; ctx.strokeStyle = OUT; ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.ellipse(0, 26, 11, 8, 0, 0, Math.PI * 2);
+  ctx.fill(); ctx.stroke();
+
+  const jaw = S.jaw * (1 - sl);
+  const mw = 26 + S.smile * 22;
+  if (jaw > 0.12) {
+    // 입 벌림 (말할 때)
+    const oh = 12 + jaw * 42;
+    ctx.fillStyle = "#7a2c3a"; ctx.strokeStyle = OUT; ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.ellipse(0, 52 + oh * 0.3, mw, oh, 0, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+    // 혀
+    ctx.fillStyle = "#ff8fa3";
+    ctx.beginPath();
+    ctx.ellipse(0, 52 + oh * 0.75, mw * 0.6, oh * 0.42, 0, 0, Math.PI * 2);
+    ctx.fill();
+  } else {
+    // 다문 입: 고양이 입 (w 모양), 웃으면 크게
+    ctx.strokeStyle = OUT; ctx.lineWidth = 6;
+    ctx.beginPath();
+    ctx.moveTo(-mw, 46 + sl * 6);
+    ctx.quadraticCurveTo(-mw * 0.5, 56 + S.smile * 10, 0, 48);
+    ctx.quadraticCurveTo(mw * 0.5, 56 + S.smile * 10, mw, 46 + sl * 6);
+    ctx.stroke();
+  }
+
+  // 수염
+  ctx.strokeStyle = "rgba(93,58,26,.75)"; ctx.lineWidth = 3.5;
+  for (const side of [-1, 1]) for (let i = 0; i < 3; i++) {
+    ctx.beginPath();
+    ctx.moveTo(side * 100, 20 + i * 14);
+    ctx.quadraticCurveTo(side * 135, 14 + i * 15, side * 158, 20 + i * 17);
+    ctx.stroke();
+  }
+
+  // 잠방울 (코에서 뽀글)
+  if (bubble > 0.05 && sl > 0.7) {
+    ctx.fillStyle = "rgba(160,220,255,.75)";
+    ctx.strokeStyle = "rgba(90,160,220,.9)"; ctx.lineWidth = 3;
+    const r = 8 + bubble * 16;
+    ctx.beginPath();
+    ctx.arc(14, 34 + r * 0.3, r, 0, Math.PI * 2);
+    ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "rgba(255,255,255,.8)";
+    ctx.beginPath(); ctx.arc(14 - r * 0.3, 30, r * 0.25, 0, Math.PI * 2); ctx.fill();
+  }
+
+  ctx.restore();   // 얼굴 요소
+  ctx.restore();   // 머리
+
+  /* ----- 팔 ----- */
+  for (const isLeft of [true, false]) {
+    const arm = isLeft ? S.armL : S.armR;
+    const sx = isLeft ? -130 : 130;           // 어깨 위치
+    const sy = -5;
+    // 손을 안 들면 옆에서 살랑살랑, 잘 때는 축 늘어짐
+    const sway = Math.sin(t * 1.3 + (isLeft ? 0 : 2)) * 10 * (1 - arm.active);
+    let ex = arm.px + sway;
+    let ey = arm.py + Math.abs(sway) * 0.3;
+    ex = lerp(ex, sx + (isLeft ? -18 : 18), sl);
+    ey = lerp(ey, sy + 150, sl);
+    // 팔 길이 제한 (몸에서 안 떨어지게)
+    const dx = ex - sx, dy = ey - sy;
+    const d = Math.hypot(dx, dy) || 1;
+    const cl = Math.max(55, Math.min(200, d));
+    ex = sx + dx / d * cl; ey = sy + dy / d * cl;
+    // 팔뚝: 외곽선(굵게) 먼저, 살색(가늘게) 위에
+    const bendX = (sx + ex) / 2 + (isLeft ? -14 : 14);
+    const bendY = (sy + ey) / 2 + 18;
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.quadraticCurveTo(bendX, bendY, ex, ey);
+    ctx.lineWidth = 38; ctx.strokeStyle = OUT; ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(sx, sy);
+    ctx.quadraticCurveTo(bendX, bendY, ex, ey);
+    ctx.lineWidth = 26; ctx.strokeStyle = "#ffb84d"; ctx.stroke();
+    // 손바닥
+    ctx.beginPath();
+    ctx.arc(ex, ey, 26, 0, Math.PI * 2);
+    ctx.fillStyle = "#ffc866"; ctx.fill();
+    ctx.lineWidth = 7; ctx.strokeStyle = OUT; ctx.stroke();
+    // 젤리 발바닥 (손 들었을 때 보임)
+    if (arm.active > 0.4 && sl < 0.5) {
+      ctx.fillStyle = `rgba(255,140,160,${arm.active})`;
+      ctx.beginPath(); ctx.ellipse(ex, ey + 4, 11, 9, 0, 0, Math.PI * 2); ctx.fill();
+      for (let i = -1; i <= 1; i++) {
+        ctx.beginPath(); ctx.arc(ex + i * 10, ey - 9, 4.5, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+  }
+
+  /* ----- Zzz 파티클 ----- */
+  ctx.fillStyle = "#fff";
+  for (const z of zzz) {
+    const a = 1 - z.age;
+    const zx = 120 + z.age * 90 + Math.sin(z.age * 8) * 15;
+    const zy = -230 - z.age * 140;
+    ctx.save();
+    ctx.globalAlpha = a * sl;
+    ctx.font = `bold ${26 + z.age * 26}px Malgun Gothic`;
+    ctx.strokeStyle = OUT; ctx.lineWidth = 5;
+    ctx.strokeText("Z", zx, zy);
+    ctx.fillText("Z", zx, zy);
+    ctx.restore();
+  }
+
+  /* ----- 자리비움 팻말 ----- */
+  if (sl > 0.9) {
+    const signA = (sl - 0.9) * 10;
+    ctx.save();
+    ctx.globalAlpha = signA;
+    ctx.translate(-265, 90);
+    ctx.rotate(-0.08);
+    ctx.strokeStyle = "#8a5a2a"; ctx.lineWidth = 12;
+    ctx.beginPath(); ctx.moveTo(0, 110); ctx.lineTo(0, 0); ctx.stroke();
+    ctx.fillStyle = "#c68a4b"; ctx.strokeStyle = "#5d3a1a"; ctx.lineWidth = 6;
+    roundRect(ctx, -95, -75, 190, 85, 14); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#fff";
+    ctx.font = "bold 30px Malgun Gothic"; ctx.textAlign = "center";
+    ctx.fillText("자리비움", 0, -38);
+    ctx.font = "bold 22px Malgun Gothic";
+    ctx.fillText("금방 올게요 zZ", 0, -8);
+    ctx.restore();
+  }
+
+  /* ----- 깨어날 때 "!" ----- */
+  if (wakeFlash > 0.75) {
+    ctx.save();
+    ctx.globalAlpha = (wakeFlash - 0.75) * 4;
+    ctx.font = "bold 90px Malgun Gothic"; ctx.textAlign = "center";
+    ctx.fillStyle = "#fff34d"; ctx.strokeStyle = OUT; ctx.lineWidth = 8;
+    const by = -290 - (1 - wakeFlash) * 60;
+    ctx.strokeText("!", 0, by);
+    ctx.fillText("!", 0, by);
+    ctx.restore();
+  }
+
+  ctx.restore();  // 전체
+}
+
+function roundRect(c, x, y, w, h, r){
+  c.beginPath();
+  c.moveTo(x + r, y);
+  c.arcTo(x + w, y, x + w, y + h, r);
+  c.arcTo(x + w, y + h, x, y + h, r);
+  c.arcTo(x, y + h, x, y, r);
+  c.arcTo(x, y, x + w, y, r);
+  c.closePath();
+}
+
+/* ================= 메인 루프 ================= */
+function loop(now){
+  try { track(now); } catch(e) { /* 한 프레임 실패해도 계속 */ }
+  updateState(now);
+  draw(now);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+// 개발/디버그용 노출
+window.__S = S; window.__draw = draw; window.__updateState = updateState;
+window.__renderCamView = renderCamView; window.__setHands = h => lastHandLms = h;
+</script>
+</body>
+</html>

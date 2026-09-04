@@ -1,0 +1,25 @@
+# Registers a Windows Scheduled Task that runs the pipeline daily.
+# Usage:  .\setup_scheduler.ps1            (default 09:00)
+#         .\setup_scheduler.ps1 -Time "20:00"
+param([string]$Time = "09:00")
+
+$root = $PSScriptRoot
+$action = New-ScheduledTaskAction -Execute "$root\run_daily.bat" -WorkingDirectory $root
+$trigger = New-ScheduledTaskTrigger -Daily -At $Time
+$settings = New-ScheduledTaskSettingsSet `
+    -StartWhenAvailable `
+    -DontStopOnIdleEnd `
+    -ExecutionTimeLimit (New-TimeSpan -Hours 2)
+
+Register-ScheduledTask `
+    -TaskName "YouTubeAutoUpload" `
+    -Action $action `
+    -Trigger $trigger `
+    -Settings $settings `
+    -Description "Daily YouTube trend analysis + video generation + auto upload" `
+    -Force
+
+Write-Host ""
+Write-Host "Registered! Runs daily at $Time."
+Write-Host "Check: Task Scheduler (taskschd.msc) > YouTubeAutoUpload"
+Write-Host "Test now: Start-ScheduledTask -TaskName YouTubeAutoUpload"

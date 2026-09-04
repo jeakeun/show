@@ -1,0 +1,9 @@
+@echo off
+rem 매일 아침 자동 실행 진입점 (작업 스케줄러가 호출)
+cd /d "%~dp0"
+".venv\Scripts\python.exe" -m src.pipeline --type auto
+if %errorlevel% neq 0 (
+    echo [%date% %time%] 아침 업로드 실패! logs 폴더의 오늘 날짜 로그를 확인하거나, 클로드에게 "업로드 실패했어 확인해줘"라고 말하세요. > "%USERPROFILE%\OneDrive\Desktop\⚠️유튜브업로드실패.txt"
+    powershell -Command "(New-Object -ComObject Wscript.Shell).Popup('유튜브 아침 자동 업로드가 실패했습니다. 바탕화면의 알림 파일을 확인하세요.', 600, '1분호기심 업로드 실패', 48)" >nul 2>&1
+)
+exit /b %errorlevel%

@@ -1,0 +1,33 @@
+# 용량 큰 영상은 저장소에 올리지 않음 (CSV·전사·샘플은 공유)
+inbox/
+data/raw/*.mp4
+data/clips/*.mp4
+export/
+__pycache__/
+*.pyc
+
+# 업로더 — 토큰·인증 파일은 절대 공유 금지
+uploader/secrets/
+uploader/config.json
+uploader/watch/
+uploader/uploaded/
+uploader/uploads_log.csv
+uploader/.deps_ok
+
+# 콤피 자동 연결
+comfy/server.log
+
+uploader/_테스트보관/
+uploader/_내부용/
+
+# 코워크 통합분
+client_secret.json
+token.json
+*.token
+.env
+.env.*
+videos/*
+!videos/README.md
+reports/*.pdf
+automation/logs/*
+!automation/logs/.gitkeep

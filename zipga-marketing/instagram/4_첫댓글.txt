@@ -1,0 +1,4 @@
+바로 해보실 분들은 프로필 링크 눌러주세요
+https://zip-ga-frontend.vercel.app
+
+이상한 점 있으면 편하게 알려주세요!

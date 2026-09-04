@@ -1,0 +1,11 @@
+{
+  "id": "계정아이디(파일명과 같게)",
+  "owner": "담당자 이름",
+  "persona": "이 계정의 각도(훅) 한 문장",
+  "voice": "voice_기본",
+  "handles": {
+    "instagram": "@계정명",
+    "youtube": "@채널명",
+    "threads": "@계정명"
+  }
+}

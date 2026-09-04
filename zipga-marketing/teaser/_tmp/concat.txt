@@ -1,0 +1,6 @@
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp/seg1.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp/seg2.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp/seg3.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp/seg4.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp/seg5.mp4'
+file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp/seg_cta.mp4'
