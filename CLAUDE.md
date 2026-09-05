@@ -1,13 +1,13 @@
 # show 작업공간 — 클로드 안내 (다른 컴퓨터에서 이어서 작업할 때 먼저 읽을 것)
 
 이 저장소는 사용자(한국어, 비개발자, 단계별 안내 필요)의 자동화 프로젝트 모음입니다.
-**먼저 `docs/claude-memory/MEMORY.md`와 그 폴더의 메모리 파일들을 읽고 상황을 파악하세요.**
+**먼저 `README.md`(프로젝트 전체 개요)와 `docs/claude-memory/MEMORY.md` 및 그 폴더의 메모리 파일들을 읽고 상황을 파악하세요.**
 (메인 PC 클로드의 메모리 사본. 메인 PC에서 "메모리 동기화"라고 하면 최신본으로 갱신됨.)
 
 ## 저장소 구성 (총 4개, 전부 비공개)
 | 저장소 | 내용 | 메인 PC 위치 |
 |---|---|---|
-| show (이 저장소) | 집가 마케팅(zipga-marketing), 브이튜버 몽글이(vtuber), AI데일리 결과물, 유튜브 코드 옛 백업(src) | OneDrive\Desktop\show |
+| show (이 저장소) | 집가 마케팅(zipga-marketing), 브이튜버 몽글이(vtuber), 옛 백업(archive/ — 유튜브 코드·AI데일리 초기 결과물) | OneDrive\Desktop\show |
 | yt-auto | 유튜브 "1분호기심" 완전 자동화 (실제 운영 코드) | D:\yt-auto |
 | ai-daily | AX 취업 채용공고·뉴스논문 일일 수집 | D:\ai-daily |
 | coin-bot | 코인 모의투자 봇 | D:\coin-bot |

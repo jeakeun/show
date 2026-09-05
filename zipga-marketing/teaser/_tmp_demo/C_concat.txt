@@ -1,4 +1,0 @@
-file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_demo/C_1.mp4'
-file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_demo/C_2.mp4'
-file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_demo/C_3.mp4'
-file 'C:/Users/User/OneDrive/Desktop/show/zipga-marketing/teaser/_tmp_demo/C_cta.mp4'
