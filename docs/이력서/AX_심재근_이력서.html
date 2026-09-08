@@ -13,6 +13,12 @@
     word-break: keep-all;
   }
   h1 { font-size: 21pt; margin: 0 0 3px; letter-spacing: -0.5px; }
+  .hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+  .hdr-txt { flex: 1 1 auto; min-width: 0; }
+  .photo {
+    flex: 0 0 auto; width: 96px; height: 120px; object-fit: cover;
+    border: 1px solid #d8dce6; border-radius: 3px; background: #f4f6fa;
+  }
   .role { font-size: 11pt; color: #2f5fd0; font-weight: 700; margin: 0 0 9px; }
   .contact { font-size: 9pt; color: #444; line-height: 1.85; }
   .contact a { color: #2f5fd0; text-decoration: none; border-bottom: 1px solid #cbd8f5; }
@@ -58,7 +64,8 @@
   브라우저에서 <b>Ctrl+P → 대상을 "PDF로 저장"</b>으로 내보내세요. (이 안내 상자는 인쇄물에 나오지 않습니다.)
 </div>
 
-<header>
+<header class="hdr">
+  <div class="hdr-txt">
   <h1>심재근</h1>
   <p class="role">AI 전환(AX) · AI 서비스 개발 / 업무 자동화</p>
   <div class="contact">
@@ -70,6 +77,9 @@
     자동화 운영 기록 <a href="https://github.com/jeakeun/show">github.com/jeakeun/show</a> &nbsp;|&nbsp;
     운영 채널 <a href="https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA">유튜브 「1분호기심」</a>
   </div>
+  </div>
+  <img class="photo" src="사진.jpg" alt="증명사진"
+       onerror="this.style.display='none'">
 </header>
 
 <section>
