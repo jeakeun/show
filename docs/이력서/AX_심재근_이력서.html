@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>심재근 이력서 — AI 전환(AX) / AI 자동화</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 16mm; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 800px; padding: 28px 24px 60px;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", system-ui, sans-serif;
+    font-size: 10.5pt; line-height: 1.75; color: #1a1a1a; background: #fff;
+    word-break: keep-all;
+  }
+  h1 { font-size: 22pt; margin: 0 0 4px; letter-spacing: -0.5px; }
+  .role { font-size: 11.5pt; color: #2f5fd0; font-weight: 700; margin: 0 0 10px; }
+  .contact { font-size: 9.5pt; color: #444; line-height: 1.9; }
+  .contact a { color: #2f5fd0; text-decoration: none; border-bottom: 1px solid #cbd8f5; }
+  h2 {
+    font-size: 12.5pt; margin: 26px 0 10px; padding-bottom: 5px;
+    border-bottom: 2px solid #1a1a1a; letter-spacing: -0.3px;
+  }
+  h2 .en { font-size: 8.5pt; color: #888; font-weight: 500; margin-left: 6px; letter-spacing: 0; }
+  h3 { font-size: 11pt; margin: 16px 0 4px; }
+  h3 .sub { font-weight: 500; font-size: 9.5pt; color: #555; }
+  .meta { font-size: 9pt; color: #666; margin: 0 0 6px; }
+  .stack {
+    font-size: 9pt; color: #333; background: #f4f6fa; border-left: 3px solid #2f5fd0;
+    padding: 5px 10px; margin: 6px 0 8px; border-radius: 0 4px 4px 0;
+  }
+  ul { margin: 4px 0 8px; padding-left: 18px; }
+  li { margin-bottom: 4px; }
+  ul ul { margin: 3px 0 4px; }
+  b, strong { font-weight: 700; }
+  .num { font-weight: 700; color: #14532d; background: #e8f5ec; padding: 0 3px; border-radius: 3px; }
+  .ts { background: #fbfbfd; border: 1px solid #e2e5ee; border-radius: 6px; padding: 9px 12px; margin: 8px 0 4px; }
+  .ts .t { font-size: 9pt; font-weight: 700; color: #b03a2e; margin-bottom: 3px; }
+  .ts ul { margin: 0; padding-left: 16px; font-size: 9.5pt; }
+  .skillrow { margin-bottom: 5px; }
+  .skillrow .cat { display: inline-block; min-width: 132px; font-weight: 700; }
+  section { page-break-inside: avoid; }
+  .fill { background: #fff3bf; border-bottom: 1px dashed #d6a400; padding: 0 3px; font-weight: 700; }
+  .notice {
+    background: #fff8e6; border: 1px solid #f0d68a; border-radius: 6px;
+    padding: 10px 14px; font-size: 9pt; color: #7a5c00; margin-bottom: 22px;
+  }
+  a { color: #2f5fd0; }
+  @media print { .notice { display: none; } body { padding: 0; } }
+</style>
+</head>
+<body>
+
+<div class="notice">
+  <b>인쇄 전 확인</b> — 노란색으로 표시된 <span class="fill">【 】</span> 부분은 원티드 이력서에 있는 개인정보·학력·자격증으로 채워야 합니다.
+  채운 뒤 브라우저에서 <b>Ctrl+P → 대상을 "PDF로 저장"</b>으로 내보내면 됩니다. (이 안내 상자는 인쇄물에는 나오지 않습니다.)
+</div>
+
+<header>
+  <h1>심재근</h1>
+  <p class="role">AI 전환(AX) · AI 자동화 파이프라인 기획/운영</p>
+  <div class="contact">
+    생년월일 <span class="fill">【1900.00.00】</span> &nbsp;|&nbsp;
+    연락처 <span class="fill">【010-0000-0000】</span> &nbsp;|&nbsp;
+    이메일 <span class="fill">【example@gmail.com】</span><br>
+    GitHub <a href="https://github.com/jeakeun">github.com/jeakeun</a> &nbsp;|&nbsp;
+    운영 기록 <a href="https://github.com/jeakeun/show">github.com/jeakeun/show</a> &nbsp;|&nbsp;
+    운영 채널 <a href="https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA">유튜브 「1분호기심」</a>
+  </div>
+</header>
+
+<section>
+  <h2>핵심 요약<span class="en">Executive Summary</span></h2>
+  <ul>
+    <li><b>LLM 에이전트로 업무를 무인화하는 자동화 파이프라인을 직접 설계·운영</b>합니다.
+      유튜브 콘텐츠 제작, 앱 마케팅 발행, 채용정보 수집, 투자 전략 검증까지
+      <b>5종의 파이프라인을 <span class="num">약 5주간</span> 무인 운영</b>했습니다.</li>
+    <li>단순 자동 실행이 아니라 <b>결과를 매일 수집해 다음 전략을 스스로 고치는 회고 루프</b>를 코드로 구현했습니다.
+      유튜브 자동화는 주간 회고 에이전트가 직전 전략을 채점해 <code>strategy.json</code>을 갱신하며,
+      성과가 없다고 판정된 롱폼 전략은 <b>데이터 근거로 폐기</b>했습니다(6편 합계 32회, ROI 0 판정).</li>
+    <li><b>무인 실행의 실패 지점을 잡아내는 데 강점</b>이 있습니다. 클라우드 동기화·인코딩·권한·작업 디렉터리 등
+      "코드는 맞는데 스케줄러에서만 죽는" 문제 6건 이상을 원인까지 규명해 재발 방지 장치로 만들었습니다.</li>
+    <li>Python과 공식 API(YouTube Data, Meta Graph, Threads, Upbit)를 사용하며,
+      <b>Claude Code를 개발 도구로 삼아 요구사항 정의 → 구현 → 검토 에이전트 리뷰 → 운영</b>의 흐름으로 일합니다.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>기술 역량<span class="en">Technical Skills</span></h2>
+  <div class="skillrow"><span class="cat">Language</span> <b>Python 3.12</b>, Java, JavaScript, SQL — 표준 라이브러리 중심 구현, 외부 의존성 최소화 원칙</div>
+  <div class="skillrow"><span class="cat">AI / LLM</span> <b>Claude Code (헤드리스 CLI 무인 실행)</b>, 프롬프트 설계 및 자기채점형 회고 프롬프트, 다중 에이전트 검토 구조, <b>ComfyUI</b>(로컬 GPU 영상·음악 생성), edge-tts</div>
+  <div class="skillrow"><span class="cat">API 연동</span> <b>YouTube Data API v3</b>(업로드·재생목록·썸네일·통계), <b>Meta Graph API</b>(인스타그램 릴스 resumable upload), Threads API, Naver Blog Open API, Upbit 공개 API</div>
+  <div class="skillrow"><span class="cat">미디어 처리</span> <b>ffmpeg</b>(9:16 크롭·합성·loudnorm 음량 정규화·BGM 믹싱), PIL 프레임 애니메이션, 단어 단위 SRT 자막 생성</div>
+  <div class="skillrow"><span class="cat">데이터 / 운영</span> JSON·CSV 기반 상태 관리, 일별 스냅샷 수집, <b>HTML 대시보드 자체 제작</b>(KPI 카드·SVG 추이 차트·정렬/검색 테이블)</div>
+  <div class="skillrow"><span class="cat">인프라 / 자동화</span> <b>Windows 작업 스케줄러</b>(다중 잡 무인 운영), PowerShell·batch 스크립트, ntfy 푸시 알림, Vercel, Supabase(Postgres·RLS·RPC)</div>
+  <div class="skillrow"><span class="cat">협업</span> Git / GitHub(4개 저장소 운영), Notion, 결정 기록·에러 기록 문서화 습관</div>
+</section>
+
+<section>
+  <h2>주요 프로젝트<span class="en">Projects</span></h2>
+
+  <h3>1. 「1분호기심」 유튜브 콘텐츠 완전 자동화 <span class="sub">— 기획부터 업로드·회고까지 사람 손이 닿지 않는 파이프라인</span></h3>
+  <p class="meta">2026.08 ~ 운영 중 · 개인 프로젝트(1인) · 기획·개발·운영 전담</p>
+  <div class="stack">Python · Claude Code(헤드리스) · YouTube Data API v3 · edge-tts · ffmpeg · PIL · Windows 작업 스케줄러</div>
+  <ul>
+    <li><b>담당 역할</b>: 파이프라인 전체 설계 및 구현.
+      <b>트렌드 수집 → AI 대본 생성 → 내레이션·자막·영상 렌더링 → 업로드(제목·설명·태그·재생목록·썸네일) → 성과 스냅샷 → 주간 회고</b>를
+      한 번의 실행으로 관통시켰습니다.</li>
+    <li><b>성과</b>: <span class="num">매일 2편</span>을 사람 개입 없이 발행, 누적 <span class="num">50편 이상</span>,
+      <span class="num">일평균 조회 2,175회</span> 도달(2026-08-30 기준). 영어 현지화 미러 채널까지 자동 발행으로 확장했습니다.</li>
+    <li><b>전략을 코드로 강제</b>: 아침은 트렌드×심리 슬롯, 저녁은 2인칭 자기진단 포맷으로 고정하고,
+      4개 계열 재생목록 자동 분류·연속 같은 계열 금지·A/B 엔딩 주 4회 상한을 규칙으로 구현해 <b>LLM 출력의 편차를 통제</b>했습니다.</li>
+    <li><b>품질 가드레일</b>: 의료 표현·모호한 제목을 정규식으로 사후 검사해 위반 시 1회 자동 재생성,
+      재차 위반이면 상시 보유한 예비 대본으로 대체 — <b>무인 상태에서도 정책 위반 발행 0건</b>을 유지했습니다.</li>
+    <li><b>자기 개선 루프</b>: 주간 회고 에이전트가 직전 플레이북을 스스로 채점하고 지표 4종(48시간 조회·좋아요율·구독·일평균 조회)으로
+      다음 주 전략 파일을 갱신합니다. 실제로 <b>성과 없는 롱폼 전략(6편 합계 32회)을 ROI 0으로 판정해 중단</b>시키는 의사결정을 데이터로 수행했습니다.</li>
+
+    <div class="ts">
+      <div class="t">트러블슈팅 ① — 회고 지표 오진: "-76% 급락"이 사실은 +44% 회복</div>
+      <ul>
+        <li><b>[문제]</b> 주간 회고가 조회수 <b>-76% 급락</b>으로 진단해, 잘 돌던 전략을 폐기할 뻔했습니다.</li>
+        <li><b>[원인]</b> 통계 수집 함수가 <b>최근 50편만 조회</b>하는 API 기본 페이지네이션에 걸려, 표본이 잘린 채 합계를 내고 있었습니다.</li>
+        <li><b>[해결]</b> 영상 목록 <b>전체 페이지네이션</b>으로 교체하고, 회고 프롬프트에서 표본 합계 사용을 삭제해
+          <b>일별 데이터 + 중앙값 + 표본 수 병기</b> 방식으로 바꿨습니다.</li>
+        <li><b>[결과]</b> 실제 추세는 <b>+44% 회복(일평균 2,175회)</b>이었음을 확인하고 전략 폐기를 철회했습니다.
+          <b>지표를 만드는 코드가 틀리면 전략 전체가 틀어진다</b>는 것을 배웠고, 이후 모든 리포트에 표본 수를 함께 적도록 규칙화했습니다.</li>
+      </ul>
+    </div>
+
+    <div class="ts">
+      <div class="t">트러블슈팅 ② — 무인 실행 중단: 클라우드 동기화와 문자 인코딩</div>
+      <ul>
+        <li><b>[문제]</b> 아침 자동 실행이 오류 코드 9009로 실패하고, 어떤 날은 <b>이틀 전 옛 코드가 실행</b>돼 결과물이 어긋났습니다.</li>
+        <li><b>[원인]</b> ① OneDrive가 실행 파일을 "클라우드 전용"으로 바꿔 로컬에 실체가 없었고, 수정 사항 동기화도 지연됐습니다.
+          ② 실행용 <code>.bat</code> 안의 한글이 CP949로 읽히며 깨져 조건문 구조가 무너졌습니다.</li>
+        <li><b>[해결]</b> 운영 코드를 동기화 폴더 밖 로컬 드라이브로 이전하고,
+          <b>배치·PowerShell 스크립트는 100% ASCII로만 작성</b>하는 규칙을 세워 한글 알림은 별도 파이썬 모듈이 담당하도록 분리했습니다.</li>
+        <li><b>[결과]</b> 이후 동일 원인의 실행 실패가 재발하지 않았고,
+          <b>실패 시 휴대폰 푸시 알림</b>을 붙여 무인 운영 중에도 장애를 즉시 인지할 수 있게 했습니다.</li>
+      </ul>
+    </div>
+  </ul>
+
+  <h3>2. 「집가(ZipGa)」 앱 출시 마케팅 자동화 <span class="sub">— 6인 팀 프로젝트에서 마케팅 파트를 혼자 자동화</span></h3>
+  <p class="meta">2026.08 ~ 운영 중 · 6인 팀 프로젝트(1DAN-2ZO) 중 마케팅 자동화 단독 담당 · <a href="https://zip-ga-frontend.vercel.app/">서비스 사이트</a></p>
+  <div class="stack">Python · ComfyUI(RTX 4080 로컬 GPU) · ffmpeg · YouTube Data API · Meta Graph API · Threads API · Naver Blog Open API</div>
+  <ul>
+    <li><b>담당 역할</b>: 팀의 앱 출시에 필요한 마케팅 산출물 생산과 발행을 <b>M1~M6 6단계 파이프라인</b>으로 모듈화했습니다
+      (영상 정규화 → 전사 → 9:16 클립 → 채널별 문구 생성 → 스토어 유입 링크 → 발행 큐).
+      <code>run.py --account=a</code> 한 줄로 6단계 관통을 검증했습니다.</li>
+    <li><b>원클릭 업로더 구현</b>: 폴더에 영상을 넣고 실행하면 <b>유튜브·인스타그램·쓰레드·네이버블로그·티스토리 5개 채널</b>에 발행됩니다.
+      API 미연결 채널은 페이지 열기 + 문구 클립보드 복사 + 파일 선택까지 대신하는 <b>보조 모드로 자동 강등</b>되도록 설계해,
+      승인 대기 중인 채널 때문에 전체가 멈추지 않게 했습니다.</li>
+    <li><b>비용 0원 영상 생산</b>: ComfyUI를 헤드리스로 자동 기동해 로컬 GPU로 영상·BGM을 생성 — <b>외부 생성 API 비용 없이</b> 소재를 확보했습니다.
+      실제 시연 촬영본은 폰 프레임 합성·크롭·음량 정규화(loudnorm)를 자동화해 세로 영상 3편으로 가공했습니다.</li>
+    <li><b>성과</b>: 출시 전 <span class="num">영상 15편 기획</span>과 <b>3개 채널 동시 발행</b>을 달성했고,
+      쓰레드는 API 자동 발행 + 작업 스케줄러 예약까지 연결했습니다. 첫 티저 쇼츠는 <span class="num">조회수 124회</span>를 기록했습니다.</li>
+    <li><b>리스크 관리</b>: 플랫폼 제재를 예방하기 위해 공개 문구·영상에서 음주 관련 표현과 장면을 <b>전면 금지하는 규칙</b>을 정하고,
+      기획 데이터·프롬프트·해시태그·계정 페르소나를 일괄 교체했습니다. <b>발행 실패·제재 0건</b>으로 운영 중입니다.</li>
+
+    <div class="ts">
+      <div class="t">트러블슈팅 — 영상 생성 실패의 진짜 원인 찾기</div>
+      <ul>
+        <li><b>[문제]</b> 로컬 GPU 영상 생성이 <code>HostBuffer</code> 오류로 간헐 실패해 발행 일정이 밀렸습니다.</li>
+        <li><b>[원인]</b> GPU 문제로 보였지만 실제로는 <b>윈도우 error 1450(시스템 리소스 부족)</b>이었고,
+          19.5GB 모델을 32GB RAM에서 스트리밍 로드하는 동안 다른 프로그램이 메모리를 점유한 것이 원인이었습니다.</li>
+        <li><b>[해결]</b> 생성 전 무거운 프로그램 종료를 절차로 넣고, 서버 기동 직후 실패에 대비해 <b>30초 간격 3회 자동 재시도</b>를 추가했습니다.</li>
+        <li><b>[결과]</b> 간헐 실패로 인한 일정 지연이 사라졌습니다. <b>표면 오류 메시지가 아니라 OS 레벨 원인까지 확인해야 한다</b>는 점을 배웠습니다.</li>
+      </ul>
+    </div>
+  </ul>
+
+  <h3>3. 코인 모의투자 봇 <span class="sub">— 표준 라이브러리만으로 만든 전략 검증·자기회고 시스템</span></h3>
+  <p class="meta">2026.08 ~ 검증 중 · 개인 프로젝트(1인) · 전략·안전장치·리포트 전담</p>
+  <div class="stack">Python(표준 라이브러리만 사용, 외부 패키지 0) · Upbit 공개 API · RSS · Claude Code(주간 회고) · Windows 작업 스케줄러</div>
+  <ul>
+    <li><b>담당 역할</b>: 시세 수집 / 뉴스·공포탐욕지수 / 전략 / 포트폴리오 / 학습 / 리포트 <b>6개 모듈로 분리 설계</b>하고,
+      <b>10분 주기 매매 사이클</b>을 무인 실행합니다. 실계좌 없이 가상 자금 <span class="num">1,000만 원</span>으로 전략을 검증합니다.</li>
+    <li><b>전략</b>: 5분봉 EMA20/60·RSI·변동성 돌파 기반 진입 2종, 청산 6종.
+      <b>모든 매매에 한글 근거를 기록</b>해 사후에 "왜 샀고 왜 팔았는지"를 추적할 수 있게 했습니다.</li>
+    <li><b>안전장치 9종</b>: 손절 -2% / 익절 +3% / 트레일링 / 1회 투입 10% / 최대 3종목 / 일 손실 -3% 한도 /
+      BTC 급락 가드 / 악재 뉴스 차단 / <code>STOP.txt</code> 파일 하나로 신규 매수 즉시 중지.</li>
+    <li><b>학습 루프</b>: 7일 성과를 집계해 종목 블랙리스트와 신호별 가중치를 갱신하고,
+      주간 회고 에이전트가 성과를 분석해 <b>설정 변경을 "제안만" 하도록 권한을 제한</b>했습니다(적용은 사람이 승인).</li>
+
+    <div class="ts">
+      <div class="t">트러블슈팅 — 회고 에이전트가 찾아낸 전략 자체의 구조적 결함</div>
+      <ul>
+        <li><b>[문제]</b> 승률은 나오는데 수익이 쌓이지 않았습니다.</li>
+        <li><b>[원인]</b> 첫 주간 회고가 <b>트레일링 스톱 설정(발동 1.5% / 하락 1.5%)이 사실상 본전 청산 구조</b>임을 지적했습니다.
+          이익이 1.5% 나면 1.5% 되돌림에 그대로 청산되어 수익 구간이 남지 않는 설계였습니다.</li>
+        <li><b>[해결]</b> 발동 2.0% / 하락 1.0%로 조정해 <b>이익 구간을 확보</b>하고, 회고가 지적한 진입 조건 과보수 여부를 관찰 지표로 등록했습니다.</li>
+        <li><b>[결과]</b> 회고 시스템이 사람이 놓친 <b>전략 설계 결함을 스스로 찾아낸 첫 사례</b>였습니다.
+          이후 "LLM은 제안, 반영 판단은 사람"이라는 승인 게이트 원칙을 다른 프로젝트에도 적용했습니다.</li>
+      </ul>
+    </div>
+  </ul>
+</section>
+
+<section>
+  <h2>그 외 프로젝트<span class="en">Other Projects</span></h2>
+  <ul>
+    <li><b>AI데일리 — 취업 정보 자동 수집</b> (2026.08~, 1인):
+      매일 아침 원티드·사람인·잡코리아·점핏·로켓펀치·링크드인에서 <b>AX/AI 직무 신규 공고만</b> 수집하고,
+      HF Daily Papers·arXiv 논문과 AI 뉴스를 쉬운 한글로 요약합니다.
+      기술스택 누적 통계로 <b>시장이 요구하는 스택을 데이터로 추적</b>하며,
+      생성 결과를 2차 에이전트가 검수(형식·링크 표본 검사·한글 깨짐)하는 <b>2단 검증 구조</b>를 적용했습니다.</li>
+    <li><b>몽글이 — 버추얼 스트리머</b> (2026.08, 1인):
+      브라우저(HTML + MediaPipe)만으로 동작하는 웹캠 트래킹 캐릭터. 고개·눈·입·눈썹·미소·손을 추적하고,
+      카메라 앞에 사람이 없으면 2.5초 뒤 수면 모드로 전환합니다. 크로마키 배경으로 OBS 송출까지 연결했습니다.
+      <b>별도 설치 프로그램 없이</b> 동작하도록 설계했습니다.</li>
+    <li><b>Personal Health Coach</b> (<a href="https://github.com/jeakeun/personal-health-coach">GitHub</a>, 진행 중, 1인):
+      건강 데이터를 로컬에만 저장하는 데스크톱 추천 시스템.
+      <b>Import Linter로 모듈 경계를 강제</b>해 ①안전 규칙 계층이 반드시 LLM 생성보다 먼저 실행되고
+      ②신원 도메인과 건강 데이터 도메인이 분리되도록 아키텍처 수준에서 차단했습니다.
+      SQLAlchemy·Alembic, pytest(Hypothesis 속성 기반 테스트 포함), Ruff·mypy 적용.</li>
+    <li><b>stage-scout</b> (<a href="https://github.com/1DAN-2ZO/stage-scout">GitHub</a>, 팀 프로젝트):
+      네이버 지도 데이터와 현장 사진으로 공연 장소를 선정하고 무대·관객 배치도를 설계하는 시스템.
+      <b>FastAPI 헥사고날(포트-어댑터) 아키텍처</b> + React·TypeScript, 6주 스프린트로 진행 중입니다.</li>
+    <li><b>ZipGa 팀 프로젝트</b> (<a href="https://github.com/1DAN-2ZO/ZipGa_Frontend">Frontend</a> /
+      <a href="https://github.com/1DAN-2ZO/ZipGa_Backend">Backend</a>, 6인):
+      링크·QR로 모여 미니게임을 하는 웹앱. 백엔드는 <b>서버 언어 없이 Supabase Postgres + RLS + RPC</b>만으로 구성했습니다.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>일하는 방식<span class="en">How I Work</span></h2>
+  <ul>
+    <li><b>검토 에이전트를 거친 최종본만 반영</b>합니다. 전략 제안·코드 변경은 별도 에이전트에게 먼저 반박과 코드 리뷰를 받는데,
+      첫 적용 때 <b>과대 목표치·규칙 충돌·정책 리스크·무인 실행 버그 6건</b>을 사전에 잡아냈습니다.</li>
+    <li><b>모든 결정과 실패를 문서로 남깁니다.</b> 저장소마다 결정 기록·조사 기록·에러 기록을 유지하고,
+      원인을 규명한 실패는 그대로 재발 방지 규칙이 됩니다.</li>
+    <li><b>LLM에는 권한을 주지 않고 제안만 하게 합니다.</b> 회고·분석 에이전트는 설정 변경을 제안만 하고,
+      실제 적용은 사람의 승인을 거치도록 역할을 분리했습니다.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>교육 및 활동<span class="en">Education &amp; Experience</span></h2>
+  <ul>
+    <li><span class="fill">【학교명 · 전공 · 재학 기간(졸업/졸업예정 명시)】</span></li>
+    <li><span class="fill">【부트캠프 · 교육과정명 · 기간 · 배운 내용과 본인 역할】</span>
+      <ul><li><span class="fill">【예: AWS 클라우드 / Java 백엔드 과정 — 수강 중 진행한 팀 프로젝트와 담당 파트】</span></li></ul></li>
+    <li><b>1DAN-2ZO 팀 활동</b> (2026~): ZipGa·stage-scout 등 팀 프로젝트에 참여하며 <b>마케팅 자동화 파트를 전담</b>했습니다.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>자격증 및 수상<span class="en">Certifications &amp; Awards</span></h2>
+  <ul>
+    <li><span class="fill">【자격증명 · 취득 연월 · 발급기관】</span></li>
+    <li><span class="fill">【수상/공모전명 · 수상 연월 · 주최 · 참가 규모】</span></li>
+  </ul>
+</section>
+
+<section>
+  <h2>지원 동기<span class="en">Career Objective</span></h2>
+  <p>“AI로 무엇을 만들 수 있는지보다 <b>매일 사람 손 없이 돌아가게 만드는 일</b>에 관심이 있습니다.
+  다섯 개의 자동화 파이프라인을 직접 운영하며 얻은 것은 화려한 결과물이 아니라,
+  <b>무인 운영이 어디서 깨지는지</b>와 <b>성과 지표를 어떻게 믿을 수 있게 만드는지</b>에 대한 감각이었습니다.
+  이 경험으로 귀사의 업무를 실제로 줄이는 AI 전환에 기여하고 싶습니다.”</p>
+</section>
+
+</body>
+</html>
