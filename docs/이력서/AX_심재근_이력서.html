@@ -8,7 +8,7 @@
   * { box-sizing: border-box; }
   body {
     margin: 0 auto; max-width: 800px; padding: 26px 24px 60px;
-    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", system-ui, sans-serif;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans CJK KR", "NanumGothic", system-ui, sans-serif;
     font-size: 10pt; line-height: 1.72; color: #1a1a1a; background: #fff;
     word-break: keep-all;
   }
@@ -37,9 +37,11 @@
   .ts { background: #fbfbfd; border: 1px solid #e2e5ee; border-radius: 6px; padding: 8px 11px; margin: 7px 0 4px; }
   .ts .t { font-size: 8.5pt; font-weight: 700; color: #b03a2e; margin-bottom: 2px; }
   .ts ul { margin: 0; padding-left: 15px; font-size: 9pt; }
-  .skillrow { margin-bottom: 4px; }
-  .skillrow .cat { display: inline-block; min-width: 122px; font-weight: 700; }
-  section { page-break-inside: avoid; }
+  .skillrow { margin-bottom: 4px; padding-left: 112px; text-indent: -112px; }
+  .skillrow .cat { display: inline-block; width: 112px; text-indent: 0; font-weight: 700; vertical-align: top; }
+  h2, h3 { break-after: avoid; page-break-after: avoid; }
+  .meta, .stack { break-before: avoid; page-break-before: avoid; }
+  .ts, .skillrow { break-inside: avoid; page-break-inside: avoid; }
   .fill { background: #fff3bf; border-bottom: 1px dashed #d6a400; padding: 0 3px; font-weight: 700; }
   .notice {
     background: #fff8e6; border: 1px solid #f0d68a; border-radius: 6px;
@@ -87,7 +89,9 @@
       클라우드 동기화·문자 인코딩·API 페이지네이션·작업 디렉터리 권한 등
       "코드는 맞는데 스케줄러에서만 죽는" 문제를 원인까지 규명해 재발 방지 규칙으로 만들었습니다.</li>
     <li>Java·Spring Boot·React 기반 웹 개발과 Python 자동화를 함께 다루며,
-      <b>Claude Code를 개발 도구로 삼아 설계 → 구현 → 검토 에이전트 리뷰 → 운영</b>의 흐름으로 일합니다.</li>
+      <b>Claude Code를 개발 도구로 삼아 설계 → 구현 → 검토 에이전트 리뷰 → 운영</b>의 흐름으로 일합니다.
+      코드 변경은 별도 에이전트의 리뷰를 거쳐 반영하고(첫 적용 때 정책 리스크·무인 실행 버그 <b>6건</b> 사전 검출),
+      <b>모든 결정과 실패를 문서로 남깁니다</b>.</li>
   </ul>
 </section>
 
@@ -98,9 +102,9 @@
   <div class="skillrow"><span class="cat">AI / ML</span> <b>KNN 기반 추천 알고리즘</b> 구현 및 하이브리드 개선, <b>MediaPipe</b>(웹캠 관절 좌표 추출·실시간 자세 분석), 프롬프트 설계 및 자기채점형 회고 프롬프트, <b>ComfyUI</b>(로컬 GPU 영상·음악 생성)</div>
   <div class="skillrow"><span class="cat">LLM 활용</span> <b>Claude Code 헤드리스 CLI 무인 실행</b>, 다중 에이전트 검토 구조(생성 → 검수 2단), LLM 권한 제한 및 승인 게이트 설계</div>
   <div class="skillrow"><span class="cat">Language / 기타</span> <b>Python 3.12</b>(표준 라이브러리 중심), SQL, <b>C# · Unity</b>(2D/3D UI 및 게임 로직 개발, AR/VR 콘텐츠 제작)</div>
-  <div class="skillrow"><span class="cat">API 연동</span> <b>YouTube Data API v3</b>(업로드·재생목록·썸네일·통계), <b>Meta Graph API</b>(릴스 resumable upload), Threads API, Naver Blog Open API, Google API, Upbit 공개 API</div>
-  <div class="skillrow"><span class="cat">미디어 처리</span> <b>ffmpeg</b>(9:16 크롭·합성·loudnorm 음량 정규화·BGM 믹싱), PIL 프레임 애니메이션, 단어 단위 SRT 자막 생성</div>
-  <div class="skillrow"><span class="cat">인프라 / 운영</span> <b>Windows 작업 스케줄러</b> 다중 잡 무인 운영, PowerShell·batch, Supabase(Postgres·RLS·RPC), Vercel, 푸시 알림 장애 감지</div>
+  <div class="skillrow"><span class="cat">API 연동</span> <b>YouTube Data API v3</b>(업로드·재생목록·썸네일·통계), <b>Meta Graph API</b>(릴스 resumable upload), Threads · Naver Blog · Google · Upbit API</div>
+  <div class="skillrow"><span class="cat">미디어 처리</span> <b>ffmpeg</b>(9:16 크롭·합성·음량 정규화·BGM 믹싱), PIL 프레임 애니메이션, 단어 단위 SRT 자막</div>
+  <div class="skillrow"><span class="cat">인프라 / 운영</span> <b>Windows 작업 스케줄러</b> 다중 잡 무인 운영, PowerShell·batch, Supabase(Postgres·RLS·RPC), Vercel</div>
   <div class="skillrow"><span class="cat">협업</span> Git / GitHub(저장소 4개 운영), 팀 프로젝트 경험, 결정 기록·에러 기록 문서화</div>
 </section>
 
@@ -234,40 +238,6 @@
     <li><b>stage-scout</b> (<a href="https://github.com/1DAN-2ZO/stage-scout">GitHub</a>, 팀 프로젝트, 진행 중):
       네이버 지도 데이터와 현장 사진으로 공연 장소를 선정하고 무대·관객 배치도를 설계하는 시스템.
       <b>FastAPI 헥사고날(포트-어댑터) 아키텍처</b> + React·TypeScript, 6주 스프린트로 진행 중입니다.</li>
-    <li><b>ZipGa 팀 프로젝트</b> (<a href="https://github.com/1DAN-2ZO/ZipGa_Frontend">Frontend</a> /
-      <a href="https://github.com/1DAN-2ZO/ZipGa_Backend">Backend</a>, 6인):
-      링크·QR로 모여 미니게임을 하는 웹앱. 백엔드는 <b>서버 언어 없이 Supabase Postgres + RLS + RPC</b>만으로 구성했습니다.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>일하는 방식<span class="en">How I Work</span></h2>
-  <ul>
-    <li><b>검토 에이전트를 거친 최종본만 반영합니다.</b> 전략 제안·코드 변경은 별도 에이전트에게 먼저 반박과 코드 리뷰를 받으며,
-      첫 적용 때 <b>과대 목표치·규칙 충돌·정책 리스크·무인 실행 버그 6건</b>을 사전에 잡아냈습니다.</li>
-    <li><b>모든 결정과 실패를 문서로 남깁니다.</b> 저장소마다 결정 기록·조사 기록·에러 기록을 유지하고,
-      원인을 규명한 실패는 그대로 재발 방지 규칙이 됩니다.</li>
-  </ul>
-</section>
-
-<section>
-  <h2>교육 및 활동<span class="en">Education &amp; Experience</span></h2>
-  <ul>
-    <li><b>심화_생성형 AI 활용 인재양성과정</b> (2026.08 – 2026.10, <b>수강 중</b>)
-      <ul><li>생성형 AI 활용 실무 과정. 수강 기간 중 개인 자동화 파이프라인 5종을 직접 설계·운영하며 배운 내용을 실제 서비스로 검증</li></ul></li>
-    <li><b>클라우드환경 자바(JAVA) 풀스택 AI융합 웹개발자 과정 (AWS, Spring Boot, React.js)</b>
-      (2025.11 – 2026.06, <b>정상 수료</b> · 약 7개월)
-      <ul><li><b>Java · Spring Boot · React.js · AWS</b> 기반 풀스택 웹 개발 전 과정 이수</li>
-          <li>수료 과정에서 팀 프로젝트 <b>냠냠플래닛</b>(AI 식단 추천·MediaPipe 자세 분석)과 <b>TravelProject</b>(여행 커뮤니티) 수행</li></ul></li>
-    <li><b>뉴딜 게임/VR 콘텐츠 개발 과정</b> — 메디치교육센터 (2024.05 – 2024.07)
-      <ul><li>Unity UI 구현(Button OnClick 이벤트, XR Canvas), Socket Interactor 기능 구현</li></ul></li>
-    <li><b>프로젝트 기반 VR 콘텐츠 개발 과정 (AR)</b> — 메디치교육센터 (2023.06 – 2023.11)
-      <ul><li>Unity Editor 활용, C# 언어, <b>FaceTracking 기반 AR 프로젝트 제작</b> — 현재 MediaPipe 활용의 기반이 된 과정</li></ul></li>
-    <li><b>반응형 웹디자인 &amp; 퍼블리셔 (디자인 &amp; 코딩)</b> — 그린컴퓨터아트학원 (2022.07 – 2022.12)
-      <ul><li>사용자 경험 유형 분류와 관찰 조사 → 서비스 단계별 시나리오 개발 → 기초 데이터 수집·시각화 → 프로토타입 제작</li></ul></li>
-    <li><b>메타버스 엑스포 부스 참여</b> — 메디치교육센터 (2024.06, 3일간)</li>
-    <li><b>1DAN-2ZO 팀 활동</b> (2026~): ZipGa·stage-scout 등 팀 프로젝트 참여, <b>마케팅 자동화 파트 전담</b></li>
-    <li><span class="fill">【고등학교명】</span> 졸업 (2012.02) &nbsp;·&nbsp; 병역: <b>군필</b> (2014.06 – 2016.06)</li>
   </ul>
 </section>
 
