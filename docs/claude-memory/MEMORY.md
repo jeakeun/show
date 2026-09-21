@@ -9,3 +9,10 @@
 - [집가 마케팅 자동화](zipga-marketing.md) — show\zipga-marketing, M1~M6 파이프라인, run.py --account=a 관통 검증 완료
 - [자동재생 페이지 열지 않기](no-autoplay-browser.md) — 유튜브·쇼츠 등은 브라우저로 열지 말고 API로만 확인 (소리 사고 2026-09-04)
 - [자가 감사 원칙](self-audit-rule.md) — 문제 스스로 발견 시 학습+보고서 작성 (상시 지시)
+- [깃 저장소 4개](git-repos.md) — show만 PUBLIC(2026-09-05)·나머지 비공개, 프로필 리드미·핀 정리 완료, 메모리 동기화 시 비밀정보 제거 필수, OAuth 시크릿 재발급 미완
+- [API 요금 확인 경로](api-billing.md) — 구글 클라우드 결제(제미나이 누적 ₩13,219, 9/7), 앤트로픽 콘솔은 로그인 필요
+- [역할 구조·승인 게이트·hub](roles-and-hub.md) — 분석은 제안만, "플레이북 적용해"=src.approve, ai-daily 가드·streaks, D:\hub\hub.sqlite
+- [market-compass 마케팅 에이전트](market-compass.md) — D:\market-compass, 비공개 깃허브, Notion, 2주안 0~2일차 완료(2026-09-07)·다음 3일차 Guard R07~R12+engine 48/48, 일차마다 학습노트 필수
+- [C드라이브 게임 폴더 D 이동·정션 링크](c-drive-junctions.md) — 게임 7개 401GB를 D로, C 경로는 링크만 남음 (2026-09-07)
+- [취몽 데일리 로그 등록법](notion-daily-log.md) — chwimong.com/scrum, MCP chwijung-mcp submit_daily_log(200자 제한), category=final, 노션 아님
+- [6주 AI 팀프로젝트 제안](team-project-6week.md) — 바탕화면 제안서 3종, 후보 12개, 1등=법 개정 영향 추적+낡은 답변 탐지, 9/9 취몽 등록
