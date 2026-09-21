@@ -25,3 +25,6 @@ topic.txt
 zipga-marketing/uploader/.comfy_fetch_state.json
 zipga-marketing/comfy/*.log
 zipga-marketing/teaser/_tmp*/
+
+# team repo cloned inside this folder (separate git repo)
+support-yr-makeup/
