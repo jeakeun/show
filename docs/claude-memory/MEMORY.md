@@ -16,3 +16,4 @@
 - [C드라이브 게임 폴더 D 이동·정션 링크](c-drive-junctions.md) — 게임 7개 401GB를 D로, C 경로는 링크만 남음 (2026-09-07)
 - [취몽 데일리 로그 등록법](notion-daily-log.md) — chwimong.com/scrum, MCP chwijung-mcp submit_daily_log(200자 제한), category=final, 노션 아님
 - [6주 AI 팀프로젝트 제안](team-project-6week.md) — 바탕화면 제안서 3종, 후보 12개, 1등=법 개정 영향 추적+낡은 답변 탐지, 9/9 취몽 등록
+- [선조치 후보고](act-first-report-after.md) — 되돌릴 수 있는 변경은 묻지 말고 적용 후 보고, yt-auto auto_approve=true (2026-09-21)
