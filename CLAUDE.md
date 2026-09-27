@@ -4,7 +4,7 @@
 **먼저 `README.md`(프로젝트 전체 개요)와 `docs/claude-memory/MEMORY.md` 및 그 폴더의 메모리 파일들을 읽고 상황을 파악하세요.**
 (메인 PC 클로드의 메모리 사본. 메인 PC에서 "메모리 동기화"라고 하면 최신본으로 갱신됨.)
 
-## 저장소 구성 (총 5개, show만 공개·나머지 비공개)
+## 저장소 구성 (총 6개, show만 공개·나머지 비공개)
 | 저장소 | 내용 | 메인 PC 위치 |
 |---|---|---|
 | show (이 저장소) | 집가 마케팅(zipga-marketing), 브이튜버 몽글이(vtuber), 옛 백업(archive/ — 유튜브 코드·AI데일리 초기 결과물) | OneDrive\Desktop\show |
@@ -12,6 +12,7 @@
 | ai-daily | AX 취업 채용공고·뉴스논문 일일 수집 | D:\ai-daily |
 | coin-bot | 코인 모의투자 봇 | D:\coin-bot |
 | market-compass | 규제 준수 내장형 카카오 마케팅 메시지 에이전트 (Radar/Guard/Dispatch). 기획은 저장소 루트 CLAUDE.md, Notion `market-compass` 페이지 | D:\market-compass |
+| hub | 자동화 숫자 모음 창고(SQLite). 유튜브·API 비용·코인·채용 통계를 매일 밤 적재 (hub.sqlite 자체는 깃 제외) | D:\hub |
 
 메인 PC에만 있고 깃에 없는 것: `D:\notify`(폰 푸시, topic.txt는 비밀), `D:\self-audit`(주간 자가감사),
 각 저장소의 secrets/·토큰·.venv·영상 결과물·BGM.
@@ -31,3 +32,6 @@
 
 ## 역할 구조
 자동화의 수집/규칙/분석/실행 4칸 배치와 승인 흐름은 `docs/역할구조.md` 참고. 분석 LLM은 제안만 쓰고, 플레이북·설정 변경은 사용자 승인 후 클로드가 적용한다.
+
+## README 최신화 (2026-09-28 사용자 지시)
+기능·설정·스케줄·운영 방식을 바꾸는 커밋에는 README.md 갱신을 함께 넣는다(맨 위 "마지막 갱신" 날짜 포함). 데이터·리포트만 쌓이는 일상 커밋은 제외.
