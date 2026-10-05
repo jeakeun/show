@@ -23,8 +23,9 @@ unlink_all() {  # remove junctions only (non-recursive Directory.Delete never to
   return 0
 }
 
-repo_running() {  # is a python/claude job of this repo running right now? (always-on src.server excluded)
-  powershell -NoProfile -Command "(Get-CimInstance Win32_Process | Where-Object { \$_.CommandLine -like '*$1*' -and \$_.CommandLine -notlike '*src.server*' -and \$_.Name -match 'python|claude|cmd' } | Measure-Object).Count"
+repo_running() {  # is a python/claude job of this repo running right now?
+  # excluded: always-on src.server, and interactive Claude desktop sessions (stream-json; they only list the repo as --add-dir)
+  powershell -NoProfile -Command "(Get-CimInstance Win32_Process | Where-Object { \$_.CommandLine -like '*$1*' -and \$_.CommandLine -notlike '*src.server*' -and \$_.CommandLine -notlike '*--input-format stream-json*' -and \$_.Name -match 'python|claude|cmd' } | Measure-Object).Count"
 }
 
 cmd_start() {
