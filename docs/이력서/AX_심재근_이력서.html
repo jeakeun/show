@@ -4,79 +4,105 @@
 <meta charset="utf-8">
 <title>심재근 이력서 — AI 전환(AX) / AI 자동화</title>
 <style>
-  @page { size: A4; margin: 13mm 13mm 15mm; }
+  @page { size: A4; margin: 13mm 14mm 14mm; }
   * { box-sizing: border-box; }
   body {
-    margin: 0 auto; max-width: 800px; padding: 26px 24px 60px;
-    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", "Noto Sans CJK KR", "NanumGothic", system-ui, sans-serif;
-    font-size: 10pt; line-height: 1.72; color: #1a1a1a; background: #fff;
+    margin: 0 auto; max-width: 820px; padding: 24px 24px 50px;
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo",
+                 "Noto Sans CJK KR", "NanumGothic", system-ui, sans-serif;
+    font-size: 9.6pt; line-height: 1.62; color: #1b1b1b; background: #fff;
     word-break: keep-all;
   }
-  h1 { font-size: 21pt; margin: 0 0 3px; letter-spacing: -0.5px; }
-  .hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
+  a { color: #2f5fd0; text-decoration: none; }
+
+  /* 헤더 */
+  .hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
   .hdr-txt { flex: 1 1 auto; min-width: 0; }
-  .photo {
-    flex: 0 0 auto; width: 96px; height: 120px; object-fit: cover;
-    border: 1px solid #d8dce6; border-radius: 3px; background: #f4f6fa;
-  }
-  .role { font-size: 11pt; color: #2f5fd0; font-weight: 700; margin: 0 0 9px; }
-  .contact { font-size: 9pt; color: #444; line-height: 1.85; }
-  .contact a { color: #2f5fd0; text-decoration: none; border-bottom: 1px solid #cbd8f5; }
-  h2 {
-    font-size: 12pt; margin: 22px 0 9px; padding-bottom: 4px;
-    border-bottom: 2px solid #1a1a1a; letter-spacing: -0.3px;
-  }
-  h2 .en { font-size: 8pt; color: #888; font-weight: 500; margin-left: 6px; letter-spacing: 0; }
-  h3 { font-size: 10.5pt; margin: 14px 0 3px; }
-  h3 .sub { font-weight: 500; font-size: 9pt; color: #555; }
-  .meta { font-size: 8.5pt; color: #666; margin: 0 0 5px; }
-  .meta a { color: #2f5fd0; }
-  .stack {
-    font-size: 8.5pt; color: #333; background: #f4f6fa; border-left: 3px solid #2f5fd0;
-    padding: 4px 10px; margin: 5px 0 7px; border-radius: 0 4px 4px 0;
-  }
-  ul { margin: 3px 0 7px; padding-left: 17px; }
-  li { margin-bottom: 3px; }
-  ul ul { margin: 2px 0 3px; }
+  h1 { font-size: 20pt; margin: 0 0 6px; letter-spacing: -0.6px; }
+  .tagline { font-size: 11.5pt; line-height: 1.5; margin: 0 0 9px; color: #222; }
+  .tagline b { color: #2f5fd0; }
+  .pi { font-size: 9pt; color: #555; }
+  .photo { flex: 0 0 auto; width: 92px; height: 115px; object-fit: cover;
+           border: 1px solid #d8dce6; border-radius: 3px; background: #f4f6fa; }
+
+  /* 링크 */
+  .links { margin-top: 10px; border-top: 1px solid #e4e7ee; border-bottom: 1px solid #e4e7ee;
+           padding: 7px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px 24px; }
+  .links div { font-size: 8.8pt; }
+  .links a { font-weight: 600; }
+  .links span { color: #777; }
+
+  /* 섹션 */
+  h2 { font-size: 11.5pt; margin: 20px 0 8px; padding-bottom: 4px;
+       border-bottom: 1.6px solid #1b1b1b; letter-spacing: -0.3px; }
+  h2 .en { font-size: 7.8pt; color: #999; font-weight: 500; margin-left: 6px; }
+  ul { margin: 3px 0 6px; padding-left: 15px; }
+  li { margin-bottom: 2px; }
   b, strong { font-weight: 700; }
-  .num { font-weight: 700; color: #14532d; background: #e8f5ec; padding: 0 3px; border-radius: 3px; }
-  .ts { background: #fbfbfd; border: 1px solid #e2e5ee; border-radius: 6px; padding: 8px 11px; margin: 7px 0 4px; }
-  .ts .t { font-size: 8.5pt; font-weight: 700; color: #b03a2e; margin-bottom: 2px; }
-  .ts ul { margin: 0; padding-left: 15px; font-size: 9pt; }
-  .skillrow { margin-bottom: 4px; padding-left: 112px; text-indent: -112px; }
-  .skillrow .cat { display: inline-block; width: 112px; text-indent: 0; font-weight: 700; vertical-align: top; }
-  h2, h3 { break-after: avoid; page-break-after: avoid; }
-  .meta, .stack { break-before: avoid; page-break-before: avoid; }
-  .ts, .skillrow { break-inside: avoid; page-break-inside: avoid; }
+  .num { font-weight: 700; color: #14532d; }
+
+  /* 기술 스택 */
+  .sk { display: grid; grid-template-columns: 86px 1fr; gap: 2px 10px; margin-bottom: 6px; }
+  .sk .c { font-weight: 700; font-size: 9.2pt; }
+  .sk .t { font-weight: 600; }
+  .sk .d { grid-column: 2; font-size: 8.8pt; color: #555; }
+
+  /* 프로젝트 */
+  .pj { margin-bottom: 14px; }
+  .pj-h { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .pj-n { font-size: 8.5pt; color: #8a8a8a; font-weight: 700; letter-spacing: 0.5px;
+          white-space: nowrap; }
+  .pj-t { font-size: 11pt; font-weight: 700; letter-spacing: -0.3px; }
+  .pj-s { font-size: 9.2pt; color: #333; margin: 0 0 6px; }
+  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 22px;
+          background: #f6f7fa; border-left: 3px solid #2f5fd0; padding: 6px 11px;
+          margin-bottom: 7px; font-size: 8.8pt; }
+  .meta .r { display: grid; grid-template-columns: 52px 1fr; gap: 8px; }
+  .meta .k { color: #777; }
+  .lbl { font-size: 9pt; font-weight: 700; color: #444; margin: 7px 0 2px; }
+  .fix { margin: 0 0 4px; padding-left: 2px; }
+  .fix .ft { font-weight: 700; font-size: 9pt; }
+  .fix .fl { font-size: 8.8pt; color: #444; padding-left: 11px; }
+  .fix .fl b { color: #b03a2e; }
+
+  /* 간단 목록 */
+  .mini { display: grid; grid-template-columns: 112px 1fr; gap: 2px 12px; font-size: 9.2pt; }
+  .mini .k { font-weight: 700; }
+  .edu { display: grid; grid-template-columns: 1fr 112px; gap: 1px 14px; font-size: 9.2pt;
+         padding: 4px 0; border-bottom: 1px dotted #e0e3ea; }
+  .edu .o { font-size: 8.6pt; color: #777; }
+  .edu .p { text-align: right; color: #555; font-size: 8.8pt; white-space: nowrap; }
+  .edu .d { grid-column: 1 / -1; font-size: 8.8pt; color: #444; padding-left: 10px; }
+
   .fill { background: #fff3bf; border-bottom: 1px dashed #d6a400; padding: 0 3px; font-weight: 700; }
-  .notice {
-    background: #fff8e6; border: 1px solid #f0d68a; border-radius: 6px;
-    padding: 10px 14px; font-size: 9pt; color: #7a5c00; margin-bottom: 20px;
-  }
-  a { color: #2f5fd0; }
+  .notice { background: #fff8e6; border: 1px solid #f0d68a; border-radius: 6px;
+            padding: 9px 13px; font-size: 8.8pt; color: #7a5c00; margin-bottom: 18px; }
+
+  h2, .pj-h, .lbl { break-after: avoid; page-break-after: avoid; }
+  .meta, .fix, .sk, .edu, .pj-s { break-inside: avoid; page-break-inside: avoid; }
   @media print { .notice { display: none; } body { padding: 0; } }
 </style>
 </head>
 <body>
 
 <div class="notice">
-  <b>인쇄 전 확인</b> — 노란색 <span class="fill">【 】</span> 부분을 채운 뒤,
-  브라우저에서 <b>Ctrl+P → 대상을 "PDF로 저장"</b>으로 내보내세요. (이 안내 상자는 인쇄물에 나오지 않습니다.)
+  <b>인쇄 전 확인</b> — 노란색 <span class="fill">【 】</span>를 채우고, 증명사진 파일을 이 HTML과 같은 폴더에
+  <b>사진.jpg</b>로 저장하세요. 그다음 <b>Ctrl+P → "PDF로 저장"</b> (여백 기본, 배경 그래픽 체크).
 </div>
 
 <header class="hdr">
   <div class="hdr-txt">
-  <h1>심재근</h1>
-  <p class="role">AI 전환(AX) · AI 서비스 개발 / 업무 자동화</p>
-  <div class="contact">
-    <span class="fill">【1993.04.07】</span> &nbsp;|&nbsp;
-    <span class="fill">【010-0000-0000】</span> &nbsp;|&nbsp;
-    <span class="fill">【example@gmail.com】</span> &nbsp;|&nbsp;
-    <span class="fill">【서울 구로구】</span><br>
-    GitHub <a href="https://github.com/jeakeun">github.com/jeakeun</a> &nbsp;|&nbsp;
-    자동화 운영 기록 <a href="https://github.com/jeakeun/show">github.com/jeakeun/show</a> &nbsp;|&nbsp;
-    운영 채널 <a href="https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA">유튜브 「1분호기심」</a>
-  </div>
+    <h1>심재근</h1>
+    <p class="tagline">
+      AI 기능 구현부터 매일 돌아가는 무인 운영까지,<br>
+      <b>직접 만들고 끝까지 지켜본 개발자</b>입니다.
+    </p>
+    <div class="pi">
+      <span class="fill">【1993.04.07】</span> ·
+      <span class="fill">【010-0000-0000】</span> ·
+      <span class="fill">【example@gmail.com】</span> ·
+      <span class="fill">【서울 구로구】</span>
+    </div>
   </div>
   <img class="photo" src="사진.jpg" alt="증명사진"
        data-try="사진.jpeg|사진.png|증명사진.jpg|증명사진.png|photo.jpg|photo.png"
@@ -85,181 +111,230 @@
                  else{i.style.display='none';}})(this)">
 </header>
 
+<div class="links">
+  <div><a href="https://github.com/jeakeun">github.com/jeakeun</a> <span>— GitHub 프로필</span></div>
+  <div><a href="https://github.com/jeakeun/show">github.com/jeakeun/show</a> <span>— 자동화 5종 운영 기록</span></div>
+  <div><a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a> <span>— 냠냠플래닛 (팀)</span></div>
+  <div><a href="https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA">youtube.com/@1분호기심</a> <span>— 유튜브 자동화 운영 채널</span></div>
+</div>
+
 <section>
-  <h2>핵심 요약<span class="en">Executive Summary</span></h2>
+  <h2>핵심 요약<span class="en">Summary</span></h2>
   <ul>
-    <li><b>서비스직에서 개발로 전환해 4년째 실무와 학습을 이어오고 있습니다.</b>
-      Unity 게임 개발사 인턴으로 UI·게임 로직 개발을 경험한 뒤,
-      <b>자바 풀스택 AI융합 웹개발자 과정(7개월)을 정상 수료</b>하고
-      현재 <b>생성형 AI 활용 인재양성과정</b>을 수강하며 AI 활용 영역으로 넓히고 있습니다.</li>
-    <li><b>AI 기능을 직접 구현하고, 그것이 매일 사람 없이 돌아가게 만드는 것</b>까지가 제 일이라고 생각합니다.
-      팀 프로젝트에서는 <b>KNN 기반 식단 추천 알고리즘</b>과 <b>MediaPipe 실시간 자세 분석</b>을 구현했고,
-      개인으로는 <b>LLM 에이전트 자동화 파이프라인 5종을 <span class="num">약 5주간 무인 운영</span></b>했습니다.</li>
-    <li><b>"동작하는 것"과 "쓸 만한 것"의 차이를 지표로 판단합니다.</b>
-      칼로리 수치만 맞추면 조리되지 않은 재료가 추천되던 알고리즘에 카테고리 필터링과 섭취량 자동 분배 로직을 더해
-      <b>밥·국·메인·반찬이 갖춰진 한 끼</b>가 나오도록 개선한 것이 대표적인 예입니다.</li>
-    <li><b>무인 운영이 깨지는 지점을 찾아내는 데 강점</b>이 있습니다.
-      클라우드 동기화·문자 인코딩·API 페이지네이션·작업 디렉터리 권한 등
-      "코드는 맞는데 스케줄러에서만 죽는" 문제를 원인까지 규명해 재발 방지 규칙으로 만들었습니다.</li>
-    <li>Java·Spring Boot·React 기반 웹 개발과 Python 자동화를 함께 다루며,
-      <b>Claude Code를 개발 도구로 삼아 설계 → 구현 → 검토 에이전트 리뷰 → 운영</b>의 흐름으로 일합니다.
-      코드 변경은 별도 에이전트의 리뷰를 거쳐 반영하고(첫 적용 때 정책 리스크·무인 실행 버그 <b>6건</b> 사전 검출),
-      <b>모든 결정과 실패를 문서로 남깁니다</b>.</li>
+    <li>서비스직에서 개발로 전환, <b>자바 풀스택 AI융합 웹개발자 과정(7개월) 정상 수료</b> 후 현재 <b>생성형 AI 활용 인재양성과정</b> 수강 중</li>
+    <li>팀 프로젝트에서 <b>KNN 식단 추천 알고리즘</b>과 <b>MediaPipe 실시간 자세 분석</b>을 직접 구현</li>
+    <li>개인 자동화 파이프라인 <b>5종을 무인 운영</b> — 매일 2편 자동 발행, 누적 <span class="num">50편+</span>, 일평균 조회 <span class="num">2,175회</span></li>
+    <li>동기화·인코딩·API 페이지네이션 등 <b>무인 실행이 깨지는 원인을 규명해 재발 방지 규칙으로 전환</b></li>
+    <li>Unity 게임 개발 인턴으로 <b>운영 중인 코드베이스에 기능을 얹는 작업</b> 경험</li>
   </ul>
 </section>
 
 <section>
-  <h2>기술 역량<span class="en">Technical Skills</span></h2>
-  <div class="skillrow"><span class="cat">Backend</span> <b>Java</b>, <b>Spring Boot</b> — RESTful API 설계 및 엔드포인트 구현, 데이터 가공 로직</div>
-  <div class="skillrow"><span class="cat">Frontend</span> <b>React</b>, JavaScript, <b>Axios</b> — API 연동, 실시간 영상 데이터 처리 시 상태 관리 최적화</div>
-  <div class="skillrow"><span class="cat">AI / ML</span> <b>KNN 기반 추천 알고리즘</b> 구현 및 하이브리드 개선, <b>MediaPipe</b>(웹캠 관절 좌표 추출·실시간 자세 분석), 프롬프트 설계 및 자기채점형 회고 프롬프트, <b>ComfyUI</b>(로컬 GPU 영상·음악 생성)</div>
-  <div class="skillrow"><span class="cat">LLM 활용</span> <b>Claude Code 헤드리스 CLI 무인 실행</b>, 다중 에이전트 검토 구조(생성 → 검수 2단), LLM 권한 제한 및 승인 게이트 설계</div>
-  <div class="skillrow"><span class="cat">Language / 기타</span> <b>Python 3.12</b>(표준 라이브러리 중심), SQL, <b>C# · Unity</b>(2D/3D UI 및 게임 로직 개발, AR/VR 콘텐츠 제작)</div>
-  <div class="skillrow"><span class="cat">API 연동</span> <b>YouTube Data API v3</b>(업로드·재생목록·썸네일·통계), <b>Meta Graph API</b>(릴스 resumable upload), Threads · Naver Blog · Google · Upbit API</div>
-  <div class="skillrow"><span class="cat">미디어 처리</span> <b>ffmpeg</b>(9:16 크롭·합성·음량 정규화·BGM 믹싱), PIL 프레임 애니메이션, 단어 단위 SRT 자막</div>
-  <div class="skillrow"><span class="cat">인프라 / 운영</span> <b>Windows 작업 스케줄러</b> 다중 잡 무인 운영, PowerShell·batch, Supabase(Postgres·RLS·RPC), Vercel</div>
-  <div class="skillrow"><span class="cat">협업</span> Git / GitHub(저장소 4개 운영), 팀 프로젝트 경험, 결정 기록·에러 기록 문서화</div>
+  <h2>기술 스택<span class="en">Tech Stack</span></h2>
+  <div class="sk">
+    <div class="c">Backend</div><div class="t">Java, Spring Boot, RESTful API</div>
+    <div class="d">RESTful 엔드포인트 설계·연동, 사용자 데이터 수집·가공 로직 구현</div>
+  </div>
+  <div class="sk">
+    <div class="c">Frontend</div><div class="t">React, JavaScript, Axios</div>
+    <div class="d">프론트-백엔드 API 연동, 실시간 영상 처리 시 상태 관리 최적화</div>
+  </div>
+  <div class="sk">
+    <div class="c">AI · Vision</div><div class="t">KNN, MediaPipe, ComfyUI, edge-tts</div>
+    <div class="d">추천 알고리즘 설계·개선, 웹캠 관절 좌표 추출, 로컬 GPU 영상·음악 생성</div>
+  </div>
+  <div class="sk">
+    <div class="c">LLM 활용</div><div class="t">Claude Code (헤드리스 CLI), 프롬프트 설계</div>
+    <div class="d">무인 실행, 생성 → 검수 2단 에이전트 구조, LLM 권한 제한 및 승인 게이트 설계</div>
+  </div>
+  <div class="sk">
+    <div class="c">Language</div><div class="t">Python 3.12, Java, JavaScript, SQL, C#</div>
+    <div class="d">Unity 기반 2D/3D UI 및 게임 로직 개발, AR 콘텐츠 제작 경험</div>
+  </div>
+  <div class="sk">
+    <div class="c">API 연동</div><div class="t">YouTube Data v3, Meta Graph, Threads, Naver Blog, Upbit</div>
+    <div class="d">업로드·재생목록·통계 조회, 릴스 resumable upload, 시세 수집</div>
+  </div>
+  <div class="sk">
+    <div class="c">인프라 · 도구</div><div class="t">Windows 작업 스케줄러, PowerShell, ffmpeg, Supabase, Vercel, Git</div>
+    <div class="d">다중 잡 무인 운영, 9:16 크롭·합성·음량 정규화, Postgres RLS·RPC</div>
+  </div>
 </section>
 
 <section>
-  <h2>주요 프로젝트<span class="en">Projects</span></h2>
+  <h2>프로젝트<span class="en">Projects</span></h2>
 
-  <h3>1. 냠냠플래닛 — AI 맞춤 식단 관리 서비스 <span class="sub">— AI 추천 알고리즘과 실시간 자세 분석을 직접 구현</span></h3>
-  <p class="meta">2026.05 · 팀 프로젝트 · <b>AI 기능 개발 및 프론트-백엔드 연동 담당</b> ·
-    <a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a></p>
-  <div class="stack">Java · Spring Boot · React · Axios · RESTful API · MediaPipe · KNN</div>
-  <ul>
-    <li><b>API 연동 구조 설계</b>: React와 Spring Boot 환경에서 Axios를 사용해
-      <b>3개의 RESTful API 엔드포인트를 설계·연동</b>하고 프론트-백엔드 통신 환경을 구축했습니다.</li>
-    <li><b>AI 데이터 파이프라인 구축</b>: 사용자의 신체 정보와 목표 데이터를 수집·가공해 식단 추천 알고리즘에 전달하는 로직을 구현하고,
-      <b><span class="num">5가지</span> 맞춤형 식단 결과</b>를 제공했습니다.</li>
-
-    <div class="ts">
-      <div class="t">트러블슈팅 ① — 칼로리만 맞는 추천에서 "먹을 수 있는 한 끼"로</div>
-      <ul>
-        <li><b>[문제]</b> KNN 알고리즘으로 목표 칼로리에 맞춰 식단을 추천했더니,
-          <b>소스나 조리되지 않은 재료가 한 끼로 추천되는</b> 치명적 오류가 발생했습니다.</li>
-        <li><b>[원인]</b> 추천 기준이 <b>칼로리 수치 하나뿐</b>이라, 음식의 역할(밥/국/반찬)과 조리 여부가 전혀 반영되지 않았습니다.</li>
-        <li><b>[해결]</b> 데이터의 '분류명' 속성을 활용한 <b>카테고리 필터링을 추가</b>하고,
-          목표 칼로리에 맞춰 <b>각 메뉴의 섭취량(g)을 자동 계산·분배해 DB에 동적으로 매핑</b>하는 하이브리드 추천 로직으로 재설계했습니다.</li>
-        <li><b>[결과]</b> <b>밥·국·메인 메뉴·반찬이 갖춰진 정식 형태</b>의 식단이 나오도록 추천 품질을 개선했고,
-          사용자가 실제로 그대로 따라 먹을 수 있는 결과물을 제공하게 됐습니다.
-          <b>알고리즘의 정확도보다 "결과가 실제로 쓸모 있는가"를 먼저 확인해야 한다</b>는 것을 배웠습니다.</li>
-      </ul>
+  <div class="pj">
+    <div class="pj-h">
+      <span class="pj-n">01 · 팀</span>
+      <span class="pj-t">냠냠플래닛 — AI 맞춤 식단 관리 서비스</span>
     </div>
-
-    <div class="ts">
-      <div class="t">트러블슈팅 ② — 실시간 영상 분석의 렌더링 지연 해결</div>
-      <ul>
-        <li><b>[문제]</b> MediaPipe로 웹캠 영상에서 관절 좌표를 실시간 추출하는 '바디핏(자세 분석)' 기능에서,
-          <b>렌더링 지연과 브라우저 과부하</b>가 발생할 위험이 있었습니다.</li>
-        <li><b>[원인]</b> 매 프레임의 분석 결과가 상태로 반영되며 <b>불필요한 리렌더링이 연쇄적으로 발생</b>하는 구조였습니다.</li>
-        <li><b>[해결]</b> <b>영상 프레임 단위의 상태 관리(State Management)를 최적화</b>해 불필요한 리렌더링을 차단하고,
-          분석 결과가 지연 없이 화면에 피드백되도록 데이터 처리 파이프라인을 개선했습니다.
-          분석 결과값은 백엔드 서버로 안정적으로 동기화되도록 연동했습니다.</li>
-        <li><b>[결과]</b> 실시간 스트리밍 환경에서도 끊김 없는 자세 피드백을 구현했고,
-          <b>프론트-백엔드-AI 비전이 하나의 흐름으로 이어지는 구조</b>를 설계한 경험을 얻었습니다.</li>
-      </ul>
+    <p class="pj-s">신체 정보와 목표를 입력하면 <b>AI가 하루 식단을 구성</b>하고,
+      웹캠으로 <b>운동 자세를 실시간 분석</b>해 피드백하는 웹 서비스</p>
+    <div class="meta">
+      <div class="r"><span class="k">기간</span><span>2026.05</span></div>
+      <div class="r"><span class="k">기술</span><span>Java, Spring Boot, React, Axios, MediaPipe, KNN</span></div>
+      <div class="r"><span class="k">담당</span><span>AI 기능 개발 · 프론트-백엔드 연동</span></div>
+      <div class="r"><span class="k">저장소</span><span><a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a></span></div>
     </div>
-  </ul>
-
-  <h3>2. 「1분호기심」 유튜브 콘텐츠 완전 자동화 <span class="sub">— 기획부터 업로드·회고까지 사람 손이 닿지 않는 파이프라인</span></h3>
-  <p class="meta">2026.08 ~ 운영 중 · 개인 프로젝트(1인) · 기획·개발·운영 전담</p>
-  <div class="stack">Python · Claude Code(헤드리스) · YouTube Data API v3 · edge-tts · ffmpeg · PIL · Windows 작업 스케줄러</div>
-  <ul>
-    <li><b>담당 역할</b>: <b>트렌드 수집 → AI 대본 생성 → 내레이션·자막·영상 렌더링 → 업로드(제목·설명·태그·재생목록·썸네일) → 성과 스냅샷 → 주간 회고</b>를
-      한 번의 실행으로 관통하는 파이프라인을 설계·구현했습니다.</li>
-    <li><b>성과</b>: <span class="num">매일 2편</span>을 사람 개입 없이 발행, 누적 <span class="num">50편 이상</span>,
-      <span class="num">일평균 조회 2,175회</span> 도달(2026-08-30 기준). 영어 현지화 미러 채널 자동 발행까지 확장했습니다.</li>
-    <li><b>LLM 출력 통제</b>: 아침은 트렌드×심리, 저녁은 2인칭 자기진단 포맷으로 슬롯을 고정하고
-      4개 계열 자동 분류·연속 같은 계열 금지 규칙을 코드로 강제해 <b>생성 결과의 편차를 제어</b>했습니다.
-      의료 표현·모호한 제목은 정규식 사후 검사로 걸러 위반 시 1회 자동 재생성, 재차 위반이면 예비 대본으로 대체 —
-      <b>무인 상태에서 정책 위반 발행 0건</b>을 유지했습니다.</li>
-    <li><b>자기 개선 루프</b>: 주간 회고 에이전트가 직전 전략을 스스로 채점해 다음 주 전략 파일을 갱신합니다.
-      실제로 <b>성과 없는 롱폼 전략(6편 합계 32회)을 ROI 0으로 판정해 중단</b>하는 결정을 데이터로 수행했습니다.</li>
-
-    <div class="ts">
-      <div class="t">트러블슈팅 — 회고 지표 오진: "-76% 급락"이 사실은 +44% 회복</div>
-      <ul>
-        <li><b>[문제]</b> 주간 회고가 조회수 <b>-76% 급락</b>으로 진단해, 정상 작동하던 전략을 폐기할 뻔했습니다.</li>
-        <li><b>[원인]</b> 통계 수집 함수가 <b>최근 50편만 조회</b>하는 API 기본 페이지네이션에 걸려, 표본이 잘린 채 합계를 내고 있었습니다.</li>
-        <li><b>[해결]</b> 영상 목록 <b>전체 페이지네이션</b>으로 교체하고, 회고 지표를 합계 대신
-          <b>일별 데이터 + 중앙값 + 표본 수 병기</b> 방식으로 바꿨습니다.</li>
-        <li><b>[결과]</b> 실제 추세는 <b>+44% 회복(일평균 2,175회)</b>임을 확인해 전략 폐기를 철회했습니다.
-          <b>지표를 만드는 코드가 틀리면 의사결정 전체가 틀어진다</b>는 점을 배워, 이후 모든 리포트에 표본 수를 함께 적도록 규칙화했습니다.</li>
-      </ul>
+    <div class="lbl">담당 업무</div>
+    <ul>
+      <li>Axios로 <b>RESTful API 엔드포인트 3개</b>를 설계·연동해 프론트-백엔드 통신 구조 구축</li>
+      <li>신체 정보·목표 데이터를 수집·가공해 추천 알고리즘에 전달, <b>5가지 맞춤 식단</b> 제공</li>
+      <li>MediaPipe로 웹캠 관절 좌표를 실시간 추출해 자세를 분석하고 백엔드로 동기화</li>
+    </ul>
+    <div class="lbl">문제 해결</div>
+    <div class="fix">
+      <div class="ft">[KNN 추천이 조리되지 않은 재료를 한 끼로 반환]</div>
+      <div class="fl"><b>원인</b> 추천 기준이 칼로리 수치뿐이라 음식의 역할(밥/국/반찬)과 조리 여부가 미반영</div>
+      <div class="fl"><b>해결</b> '분류명' 기반 카테고리 필터링 추가 + 목표 칼로리에 맞춘 메뉴별 섭취량(g) 자동 분배·DB 동적 매핑
+        → <b>밥·국·메인·반찬이 갖춰진 정식 형태</b>로 출력</div>
     </div>
-  </ul>
+    <div class="fix">
+      <div class="ft">[실시간 영상 분석 시 렌더링 지연·브라우저 과부하 위험]</div>
+      <div class="fl"><b>원인</b> 매 프레임의 분석 결과가 상태로 반영되며 리렌더링이 연쇄 발생</div>
+      <div class="fl"><b>해결</b> 프레임 단위 상태 관리를 최적화해 불필요한 리렌더링 차단 → <b>지연 없는 자세 피드백</b> 구현</div>
+    </div>
+  </div>
 
-  <h3>3. 「집가(ZipGa)」 앱 출시 마케팅 자동화 <span class="sub">— 6인 팀 프로젝트에서 마케팅 파트를 혼자 자동화</span></h3>
-  <p class="meta">2026.08 ~ 운영 중 · 6인 팀 프로젝트(1DAN-2ZO) 중 마케팅 자동화 단독 담당 ·
-    <a href="https://zip-ga-frontend.vercel.app/">서비스 사이트</a></p>
-  <div class="stack">Python · ComfyUI(로컬 GPU) · ffmpeg · YouTube Data API · Meta Graph API · Threads API · Naver Blog Open API</div>
-  <ul>
-    <li><b>담당 역할</b>: 마케팅 산출물 생산과 발행을 <b>M1~M6 6단계 파이프라인</b>으로 모듈화했습니다
-      (영상 정규화 → 전사 → 9:16 클립 → 채널별 문구 생성 → 스토어 유입 링크 → 발행 큐).</li>
-    <li><b>원클릭 업로더 구현</b>: 폴더에 영상을 넣고 실행하면 <b>유튜브·인스타그램·쓰레드·네이버블로그·티스토리 5개 채널</b>에 발행됩니다.
-      API 미연결 채널은 페이지 열기 + 문구 클립보드 복사까지 대신하는 <b>보조 모드로 자동 강등</b>되도록 설계해,
-      승인 대기 중인 채널 하나 때문에 전체가 멈추지 않게 했습니다.</li>
-    <li><b>비용 0원 소재 생산</b>: ComfyUI를 헤드리스로 자동 기동해 로컬 GPU로 영상·BGM을 생성 — <b>외부 생성 API 비용 없이</b> 소재를 확보했습니다.
-      실제 시연 촬영본은 폰 프레임 합성·크롭·음량 정규화를 자동화해 세로 영상으로 가공했습니다.</li>
-    <li><b>성과</b>: 출시 전 <span class="num">영상 15편 기획</span>, <b>3개 채널 동시 발행</b>, 쓰레드는 API 자동 발행 + 예약까지 연결했습니다.
-      플랫폼 제재 예방을 위해 음주 관련 표현·장면을 전면 금지하는 규칙을 세워 기획 데이터·프롬프트·해시태그를 일괄 교체했고,
-      <b>발행 실패·제재 0건</b>으로 운영 중입니다.</li>
-  </ul>
+  <div class="pj">
+    <div class="pj-h">
+      <span class="pj-n">02 · 개인</span>
+      <span class="pj-t">1분호기심 — 유튜브 콘텐츠 완전 자동화</span>
+    </div>
+    <p class="pj-s">트렌드 수집부터 대본 생성·영상 렌더링·업로드·주간 회고까지
+      <b>사람 개입 없이 매일 2편을 발행</b>하는 파이프라인</p>
+    <div class="meta">
+      <div class="r"><span class="k">기간</span><span>2026.08 ~ 운영 중</span></div>
+      <div class="r"><span class="k">기술</span><span>Python, Claude Code, YouTube Data API v3, ffmpeg, edge-tts</span></div>
+      <div class="r"><span class="k">담당</span><span>1인 · 기획 · 개발 · 운영 전담</span></div>
+      <div class="r"><span class="k">채널</span><span><a href="https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA">youtube.com/@1분호기심</a></span></div>
+    </div>
+    <div class="lbl">담당 업무</div>
+    <ul>
+      <li>트렌드 수집 → AI 대본 → 내레이션·자막·영상 렌더링 → 업로드 → 성과 스냅샷 → 주간 회고 전 과정 구현</li>
+      <li>슬롯·계열 분류·A/B 엔딩 상한을 코드로 강제해 <b>LLM 출력 편차 통제</b>,
+        의료 표현·모호 제목 정규식 검사로 <b>정책 위반 발행 0건</b> 유지</li>
+      <li>주간 회고 에이전트가 직전 전략을 채점해 전략 파일 갱신 —
+        성과 없는 롱폼 전략을 <b>ROI 0으로 판정해 중단</b></li>
+      <li>영어 현지화 미러 채널 자동 발행으로 확장, 실패 시 휴대폰 푸시 알림 연동</li>
+    </ul>
+    <div class="lbl">문제 해결</div>
+    <div class="fix">
+      <div class="ft">[회고가 "조회수 -76% 급락"으로 오진 — 정상 전략을 폐기할 뻔함]</div>
+      <div class="fl"><b>원인</b> 통계 수집이 API 기본 페이지네이션(최근 50편)에 걸려 잘린 표본으로 합계를 산출</div>
+      <div class="fl"><b>해결</b> 전체 페이지네이션으로 교체 + 지표를 합계 대신 <b>일별 데이터·중앙값·표본 수 병기</b>로 변경
+        → 실제 추세는 <b>+44% 회복</b>이었음을 확인해 폐기 철회</div>
+    </div>
+    <div class="fix">
+      <div class="ft">[무인 실행만 실패(오류 9009), 때때로 이틀 전 옛 코드가 실행됨]</div>
+      <div class="fl"><b>원인</b> 클라우드 동기화가 실행 파일을 "클라우드 전용"으로 전환 + 배치 파일의 한글이 CP949로 깨져 조건문 붕괴</div>
+      <div class="fl"><b>해결</b> 운영 코드를 동기화 폴더 밖으로 이전, <b>스크립트는 ASCII로만 작성</b>하고 한글 알림은 별도 모듈로 분리 → 재발 0건</div>
+    </div>
+  </div>
+
+  <div class="pj">
+    <div class="pj-h">
+      <span class="pj-n">03 · 팀(6인)</span>
+      <span class="pj-t">집가(ZipGa) — 앱 출시 마케팅 자동화</span>
+    </div>
+    <p class="pj-s">팀 서비스의 마케팅 산출물 생산과 <b>5개 채널 발행을 원클릭으로 자동화</b></p>
+    <div class="meta">
+      <div class="r"><span class="k">기간</span><span>2026.08 ~ 운영 중</span></div>
+      <div class="r"><span class="k">기술</span><span>Python, ComfyUI, ffmpeg, YouTube·Meta Graph·Threads API</span></div>
+      <div class="r"><span class="k">담당</span><span>마케팅 자동화 단독 담당</span></div>
+      <div class="r"><span class="k">서비스</span><span><a href="https://zip-ga-frontend.vercel.app/">zip-ga-frontend.vercel.app</a></span></div>
+    </div>
+    <div class="lbl">담당 업무</div>
+    <ul>
+      <li>영상 정규화 → 전사 → 9:16 클립 → 채널별 문구 생성 → 유입 링크 → 발행 큐를 <b>6단계 파이프라인</b>으로 모듈화</li>
+      <li>유튜브·인스타·쓰레드·네이버블로그·티스토리 <b>5채널 원클릭 업로더</b> 구현 —
+        API 미연결 채널은 <b>보조 모드로 자동 강등</b>해 전체 중단 방지</li>
+      <li>ComfyUI를 헤드리스로 자동 기동, 로컬 GPU로 영상·BGM 생성 → <b>외부 생성 API 비용 0원</b></li>
+      <li>플랫폼 제재 예방 규칙(금지 표현·장면)을 정의해 기획·프롬프트·해시태그 일괄 교체 → <b>발행 실패·제재 0건</b></li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>그 외 프로젝트<span class="en">Side Projects</span></h2>
+  <div class="mini">
+    <div class="k">코인 모의투자 봇</div>
+    <div>표준 라이브러리만으로 구현한 10분 주기 무인 매매. 안전장치 9종,
+      주간 회고 에이전트가 <b>트레일링 설정의 본전 청산 구조를 발견</b>해 교정</div>
+    <div class="k">AI데일리</div>
+    <div>채용 플랫폼 6곳에서 AX/AI 신규 공고만 수집 + 논문·뉴스 한글 요약.
+      생성 결과를 <b>2차 에이전트가 검수</b>하는 2단 구조</div>
+    <div class="k">몽글이</div>
+    <div>브라우저(HTML + MediaPipe)만으로 동작하는 웹캠 트래킹 캐릭터.
+      무인 감지 시 수면 모드, 크로마키로 OBS 송출</div>
+    <div class="k">Personal Health Coach</div>
+    <div><b>Import Linter로 모듈 경계를 강제</b>해 안전 규칙 계층이 LLM 생성보다 먼저 실행되도록 아키텍처 수준에서 차단.
+      pytest·Ruff·mypy 적용 (<a href="https://github.com/jeakeun/personal-health-coach">github.com/jeakeun/personal-health-coach</a>)</div>
+    <div class="k">stage-scout</div>
+    <div>지도 데이터와 현장 사진으로 공연 장소를 선정·배치 설계.
+      FastAPI 헥사고날 아키텍처 + React·TypeScript (<a href="https://github.com/1DAN-2ZO/stage-scout">github.com/1DAN-2ZO/stage-scout</a>)</div>
+  </div>
 </section>
 
 <section>
   <h2>경력<span class="en">Work Experience</span></h2>
-  <h3>주식회사 코드리치 <span class="sub">— 게임 개발 인턴</span></h3>
-  <p class="meta">2024.09 – 2024.11 · 게임 개발 인턴</p>
-  <div class="stack">Unity · C# · 2D / 3D</div>
-  <ul>
-    <li>운영 중인 게임의 <b>UI 수정 및 신규 UI 추가</b>를 담당했습니다.</li>
-    <li><b>게임 로직 수정 및 기능 추가</b>를 맡아 2D·3D 콘텐츠 작업을 함께 진행했습니다.</li>
-    <li>교육 과정에서 만든 개인 프로젝트와 달리, <b>이미 운영 중인 코드베이스에 기능을 얹는 작업</b>을 경험하며
-      기존 구조를 읽고 영향 범위를 확인한 뒤 수정하는 방식을 익혔습니다.</li>
-  </ul>
-  <h3>서비스직 경력 <span class="sub">— 매장 관리 · 고객 응대 · 신입 교육</span></h3>
-  <p class="meta">2016.06 – 2025.10 · 와이즈피플(휴대폰 판매·전산·신입 교육) / 부만사(매장 관리·재고·발주) / 제네시스BBQ 등</p>
-  <ul>
-    <li>휴대폰 매장에서 <b>고객 응대·전산 업무·신입 교육</b>을 담당했고, 이후 매장 관리자로 <b>재고 관리와 발주</b>를 맡았습니다.</li>
-    <li>반복되는 수기 업무를 오래 겪은 경험이 <b>"자동화할 수 있는 일은 자동화한다"</b>는 지금의 개발 방향으로 이어졌습니다.</li>
-    <li>2025년 10월까지 <b>일과 개발 학습을 병행</b>했고, 2025년 11월부터 풀스택 개발 과정에 전념했습니다.</li>
-  </ul>
+  <div class="edu">
+    <div><b>주식회사 코드리치</b> — 게임 개발 인턴</div>
+    <div class="p">2024.09 – 2024.11</div>
+    <div class="d">Unity·C# 기반 2D/3D UI 수정 및 신규 추가, 게임 로직 수정·기능 추가.
+      <b>운영 중인 코드베이스</b>에서 기존 구조를 읽고 영향 범위를 확인한 뒤 수정하는 방식을 익힘</div>
+  </div>
+  <div class="edu">
+    <div><b>서비스직</b> — 와이즈피플 / 부만사 / 제네시스BBQ</div>
+    <div class="p">2016.06 – 2025.10</div>
+    <div class="d">휴대폰 판매·전산 업무·신입 교육, 매장 관리자로 재고 관리·발주 담당.
+      반복 수기 업무 경험이 <b>자동화 지향</b>으로 이어짐. 2025.11부터 개발 교육에 전념</div>
+  </div>
 </section>
 
 <section>
-  <h2>그 외 프로젝트<span class="en">Other Projects</span></h2>
-  <ul>
-    <li><b>코인 모의투자 봇</b> (2026.08~, 1인, 외부 패키지 0 · 표준 라이브러리만 사용):
-      가상 자금 1,000만 원으로 전략을 검증하는 <b>10분 주기 무인 매매 시스템</b>. 시세·뉴스·전략·포트폴리오·학습·리포트 6개 모듈로 분리하고
-      <b>안전장치 9종</b>(손절·익절·트레일링·일 손실 한도·급락 가드·즉시 중지 파일 등)을 구현했습니다.
-      주간 회고 에이전트가 <b>트레일링 설정(발동 1.5%/하락 1.5%)이 사실상 본전 청산 구조임을 발견</b>해 2.0%/1.0%로 교정한 사례가 있으며,
-      LLM은 <b>제안만 하고 적용은 사람이 승인</b>하도록 권한을 제한했습니다.</li>
-    <li><b>AI데일리 — 취업 정보 자동 수집</b> (2026.08~, 1인):
-      매일 아침 채용 플랫폼 6곳에서 <b>AX/AI 직무 신규 공고만</b> 수집하고, HF Daily Papers·arXiv 논문과 AI 뉴스를 한글로 요약합니다.
-      기술스택 누적 통계로 시장 수요를 추적하며, 생성 결과를 <b>2차 에이전트가 검수하는 2단 검증 구조</b>를 적용했습니다.</li>
-    <li><b>몽글이 — 버추얼 스트리머</b> (2026.08, 1인):
-      브라우저(HTML + MediaPipe)만으로 동작하는 웹캠 트래킹 캐릭터. 고개·눈·입·눈썹·미소·손을 추적하고,
-      카메라 앞에 사람이 없으면 2.5초 뒤 수면 모드로 전환합니다. <b>별도 설치 프로그램 없이</b> 크로마키 배경으로 OBS 송출까지 연결했습니다.</li>
-    <li><b>Personal Health Coach</b> (<a href="https://github.com/jeakeun/personal-health-coach">GitHub</a>, 진행 중, 1인):
-      건강 데이터를 로컬에만 저장하는 데스크톱 추천 시스템.
-      <b>Import Linter로 모듈 경계를 강제</b>해 ①안전 규칙 계층이 반드시 LLM 생성보다 먼저 실행되고
-      ②신원 도메인과 건강 데이터 도메인이 분리되도록 아키텍처 수준에서 차단했습니다.
-      SQLAlchemy·Alembic, pytest(Hypothesis 속성 기반 테스트), Ruff·mypy 적용.</li>
-    <li><b>stage-scout</b> (<a href="https://github.com/1DAN-2ZO/stage-scout">GitHub</a>, 팀 프로젝트, 진행 중):
-      네이버 지도 데이터와 현장 사진으로 공연 장소를 선정하고 무대·관객 배치도를 설계하는 시스템.
-      <b>FastAPI 헥사고날(포트-어댑터) 아키텍처</b> + React·TypeScript, 6주 스프린트로 진행 중입니다.</li>
-  </ul>
+  <h2>교육<span class="en">Education</span></h2>
+  <div class="edu">
+    <div><b>심화_생성형 AI 활용 인재양성과정</b> <span class="o">· 수강 중</span></div>
+    <div class="p">2026.08 – 2026.10</div>
+    <div class="d">수강 기간 중 개인 자동화 파이프라인 5종을 직접 설계·운영하며 학습 내용을 실제 서비스로 검증</div>
+  </div>
+  <div class="edu">
+    <div><b>클라우드환경 자바 풀스택 AI융합 웹개발자 과정</b> <span class="o">· 정상 수료</span></div>
+    <div class="p">2025.11 – 2026.06</div>
+    <div class="d">Java · Spring Boot · React.js · AWS 기반 풀스택 전 과정 이수.
+      팀 프로젝트 <b>냠냠플래닛</b>, TravelProject 수행</div>
+  </div>
+  <div class="edu">
+    <div><b>뉴딜 게임 / VR 콘텐츠 개발 과정</b> <span class="o">· 메디치교육센터</span></div>
+    <div class="p">2024.05 – 2024.07</div>
+    <div class="d">Unity UI 구현(Button OnClick, XR Canvas), Socket Interactor 기능 구현</div>
+  </div>
+  <div class="edu">
+    <div><b>프로젝트 기반 VR 콘텐츠 개발 과정 (AR)</b> <span class="o">· 메디치교육센터</span></div>
+    <div class="p">2023.06 – 2023.11</div>
+    <div class="d">Unity Editor, C# 언어, <b>FaceTracking 기반 AR 프로젝트 제작</b> — 현재 MediaPipe 활용의 기반</div>
+  </div>
+  <div class="edu">
+    <div><b>반응형 웹디자인 &amp; 퍼블리셔</b> <span class="o">· 그린컴퓨터아트학원</span></div>
+    <div class="p">2022.07 – 2022.12</div>
+    <div class="d">사용자 경험 유형 분류·관찰 조사 → 시나리오 개발 → 기초 데이터 수집·시각화 → 프로토타입 제작</div>
+  </div>
+  <div class="edu">
+    <div><span class="fill">【고등학교명】</span> 졸업 &nbsp;·&nbsp; 병역 <b>군필</b> (2014.06 – 2016.06)</div>
+    <div class="p">2012.02</div>
+  </div>
 </section>
 
 <section>
   <h2>지원 동기<span class="en">Career Objective</span></h2>
-  <p>“AI로 무엇을 만들 수 있는지보다 <b>그것이 매일 사람 손 없이 돌아가게 만드는 일</b>에 관심이 있습니다.
-  추천 알고리즘이 칼로리만 맞추면 쓸모없는 식단이 나온다는 것, 잘못 짠 집계 코드 하나가 멀쩡한 전략을 폐기시킬 뻔했다는 것 —
-  <b>만들어 놓고 끝까지 지켜본 사람만 아는 문제</b>들을 겪으며 일했습니다.
-  이 경험으로 귀사의 업무를 실제로 줄이는 AI 전환에 기여하고 싶습니다.”</p>
+  <p class="pj-s" style="font-size:9.6pt">
+    <b>만들어 놓고 끝까지 지켜본 사람만 아는 문제들을 겪으며 일했습니다.</b><br>
+    추천 알고리즘이 칼로리만 맞추면 쓸모없는 식단이 나온다는 것, 잘못 짠 집계 코드 하나가 멀쩡한 전략을 폐기시킬 뻔했다는 것 —
+    기능을 구현하는 일과 그 결과를 믿을 수 있게 만드는 일은 다르다는 걸 배웠습니다.
+    이 경험으로 귀사의 업무를 실제로 줄이는 AI 전환에 기여하고 싶습니다.
+  </p>
 </section>
 
 </body>
