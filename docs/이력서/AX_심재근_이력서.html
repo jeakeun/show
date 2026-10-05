@@ -22,8 +22,16 @@
   .tagline { font-size: 11.5pt; line-height: 1.5; margin: 0 0 9px; color: #222; }
   .tagline b { color: #2f5fd0; }
   .pi { font-size: 9pt; color: #555; }
-  .photo { flex: 0 0 auto; width: 92px; height: 115px; object-fit: cover;
+  .pw { flex: 0 0 auto; width: 92px; text-align: center; }
+  .photo { width: 92px; height: 115px; object-fit: cover; display: block;
            border: 1px solid #d8dce6; border-radius: 3px; background: #f4f6fa; }
+  .photo[hidden] { display: none !important; }
+  .ph { width: 92px; height: 115px; border: 1.5px dashed #c2c8d6; border-radius: 3px;
+        background: #fafbfd; color: #9aa2b4; font-size: 8.5pt; cursor: pointer;
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
+  .pb { margin-top: 4px; width: 92px; font-size: 8pt; padding: 3px 0; cursor: pointer;
+        border: 1px solid #c8cedb; border-radius: 3px; background: #fff; color: #44506b; }
+  .pb:hover { background: #f2f5fb; }
 
   /* 링크 */
   .links { margin-top: 10px; border-top: 1px solid #e4e7ee; border-bottom: 1px solid #e4e7ee;
@@ -80,7 +88,7 @@
 
   h2, .pj-h, .lbl { break-after: avoid; page-break-after: avoid; }
   .meta, .fix, .sk, .edu, .pj-s { break-inside: avoid; page-break-inside: avoid; }
-  @media print { .notice { display: none; } body { padding: 0; } }
+  @media print { .notice, .pb, .ph { display: none !important; } body { padding: 0; } }
 </style>
 </head>
 <body>
@@ -104,11 +112,12 @@
       <span class="fill">【서울 구로구】</span>
     </div>
   </div>
-  <img class="photo" src="사진.jpg" alt="증명사진"
-       data-try="사진.jpeg|사진.png|증명사진.jpg|증명사진.png|photo.jpg|photo.png"
-       onerror="(function(i){var l=(i.dataset.try||'').split('|').filter(Boolean);
-                 if(l.length){i.dataset.try=l.slice(1).join('|');i.src=l[0];}
-                 else{i.style.display='none';}})(this)">
+  <div class="pw">
+    <img class="photo" id="pic" src="사진.jpg" alt="증명사진" hidden>
+    <div class="ph" id="phd"><span>증명사진</span><span>클릭해서 넣기</span></div>
+    <button type="button" class="pb" id="pbt">사진 넣기</button>
+    <input type="file" id="pfl" accept="image/*" style="display:none">
+  </div>
 </header>
 
 <div class="links">
@@ -336,5 +345,38 @@
   </p>
 </section>
 
+<script>
+(function(){
+  var img=document.getElementById('pic'), ph=document.getElementById('phd'),
+      btn=document.getElementById('pbt'), fl=document.getElementById('pfl'),
+      KEY='resume_photo',
+      tries=['사진.jpeg','사진.png','증명사진.jpg','증명사진.png','photo.jpg','photo.png'];
+
+  // onload 안에서 src를 다시 넣으면 재로딩이 무한 반복되므로, 보여주기만 한다
+  function reveal(){ img.hidden=false; ph.style.display='none'; btn.textContent='사진 바꾸기'; }
+  function hide(){ img.hidden=true; ph.style.display='flex'; btn.textContent='사진 넣기'; }
+  function load(src){ tries=[]; img.src=src; }
+
+  img.addEventListener('load', function(){ if(img.naturalWidth) reveal(); });
+  img.addEventListener('error', function(){
+    if(tries.length){ img.src=tries.shift(); } else { hide(); }
+  });
+
+  try { var saved=localStorage.getItem(KEY); if(saved){ load(saved); } } catch(e){}
+
+  function pick(){ fl.click(); }
+  btn.addEventListener('click', pick);
+  ph.addEventListener('click', pick);
+  fl.addEventListener('change', function(){
+    var f=fl.files && fl.files[0]; if(!f) return;
+    var r=new FileReader();
+    r.onload=function(){
+      load(r.result);
+      try{ localStorage.setItem(KEY, r.result); }catch(e){}
+    };
+    r.readAsDataURL(f);
+  });
+})();
+</script>
 </body>
 </html>
