@@ -14,7 +14,7 @@
   body{margin:0;padding:0 14px 70px;background:var(--bg);color:var(--tx);
     font-family:"Pretendard","Malgun Gothic","맑은 고딕","Apple SD Gothic Neo",
                 "Noto Sans CJK KR","NanumGothic",system-ui,sans-serif;
-    font-size:15px;line-height:1.75;word-break:keep-all;}
+    font-size:15px;line-height:1.75;word-break:keep-all;font-variant-ligatures:none;-webkit-font-feature-settings:"liga" 0,"clig" 0;font-feature-settings:"liga" 0,"clig" 0;}
   .wrap{max-width:860px;margin:0 auto}
 
   header.top{padding:26px 0 14px}
@@ -67,6 +67,15 @@
   .num{font-weight:700;color:var(--green)}
   ul{margin:5px 0 7px;padding-left:19px} li{margin-bottom:4px}
 
+  .script{background:#fffdf5;border:1px solid #ecdfae;border-radius:10px;
+          padding:16px 18px;margin-bottom:12px;font-size:16px;line-height:2.0}
+  .script p{margin:0 0 13px} .script p:last-child{margin-bottom:0}
+  .script b{background:#fdf0c4;padding:0 3px;border-radius:3px}
+  .script .pause{color:#c9a227;font-weight:700;margin:0 2px}
+  .meter{font-size:12.5px;color:var(--dim);margin:-6px 0 10px}
+  .why{display:grid;grid-template-columns:118px 1fr;gap:5px 13px;font-size:14px;
+       background:#f7f8fb;border-radius:8px;padding:12px 14px;margin-bottom:10px}
+  .why .k{font-weight:700;color:var(--blue)}
   body.m-easy .pro{display:none}
   body.m-pro .easy{display:none}
 
@@ -89,6 +98,84 @@
   <button data-m="easy">🧒 쉬운 설명만</button>
   <button data-m="pro">💼 면접 답변만</button>
   <div class="hint">먼저 「쉬운 설명만」으로 이해 → 「면접 답변만」으로 외우기 → 「둘 다 보기」로 점검</div>
+</div>
+
+<!-- ============ 0. 자기소개 ============ -->
+<h2>0. 자기소개 1분<span class="tag">가장 먼저 나오는 질문</span></h2>
+
+<div class="card">
+<div class="q">간단히 자기소개 부탁드립니다</div>
+<p class="meter">아래 글은 <b>약 350자 · 말하면 1분</b>입니다. <span class="pause">／</span> 표시에서 한 박자 쉬세요.</p>
+<div class="script">
+  <p>안녕하세요. <b>AI 기능을 직접 만들고, 그게 매일 사람 없이 돌아가게 하는 일</b>을 해온 심재근입니다.<span class="pause">／</span></p>
+  <p>휴대폰 매장에서 <b>9년간 고객 응대와 신입 교육</b>을 맡았습니다.
+     같은 내용을 반복해서 설명하다 보니 <b>교육 문서를 직접 만들어 쓰게</b> 됐고,
+     그러면서 <b>사람이 매번 할 필요 없는 일을 줄이는 데</b> 관심이 생겨 개발로 방향을 바꿨습니다.<span class="pause">／</span></p>
+  <p><b>자바 풀스택 AI융합 과정을 7개월간 수료</b>했고,
+     팀 프로젝트에서 <b>AI 식단 추천 알고리즘</b>과 <b>실시간 자세 분석 기능</b>을 구현했습니다.<span class="pause">／</span></p>
+  <p>지금은 개인적으로 <b>자동화 파이프라인 다섯 개</b>를 운영하고 있습니다.
+     그중 유튜브 자동화는 <b>두 달째 매일 두 편을 사람 손 없이 발행</b> 중이고,
+     <b>일평균 조회수는 2,175회</b>입니다.<span class="pause">／</span></p>
+  <p>이 과정에서 배운 건 <b>기능을 만드는 일과 그 결과를 믿을 수 있게 만드는 일은 다르다</b>는 점이었습니다.
+     귀사에서도 <b>실제로 돌아가는 자동화</b>를 만들고 싶습니다.</p>
+</div>
+
+<div class="box easy"><div class="lab">🧒 이 순서로 짠 이유</div>
+  <div class="why">
+    <div class="k">① 첫 문장</div><div>내가 <b>뭐 하는 사람인지</b> 한 줄로. 여기서 못 잡으면 뒤를 안 들어요.</div>
+    <div class="k">② 9년 경력</div><div>면접관이 제일 궁금한 게 <b>"왜 이 나이에 개발로?"</b> 입니다. 먼저 말해버리세요.</div>
+    <div class="k">③ 교육·팀</div><div><b>혼자 공부만 한 게 아니라</b> 정식 과정을 마치고 팀에서 만들어봤다는 증거.</div>
+    <div class="k">④ 숫자</div><div><b>2,175회 · 매일 2편 · 두 달</b>. 숫자가 들어가야 "진짜 했구나" 싶습니다.</div>
+    <div class="k">⑤ 마지막</div><div>깨달은 점 + 하고 싶은 일. <b>"열심히 하겠습니다"는 빼세요.</b> 다 그렇게 말합니다.</div>
+  </div>
+</div>
+
+<div class="box pro"><div class="lab">💼 말할 때 주의</div>
+  <p>· <b>외운 티가 나면 손해입니다.</b> 토씨를 외우지 말고 <b>다섯 덩어리의 순서</b>만 외우세요.<br>
+     <span style="color:#555">누구다 → 왜 바꿨나 → 뭘 배웠나 → 뭘 만들었나(숫자) → 뭘 하고 싶나</span></p>
+  <p>· <b>9년 경력을 변명처럼 말하지 마세요.</b> "늦었지만"·"비전공이지만" 같은 말은 빼고
+     <b>"그 경험이 지금 방향의 이유"</b>로 연결하면 약점이 아니라 서사가 됩니다.</p>
+  <p>· 2,175회를 말할 때 <b>잠깐 멈추세요.</b> 숫자는 쉬어줘야 귀에 박힙니다.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="q">짧게 소개해 주세요 <span style="font-weight:400;font-size:13px;color:#777">— 30초 버전</span></div>
+<p class="meter">약 <b>170자 · 30초</b>. 시간을 줄여 달라고 하거나, 2차 면접처럼 이미 서류를 본 자리에서 씁니다.</p>
+<div class="script">
+  <p>안녕하세요. <b>AI 기능을 직접 만들고, 매일 사람 없이 돌아가게 만드는 일</b>을 해온 심재근입니다.<span class="pause">／</span></p>
+  <p>서비스직에서 9년간 일하다 <b>반복 업무를 줄이고 싶어</b> 개발로 전환했고,
+     <b>자바 풀스택 AI융합 과정</b>을 수료하며 팀 프로젝트에서 <b>AI 추천 알고리즘</b>을 구현했습니다.<span class="pause">／</span></p>
+  <p>지금은 <b>자동화 파이프라인 다섯 개</b>를 직접 운영하고 있고,
+     그중 하나는 <b>두 달째 매일 두 편을 무인 발행</b>하고 있습니다.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="q">자기소개 뒤에 반드시 따라오는 질문</div>
+<div class="box easy"><div class="lab">🧒 이렇게 물어볼 거예요</div>
+  <ul>
+    <li><b>"9년이나 하셨는데 왜 그만두셨어요?"</b></li>
+    <li><b>"자동화 다섯 개가 뭐예요?"</b></li>
+    <li><b>"2,175회면 많은 건가요?"</b></li>
+    <li><b>"비전공인데 힘들지 않으세요?"</b></li>
+  </ul>
+</div>
+<div class="box pro"><div class="lab">💼 답변 뼈대</div>
+  <p><b>Q. 왜 전환했나요</b><br>
+    <span class="say" style="display:block">매장에서 신입 교육을 맡으며 같은 설명을 반복하다 보니 <b>문서로 만들어 두는 쪽</b>을 택하게 됐습니다.
+    그 경험이 <b>"사람이 매번 하지 않아도 되는 일"</b>에 대한 관심으로 이어졌고, 그걸 코드로 하는 게 개발이라고 생각해 전환했습니다.</span></p>
+  <p><b>Q. 자동화 다섯 개가 뭔가요</b><br>
+    <span class="say" style="display:block">유튜브 콘텐츠 자동 제작·업로드, 앱 마케팅 5채널 발행, 채용 공고·논문 일일 수집,
+    코인 모의투자 전략 검증, 웹캠 트래킹 캐릭터입니다. <b>전부 윈도우 작업 스케줄러로 매일 자동 실행</b>됩니다.</span></p>
+  <p><b>Q. 2,175회면 많은가요</b><br>
+    <span class="say" style="display:block">채널 규모로 보면 큰 숫자는 아닙니다. 다만 제가 중요하게 본 건 조회수 자체보다
+    <b>사람이 손대지 않고도 그 수치가 매일 유지된다는 점</b>과, <b>성과를 보고 전략을 스스로 고치는 구조</b>를 만든 부분입니다.</span>
+    <span style="font-size:13px;color:#7d2a20">※ 과장하지 말고 이렇게 답하는 게 훨씬 신뢰를 얻습니다.</span></p>
+  <p><b>Q. 비전공인데 힘들지 않나요</b><br>
+    <span class="say" style="display:block">모르는 게 많다는 건 사실입니다. 대신 <b>막히면 원인을 끝까지 찾는 편</b>입니다.
+    예를 들어 통계가 잘못 나온 적이 있는데, <b>API가 50건만 반환한다는 것</b>까지 추적해 고친 경험이 있습니다.</span></p>
+</div>
 </div>
 
 <!-- ============ 1. 냠냠플래닛 ============ -->
@@ -197,7 +284,7 @@
   <div class="k">기간</div><div>2026.08 ~ 운영 중</div>
   <div class="k">형태</div><div>개인 프로젝트 (1인)</div>
   <div class="k">성과</div><div>매일 2편 무인 발행 · 누적 50편+ · 일평균 조회 2,175회</div>
-  <div class="k">기술</div><div>Python, Claude Code(헤드리스), YouTube Data API v3, ffmpeg, edge-tts</div>
+  <div class="k">기술</div><div>Python, Claude Code(헤드리스), YouTube Data API v3, FFmpeg, edge-tts</div>
 </div>
 
 <div class="card">
@@ -288,7 +375,7 @@
 <div class="facts">
   <div class="k">기간</div><div>2026.08 ~ 운영 중</div>
   <div class="k">형태</div><div>6인 팀 프로젝트 · 마케팅 자동화 단독 담당</div>
-  <div class="k">기술</div><div>Python, ComfyUI(로컬 GPU), ffmpeg, YouTube·Meta Graph·Threads API</div>
+  <div class="k">기술</div><div>Python, ComfyUI(로컬 GPU), FFmpeg, YouTube·Meta Graph·Threads API</div>
 </div>
 
 <div class="card">
@@ -411,7 +498,7 @@
   <tr><td>작업 스케줄러</td>
     <td>윈도우의 <b>알람 기능</b>. 정한 시각에 프로그램 실행</td>
     <td>Windows 기본 제공 예약 실행 도구. 주기적 배치 작업에 사용</td></tr>
-  <tr><td>ffmpeg</td>
+  <tr><td>FFmpeg</td>
     <td><b>영상 자르고 붙이고 소리 맞추는</b> 도구</td>
     <td>영상·음성 인코딩, 크롭, 합성, 음량 정규화를 수행하는 CLI 도구</td></tr>
   <tr><td>CP949 / UTF-8</td>
@@ -449,7 +536,7 @@
 
 <h3>자주 나오는 질문 체크리스트</h3>
 <ul>
-  <li>자기소개 1분 — <b>서비스직 9년 → 개발 전환 → 지금 무엇을 만드는가</b> 순서로</li>
+  <li>자기소개 1분 — <b>0번 섹션</b>에 통째로 준비해뒀습니다 (1분 / 30초 두 가지)</li>
   <li>가장 어려웠던 문제와 해결 방법 — <b>유튜브 지표 오진</b> 사례로 답변</li>
   <li>팀에서 갈등이 있었을 때 — <b>와이즈피플 신입 교육 문서 제작</b> 경험 활용</li>
   <li>왜 개발로 전환했나 — <b>반복 수기 업무를 줄이고 싶었다</b> 는 실제 동기</li>
