@@ -14,78 +14,84 @@
     word-break: keep-all;
     font-variant-ligatures:none;-webkit-font-feature-settings:"liga" 0,"clig" 0;font-feature-settings:"liga" 0,"clig" 0;
   }
-  a { color: #2f5fd0; text-decoration: none; }
+  a { color: inherit; text-decoration: none; border-bottom: 1px solid #c4c4c4; }
+
+  /* 모든 라벨 열을 같은 폭으로 — 문서 전체에 세로선 하나가 생기도록 */
+  :root { --lbl: 94px; }
 
   /* 헤더 */
   .hdr { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; }
   .hdr-txt { flex: 1 1 auto; min-width: 0; }
   h1 { font-size: 20pt; margin: 0 0 6px; letter-spacing: -0.6px; }
-  .tagline { font-size: 11.5pt; line-height: 1.5; margin: 0 0 9px; color: #222; }
-  .tagline b { color: #2f5fd0; }
+  .tagline { font-size: 11.5pt; line-height: 1.5; margin: 0 0 9px; color: #1b1b1b; }
   .pi { font-size: 9pt; color: #555; }
   .pw { flex: 0 0 auto; width: 92px; text-align: center; }
   .photo { width: 92px; height: 115px; object-fit: cover; display: block;
-           border: 1px solid #d8dce6; border-radius: 3px; background: #f4f6fa; }
+           border: 1px solid #cccccc; background: #f2f2f2; }
   .photo[hidden] { display: none !important; }
-  .ph { width: 92px; height: 115px; border: 1.5px dashed #c2c8d6; border-radius: 3px;
-        background: #fafbfd; color: #9aa2b4; font-size: 8.5pt; cursor: pointer;
+  .ph { width: 92px; height: 115px; border: 1px dashed #c4c4c4; background: #fafafa;
+        color: #999; font-size: 8.5pt; cursor: pointer;
         display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; }
   .pb { margin-top: 4px; width: 92px; font-size: 8pt; padding: 3px 0; cursor: pointer;
-        border: 1px solid #c8cedb; border-radius: 3px; background: #fff; color: #44506b; }
-  .pb:hover { background: #f2f5fb; }
+        border: 1px solid #cccccc; background: #fff; color: #444; }
+  .pb:hover { background: #f2f2f2; }
 
   /* 링크 */
-  .links { margin-top: 10px; border-top: 1px solid #e4e7ee; border-bottom: 1px solid #e4e7ee;
-           padding: 7px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1px 24px; }
+  .links { margin-top: 10px; border-top: 1px solid #d8d8d8; border-bottom: 1px solid #d8d8d8;
+           padding: 7px 0; display: grid; grid-template-columns: 1fr 1fr; gap: 2px 24px; }
   .links div { font-size: 8.8pt; }
-  .links a { font-weight: 600; }
+  .links a { font-weight: 700; }
   .links span { color: #777; }
 
   /* 섹션 */
   h2 { font-size: 11.5pt; margin: 20px 0 8px; padding-bottom: 4px;
-       border-bottom: 1.6px solid #1b1b1b; letter-spacing: -0.3px; }
+       border-bottom: 1.4px solid #1b1b1b; letter-spacing: -0.3px; }
   h2 .en { font-size: 7.8pt; color: #999; font-weight: 500; margin-left: 6px; }
   ul { margin: 3px 0 6px; padding-left: 15px; }
   li { margin-bottom: 2px; }
   b, strong { font-weight: 700; }
-  .num { font-weight: 700; color: #14532d; }
+  .num { font-weight: 700; }
 
-  /* 기술 스택 */
-  .sk { display: grid; grid-template-columns: 86px 1fr; gap: 2px 10px; margin-bottom: 6px; }
+  /* 기술 스택 — 라벨 | 내용 */
+  .sk { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 1px 12px;
+        padding: 4px 0; border-bottom: 1px solid #eeeeee; }
   .sk .c { font-weight: 700; font-size: 9.2pt; }
   .sk .t { font-weight: 600; }
   .sk .d { grid-column: 2; font-size: 8.8pt; color: #555; }
 
   /* 프로젝트 */
-  .pj { margin-bottom: 14px; }
-  .pj-h { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
-  .pj-n { font-size: 8.5pt; color: #8a8a8a; font-weight: 700; letter-spacing: 0.5px;
-          white-space: nowrap; }
+  .pj { margin-bottom: 15px; }
+  .pj-h { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 12px;
+          align-items: baseline; margin-bottom: 3px; }
+  .pj-n { font-size: 8.5pt; color: #888; font-weight: 700; letter-spacing: 0.4px; }
   .pj-t { font-size: 11pt; font-weight: 700; letter-spacing: -0.3px; }
-  .pj-s { font-size: 9.2pt; color: #333; margin: 0 0 6px; }
-  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 22px;
-          background: #f6f7fa; border-left: 3px solid #2f5fd0; padding: 6px 11px;
-          margin-bottom: 7px; font-size: 8.8pt; }
-  .meta .r { display: grid; grid-template-columns: 52px 1fr; gap: 8px; }
+  .pj-s { font-size: 9.2pt; color: #333; margin: 0 0 7px var(--lbl); padding-left: 12px; }
+  .meta { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 2px 12px;
+          font-size: 8.8pt; padding: 7px 0; margin-bottom: 7px;
+          border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; }
+  .meta .r { display: contents; }
   .meta .k { color: #777; }
-  .lbl { font-size: 9pt; font-weight: 700; color: #444; margin: 7px 0 2px; }
-  .fix { margin: 0 0 4px; padding-left: 2px; }
-  .fix .ft { font-weight: 700; font-size: 9pt; }
-  .fix .fl { font-size: 8.8pt; color: #444; padding-left: 11px; }
-  .fix .fl b { color: #b03a2e; }
+  .lbl { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 12px;
+         font-size: 9pt; font-weight: 700; color: #333; margin: 8px 0 1px; }
+  .pj ul { margin-left: calc(var(--lbl) - 3px); }
+  .fix { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 1px 12px; margin: 0 0 6px; }
+  .fix .ft { grid-column: 2; font-weight: 700; font-size: 9pt; }
+  .fix .fl { grid-column: 2; font-size: 8.8pt; color: #444; }
 
-  /* 간단 목록 */
-  .mini { display: grid; grid-template-columns: 112px 1fr; gap: 2px 12px; font-size: 9.2pt; }
+  /* 간단 목록 · 경력 · 교육 — 전부 같은 라벨 폭 */
+  .mini { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 4px 12px; font-size: 9.2pt; }
   .mini .k { font-weight: 700; }
-  .edu { display: grid; grid-template-columns: 1fr 112px; gap: 1px 14px; font-size: 9.2pt;
-         padding: 4px 0; border-bottom: 1px dotted #e0e3ea; }
+  .edu { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 2px 12px; font-size: 9.2pt;
+         padding: 5px 0; border-bottom: 1px solid #eeeeee; }
+  .edu > div:nth-child(1) { grid-column: 2; grid-row: 1; }
+  .edu .p { grid-column: 1; grid-row: 1; text-align: left; color: #555;
+            font-size: 8.8pt; white-space: nowrap; }
+  .edu .d { grid-column: 2; grid-row: 2; font-size: 8.8pt; color: #444; }
   .edu .o { font-size: 8.6pt; color: #777; }
-  .edu .p { text-align: right; color: #555; font-size: 8.8pt; white-space: nowrap; }
-  .edu .d { grid-column: 1 / -1; font-size: 8.8pt; color: #444; padding-left: 10px; }
 
-  .fill { background: #fff3bf; border-bottom: 1px dashed #d6a400; padding: 0 3px; font-weight: 700; }
-  .notice { background: #fff8e6; border: 1px solid #f0d68a; border-radius: 6px;
-            padding: 9px 13px; font-size: 8.8pt; color: #7a5c00; margin-bottom: 18px; }
+  .fill { background: #eeeeee; border-bottom: 1px dashed #aaaaaa; padding: 0 3px; font-weight: 700; }
+  .notice { background: #f5f5f5; border: 1px solid #cccccc;
+            padding: 9px 13px; font-size: 8.8pt; color: #444; margin-bottom: 18px; }
 
   h2, .pj-h, .lbl { break-after: avoid; page-break-after: avoid; }
   .meta, .fix, .sk, .edu, .pj-s { break-inside: avoid; page-break-inside: avoid; }
