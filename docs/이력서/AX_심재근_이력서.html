@@ -154,8 +154,8 @@
     <div class="d">프론트-백엔드 API 연동, 실시간 영상 처리 시 상태 관리 최적화</div>
   </div>
   <div class="sk">
-    <div class="c">AI · Vision</div><div class="t">KNN, MediaPipe, ComfyUI, edge-tts</div>
-    <div class="d">추천 알고리즘 설계·개선, 웹캠 관절 좌표 추출, 로컬 GPU 영상·음악 생성</div>
+    <div class="c">AI · Vision</div><div class="t">KNN, MediaPipe, FLUX / ComfyUI, edge-tts</div>
+    <div class="d">추천 알고리즘 설계·개선, 웹캠 관절 좌표 추출, 로컬 GPU 영상·이미지 생성 및 VRAM 최적화</div>
   </div>
   <div class="sk">
     <div class="c">LLM 활용</div><div class="t">Claude Code (헤드리스 CLI), 프롬프트 설계</div>
@@ -276,6 +276,9 @@
     <div class="k">코인 모의투자 봇</div>
     <div>표준 라이브러리만으로 구현한 10분 주기 무인 매매 시스템. 손절·일 손실 한도·급락 가드 등 안전장치 9종을 적용하고,
       주간 회고 에이전트가 트레일링 설정의 본전 청산 구조를 발견해 설정을 교정</div>
+    <div class="k">nudy <span class="o">(팀 · 진행 중)</span></div>
+    <div>이미지 생성 서버 구성 담당. FLUX를 VRAM이 넉넉지 않은 RTX 3060에 올리기 위해,
+      프롬프트를 미리 임베딩으로 변환해 두고 생성 단계에서 재사용하는 구조로 바꿔 메모리 제약을 해결</div>
     <div class="k">AI데일리</div>
     <div>채용 플랫폼 6곳에서 AX/AI 신규 공고만 수집하고 논문·뉴스를 한글로 요약하는 일일 리포트.
       생성 결과를 2차 에이전트가 검수하는 2단 구조 적용</div>
