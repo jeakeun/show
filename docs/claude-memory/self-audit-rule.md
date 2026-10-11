@@ -45,3 +45,17 @@ coin-bot 리포트 vs trades.csv 대조/손절 초과/격리 파일, ai-daily �
 
 **재확인 (2026-09-04 사용자 "매번 내가 시키기 전에 니가 봤을 때 이상하다 싶으면 바로바로 보고")**: 조회수·자막·스케줄 등
 무엇이든 이상 징후를 보면 사용자가 묻기 전에 먼저 보고. 영상 결과물(자막 겹침, CTA 노출 시간 같은 시청자 눈에 보이는 것)도 감사 범위에 포함.
+
+**2026-09-06 감사 후속 (사용자 "ntfy 오늘 에러 확인")**: 폰 알림 2건 모두 오탐/잡음이었음.
+① Self-audit FAILED — 리포트(28KB)는 정상 생성됐는데 LLM이 'AUDIT-DONE:' 마커를 빼먹어 실패 판정 →
+   run-audit.ps1을 코인봇과 같이 "리포트 파일 실존(>800B)+exit 0"이면 성공으로 변경(마커 선택). 바탕화면 경고 파일 삭제, 리포트 복사.
+② Coin-bot guard — 주간 회고 LLM이 루트에 _wk.py 임시 분석 스크립트 생성 → 격리(정상 동작). weekly-prompt.md에
+   "임시 스크립트 파일 금지, python -c 사용" 규칙 추가.
+감사 리포트의 실제 발견: 🔴 channel_views 9/2부터 정지(5일 +14회) → insights.py에 `_daily_trend_lines` 추가
+(영상별 차분 합 + ⚠정지 표시)로 23:50 회고 전에 수정. 🔴 코인봇 손절 15/15건 -2% 초과 체결(평균 -2.94%, 10분 사이클 탓,
+초과분 21.9만원) → 5분 중간점검 제안, 사용자 결정 대기. audit-prompt.md 낡은 시간·슬롯 규칙 갱신.
+
+**2026-09-08 07:00 장애: 헤드리스 claude.exe OAuth 만료** ("OAuth session expired and could not be refreshed"). ai-daily jobs 실패(0x1),
+뉴스·코인 주간회고·자가감사·논문검토 등 헤드리스 작업 전부 영향. 원인은 구독 로그인 세션 만료 — 내가 대신 로그인 불가.
+조치: 사용자에게 `claude login` 안내, Monitor로 복구 감시 후 jobs/news 자동 재실행. 후속 과제: run-daily.ps1·run_weekly.ps1·run-audit.ps1
+시작부에 인증 사전 점검(`claude -p ok`) → 실패 시 "로그인 필요" 푸시로 원인을 바로 알리기.
