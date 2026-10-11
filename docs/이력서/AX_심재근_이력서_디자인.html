@@ -217,39 +217,22 @@
   <h2>4. 프로젝트 <span class="en">PROJECT</span></h2>
 
   <div class="pj">
-    <div class="pj-h"><span class="pj-t">냠냠플래닛</span><span class="pj-k">팀 프로젝트</span></div>
-    <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고,
-      웹캠으로 운동 자세를 실시간 분석해 피드백하는 식단·운동 관리 웹 서비스</p>
+    <div class="pj-h"><span class="pj-t">nudy</span><span class="pj-k">팀 · 진행 중</span></div>
+    <p class="pj-s">1단2조 팀의 현재 프로젝트. 서비스에 쓸 이미지를 자체 GPU 서버에서 생성하도록 환경을 구성하고 있습니다.</p>
     <div class="pj-b">
       <div class="pj-l">
-        <div class="k">기간</div><div>2026.04.17 – 2026.05.31</div>
-        <div class="k">저장소</div><div><a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a></div>
+        <div class="k">기간</div><div><span class="fill">【2026.09 – 진행 중】</span></div>
         <div class="k">담당 업무</div>
         <div><ul>
-          <li>Axios로 RESTful API 엔드포인트 3개를 설계·연동해 프론트-백엔드 통신 구조 구축</li>
-          <li>신체 정보·목표 데이터를 수집·가공해 추천 알고리즘에 전달, 5가지 맞춤 식단 제공</li>
-          <li>MediaPipe로 웹캠 관절 좌표를 실시간 추출해 자세를 분석하고 백엔드로 동기화</li>
+          <li>FLUX 이미지 생성 모델을 팀의 RTX 3060 서버에 올려, 외부 생성 API 없이 돌아가는 환경 구성</li>
+          <li>모델과 텍스트 인코더를 동시에 올리면 VRAM을 초과하는 문제를, 프롬프트를 미리 임베딩으로
+            변환해 두고 생성 단계에서 재사용하는 구조로 분리해 해결</li>
         </ul></div>
       </div>
       <div class="pj-r">
         <div class="k">기술 스택</div>
-        <ul>
-          <li>Backend: Java, Spring Boot</li>
-          <li>Frontend: React, Axios</li>
-          <li>AI: KNN, MediaPipe</li>
-          <li>DB: SQL</li>
-        </ul>
+        <ul><li>AI: FLUX, ComfyUI</li><li>환경: RTX 3060 서버</li></ul>
       </div>
-    </div>
-    <div class="fix">
-      <div class="ft">KNN 추천이 조리되지 않은 재료를 한 끼로 반환</div>
-      추천 기준이 칼로리 수치뿐이라 음식의 역할과 조리 여부가 미반영 → '분류명' 기반 카테고리 필터링과
-      목표 칼로리에 맞춘 섭취량(g) 자동 분배·DB 동적 매핑을 더해 밥·국·메인·반찬이 갖춰진 정식 형태로 출력
-    </div>
-    <div class="fix">
-      <div class="ft">실시간 영상 분석 시 렌더링 지연·브라우저 과부하 위험</div>
-      매 프레임 분석 결과가 상태로 반영되며 리렌더링이 연쇄 발생 → 프레임 단위 상태 관리를 최적화해
-      불필요한 리렌더링을 차단하고 지연 없는 자세 피드백 구현
     </div>
   </div>
 
@@ -320,33 +303,39 @@
   </div>
 
   <div class="pj">
-    <div class="pj-h"><span class="pj-t">nudy</span><span class="pj-k">팀 · 진행 중</span></div>
-    <p class="pj-s">1단2조 팀의 현재 프로젝트. 이미지 생성 서버 구성을 담당하고 있습니다.</p>
+    <div class="pj-h"><span class="pj-t">냠냠플래닛</span><span class="pj-k">팀 프로젝트</span></div>
+    <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고,
+      웹캠으로 운동 자세를 실시간 분석해 피드백하는 식단·운동 관리 웹 서비스</p>
     <div class="pj-b">
       <div class="pj-l">
-        <div class="k">기간</div><div><span class="fill">【2026.09 – 진행 중】</span></div>
+        <div class="k">기간</div><div>2026.04.17 – 2026.05.31</div>
+        <div class="k">저장소</div><div><a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a></div>
         <div class="k">담당 업무</div>
         <div><ul>
-          <li>FLUX를 VRAM이 넉넉지 않은 RTX 3060 서버에 올리기 위해, 프롬프트를 미리 임베딩으로
-            변환해 두고 생성 단계에서 재사용하는 구조로 바꿔 메모리 제약을 해결</li>
+          <li>Axios로 RESTful API 엔드포인트 3개를 설계·연동해 프론트-백엔드 통신 구조 구축</li>
+          <li>신체 정보·목표 데이터를 수집·가공해 추천 알고리즘에 전달, 5가지 맞춤 식단 제공</li>
+          <li>MediaPipe로 웹캠 관절 좌표를 실시간 추출해 자세를 분석하고 백엔드로 동기화</li>
         </ul></div>
       </div>
       <div class="pj-r">
         <div class="k">기술 스택</div>
-        <ul><li>AI: FLUX, ComfyUI</li><li>환경: RTX 3060 서버</li></ul>
+        <ul>
+          <li>Backend: Java, Spring Boot</li>
+          <li>Frontend: React, Axios</li>
+          <li>AI: KNN, MediaPipe</li>
+          <li>DB: SQL</li>
+        </ul>
       </div>
     </div>
-  </div>
-
-  <div class="pj">
-    <div class="pj-h"><span class="pj-t">코인 모의투자 봇 · AI데일리</span><span class="pj-k">개인</span></div>
-    <div class="pj-l" style="grid-template-columns:var(--lbl) 1fr">
-      <div class="k">코인 봇</div>
-      <div>표준 라이브러리만으로 구현한 10분 주기 무인 매매 시스템. 안전장치 9종을 적용하고,
-        주간 회고 에이전트가 트레일링 설정의 본전 청산 구조를 발견해 설정을 교정</div>
-      <div class="k">AI데일리</div>
-      <div>채용 플랫폼 6곳에서 AX/AI 신규 공고만 수집하고 논문·뉴스를 한글로 요약하는 일일 리포트.
-        생성 결과를 2차 에이전트가 검수하는 2단 구조 적용</div>
+    <div class="fix">
+      <div class="ft">KNN 추천이 조리되지 않은 재료를 한 끼로 반환</div>
+      추천 기준이 칼로리 수치뿐이라 음식의 역할과 조리 여부가 미반영 → '분류명' 기반 카테고리 필터링과
+      목표 칼로리에 맞춘 섭취량(g) 자동 분배·DB 동적 매핑을 더해 밥·국·메인·반찬이 갖춰진 정식 형태로 출력
+    </div>
+    <div class="fix">
+      <div class="ft">실시간 영상 분석 시 렌더링 지연·브라우저 과부하 위험</div>
+      매 프레임 분석 결과가 상태로 반영되며 리렌더링이 연쇄 발생 → 프레임 단위 상태 관리를 최적화해
+      불필요한 리렌더링을 차단하고 지연 없는 자세 피드백 구현
     </div>
   </div>
 </section>

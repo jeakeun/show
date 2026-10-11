@@ -180,33 +180,25 @@
   <div class="pj">
     <div class="pj-h">
       <span class="pj-n">01 · 팀</span>
-      <span class="pj-t">냠냠플래닛 — AI 맞춤 식단 관리 서비스</span>
+      <span class="pj-t">nudy — 이미지 생성 서버 구성</span>
     </div>
-    <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고,
-      웹캠으로 운동 자세를 실시간 분석해 피드백하는 웹 서비스</p>
+    <p class="pj-s">1단2조 팀의 현재 프로젝트. 서비스에 쓸 이미지를 자체 GPU 서버에서 생성하도록 환경을 구성</p>
     <div class="meta">
-      <div class="r"><span class="k">기간</span><span>2026.04.17 – 2026.05.31 (약 1.5개월)</span></div>
-      <div class="r"><span class="k">기술</span><span>Java, Spring Boot, React, Axios, MediaPipe, KNN</span></div>
-      <div class="r"><span class="k">담당</span><span>AI 기능 개발 · 프론트-백엔드 연동</span></div>
-      <div class="r"><span class="k">저장소</span><span><a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a></span></div>
+      <div class="r"><span class="k">기간</span><span>2026.09 – 진행 중</span></div>
+      <div class="r"><span class="k">기술</span><span>FLUX, ComfyUI, RTX 3060 서버</span></div>
+      <div class="r"><span class="k">담당</span><span>이미지 생성 서버 구성</span></div>
+      <div class="r"><span class="k">인원</span><span>팀 프로젝트</span></div>
     </div>
     <div class="lbl">담당 업무</div>
     <ul>
-      <li>Axios로 RESTful API 엔드포인트 3개를 설계·연동해 프론트-백엔드 통신 구조 구축</li>
-      <li>신체 정보·목표 데이터를 수집·가공해 추천 알고리즘에 전달, 5가지 맞춤 식단 제공</li>
-      <li>MediaPipe로 웹캠 관절 좌표를 실시간 추출해 자세를 분석하고 백엔드로 동기화</li>
+      <li>FLUX 이미지 생성 모델을 팀의 RTX 3060 서버에 올려 외부 생성 API 없이 돌아가는 환경 구성</li>
     </ul>
     <div class="lbl">문제 해결</div>
     <div class="fix">
-      <div class="ft">[KNN 추천이 조리되지 않은 재료를 한 끼로 반환]</div>
-      <div class="fl"><b>원인</b> 추천 기준이 칼로리 수치뿐이라 음식의 역할(밥/국/반찬)과 조리 여부가 미반영</div>
-      <div class="fl"><b>해결</b> '분류명' 기반 카테고리 필터링 추가 + 목표 칼로리에 맞춘 메뉴별 섭취량(g) 자동 분배·DB 동적 매핑
-        → 밥·국·메인·반찬이 갖춰진 정식 형태로 출력</div>
-    </div>
-    <div class="fix">
-      <div class="ft">[실시간 영상 분석 시 렌더링 지연·브라우저 과부하 위험]</div>
-      <div class="fl"><b>원인</b> 매 프레임의 분석 결과가 상태로 반영되며 리렌더링이 연쇄 발생</div>
-      <div class="fl"><b>해결</b> 프레임 단위 상태 관리를 최적화해 불필요한 리렌더링 차단 → 지연 없는 자세 피드백 구현</div>
+      <div class="ft">[모델과 텍스트 인코더를 함께 올리면 VRAM 초과]</div>
+      <div class="fl"><b>원인</b> FLUX 본체와 프롬프트를 해석하는 텍스트 인코더를 동시에 메모리에 올리면 RTX 3060 용량을 넘김</div>
+      <div class="fl"><b>해결</b> 프롬프트(지시문)를 미리 임베딩으로 변환해 두고 생성 단계에서 재사용하도록 분리
+        → 생성할 때 텍스트 인코더를 올리지 않아 메모리 제약 안에서 동작</div>
     </div>
   </div>
 
@@ -267,20 +259,38 @@
       <li>플랫폼 제재 예방 규칙(금지 표현·장면)을 정의해 기획·프롬프트·해시태그 일괄 교체 → 발행 실패·제재 0건</li>
     </ul>
   </div>
-</section>
 
-<section>
-  <h2>그 외 프로젝트<span class="en">Side Projects</span></h2>
-  <div class="mini">
-    <div class="k">코인 모의투자 봇</div>
-    <div>표준 라이브러리만으로 구현한 10분 주기 무인 매매 시스템. 손절·일 손실 한도·급락 가드 등 안전장치 9종을 적용하고,
-      주간 회고 에이전트가 트레일링 설정의 본전 청산 구조를 발견해 설정을 교정</div>
-    <div class="k">nudy <span class="o">(팀 · 진행 중)</span></div>
-    <div>이미지 생성 서버 구성 담당. FLUX를 VRAM이 넉넉지 않은 RTX 3060에 올리기 위해,
-      프롬프트를 미리 임베딩으로 변환해 두고 생성 단계에서 재사용하는 구조로 바꿔 메모리 제약을 해결</div>
-    <div class="k">AI데일리</div>
-    <div>채용 플랫폼 6곳에서 AX/AI 신규 공고만 수집하고 논문·뉴스를 한글로 요약하는 일일 리포트.
-      생성 결과를 2차 에이전트가 검수하는 2단 구조 적용</div>
+  <div class="pj">
+    <div class="pj-h">
+      <span class="pj-n">04 · 팀</span>
+      <span class="pj-t">냠냠플래닛 — AI 맞춤 식단 관리 서비스</span>
+    </div>
+    <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고,
+      웹캠으로 운동 자세를 실시간 분석해 피드백하는 웹 서비스</p>
+    <div class="meta">
+      <div class="r"><span class="k">기간</span><span>2026.04.17 – 2026.05.31 (약 1.5개월)</span></div>
+      <div class="r"><span class="k">기술</span><span>Java, Spring Boot, React, Axios, MediaPipe, KNN</span></div>
+      <div class="r"><span class="k">담당</span><span>AI 기능 개발 · 프론트-백엔드 연동</span></div>
+      <div class="r"><span class="k">저장소</span><span><a href="https://github.com/YH-KIKI/project">github.com/YH-KIKI/project</a></span></div>
+    </div>
+    <div class="lbl">담당 업무</div>
+    <ul>
+      <li>Axios로 RESTful API 엔드포인트 3개를 설계·연동해 프론트-백엔드 통신 구조 구축</li>
+      <li>신체 정보·목표 데이터를 수집·가공해 추천 알고리즘에 전달, 5가지 맞춤 식단 제공</li>
+      <li>MediaPipe로 웹캠 관절 좌표를 실시간 추출해 자세를 분석하고 백엔드로 동기화</li>
+    </ul>
+    <div class="lbl">문제 해결</div>
+    <div class="fix">
+      <div class="ft">[KNN 추천이 조리되지 않은 재료를 한 끼로 반환]</div>
+      <div class="fl"><b>원인</b> 추천 기준이 칼로리 수치뿐이라 음식의 역할(밥/국/반찬)과 조리 여부가 미반영</div>
+      <div class="fl"><b>해결</b> '분류명' 기반 카테고리 필터링 추가 + 목표 칼로리에 맞춘 메뉴별 섭취량(g) 자동 분배·DB 동적 매핑
+        → 밥·국·메인·반찬이 갖춰진 정식 형태로 출력</div>
+    </div>
+    <div class="fix">
+      <div class="ft">[실시간 영상 분석 시 렌더링 지연·브라우저 과부하 위험]</div>
+      <div class="fl"><b>원인</b> 매 프레임의 분석 결과가 상태로 반영되며 리렌더링이 연쇄 발생</div>
+      <div class="fl"><b>해결</b> 프레임 단위 상태 관리를 최적화해 불필요한 리렌더링 차단 → 지연 없는 자세 피드백 구현</div>
+    </div>
   </div>
 </section>
 
