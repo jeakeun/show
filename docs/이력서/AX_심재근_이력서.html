@@ -44,7 +44,7 @@
   .links span { color: #777; }
 
   /* 섹션 */
-  h2 { font-size: 11.5pt; margin: 20px 0 8px; padding-bottom: 4px;
+  h2 { font-size: 11.5pt; margin: 16px 0 7px; padding-bottom: 4px;
        border-bottom: 1.4px solid #1b1b1b; letter-spacing: -0.3px; }
   h2 .en { font-size: 7.8pt; color: #999; font-weight: 500; margin-left: 6px; }
   ul { margin: 3px 0 6px; padding-left: 15px; }
@@ -54,13 +54,13 @@
 
   /* 기술 스택 — 라벨 | 내용 */
   .sk { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 1px 12px;
-        padding: 4px 0; border-bottom: 1px solid #eeeeee; }
+        padding: 3px 0; border-bottom: 1px solid #eeeeee; }
   .sk .c { font-weight: 700; font-size: 9.2pt; }
   .sk .t { font-weight: 400; }
   .sk .d { grid-column: 2; font-size: 8.8pt; color: #555; }
 
   /* 프로젝트 */
-  .pj { margin-bottom: 15px; }
+  .pj { margin-bottom: 11px; }
   .pj-tw { display: flex; align-items: center; gap: 9px; }
   .pj-logo.sq { border-radius: 5px; }
   .pj-logo { height: 24px; width: auto; flex: 0 0 auto; }
@@ -69,8 +69,8 @@
   .pj-n { font-size: 8.5pt; color: #888; font-weight: 700; letter-spacing: 0.4px; }
   .pj-t { font-size: 11pt; font-weight: 700; letter-spacing: -0.3px; }
   .pj-s { font-size: 9.2pt; color: #333; margin: 0 0 7px var(--lbl); padding-left: 12px; }
-  .meta { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 2px 12px;
-          font-size: 8.8pt; padding: 7px 0; margin-bottom: 7px;
+  .meta { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 1px 12px;
+          font-size: 8.8pt; padding: 6px 0; margin-bottom: 6px;
           border-top: 1px solid #e4e4e4; border-bottom: 1px solid #e4e4e4; }
   .meta .r { display: contents; }
   .meta .k { color: #777; }
@@ -84,8 +84,8 @@
   /* 간단 목록 · 경력 · 교육 — 전부 같은 라벨 폭 */
   .mini { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 4px 12px; font-size: 9.2pt; }
   .mini .k { font-weight: 700; }
-  .edu { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 2px 12px; font-size: 9.2pt;
-         padding: 5px 0; border-bottom: 1px solid #eeeeee; }
+  .edu { display: grid; grid-template-columns: var(--lbl) 1fr; gap: 1px 12px; font-size: 9.2pt;
+         padding: 4px 0; border-bottom: 1px solid #eeeeee; }
   .edu > div:nth-child(1) { grid-column: 2; grid-row: 1; }
   .edu .p { grid-column: 1; grid-row: 1; text-align: left; color: #555;
             font-size: 8.8pt; white-space: nowrap; }
@@ -118,7 +118,7 @@
       직접 만들고 끝까지 지켜본 개발자입니다.
     </p>
     <div class="pi">
-      <span class="fill">【1993.04.07】</span> ·
+      <span class="fill">【생년월일】</span> ·
       <span class="fill">【010-0000-0000】</span> ·
       <span class="fill">【example@gmail.com】</span> ·
       <span class="fill">【서울 구로구】</span>
@@ -139,11 +139,11 @@
 <section>
   <h2>핵심 요약<span class="en">Summary</span></h2>
   <ul>
-    <li>얼굴 인식 기반 촬영과 가상 메이크업 기능을 구현하고, FLUX를 RTX 3060 서버에 올려 VRAM 제약을 해결</li>
+    <li>유튜브 콘텐츠 자동화를 1인으로 구축·운영 — 트렌드 수집부터 업로드·주간 회고까지 무인화, 매일 2편 발행, 누적 50편+, 일평균 조회 2,175회</li>
+    <li>마케팅 자동화 에이전트 구축 — 5개 채널 원클릭 발행, 정보통신망법·플랫폼 정책 검사를 코드로 내장해 제재 0건 유지</li>
+    <li>얼굴 인식 기반 촬영과 가상 메이크업 기능 구현, FLUX를 RTX 3060 서버에 올려 VRAM 제약을 해결</li>
     <li>KNN 식단 추천 알고리즘을 칼로리 단일 기준에서 카테고리·섭취량 분배를 더한 구조로 재설계, MediaPipe 실시간 자세 분석 구현</li>
-    <li>개인 자동화 파이프라인 5종을 무인 운영 — 매일 2편 자동 발행, 누적 50편+, 일평균 조회 2,175회</li>
     <li>통계 수집 코드의 페이지네이션 누락을 추적해 지표 오진(-76%)을 바로잡고 전략 폐기를 철회</li>
-    <li>Unity 게임 개발 인턴으로 운영 중인 코드베이스에 기능을 얹는 작업 경험</li>
   </ul>
 </section>
 
@@ -272,7 +272,27 @@
 
   <div class="pj">
     <div class="pj-h">
-      <span class="pj-n">04 · 팀</span>
+      <span class="pj-n">04 · 개인</span>
+      <span class="pj-t">market-compass — 규제 준수 내장형 마케팅 메시지 에이전트</span>
+    </div>
+    <p class="pj-s">"지난달 안 온 단골에게 뭐 좀 보내줘"라고 말하면 대상 선정·문구 생성·규제 검사·사람 승인을 거쳐
+      발송까지 가는 카카오 마케팅 메시지 에이전트</p>
+    <div class="meta">
+      <div class="r"><span class="k">기간</span><span>2026.09 ~ 개발 중</span></div>
+      <div class="r"><span class="k">기술</span><span>Python, LLM 에이전트 설계, 규칙 엔진</span></div>
+      <div class="r"><span class="k">담당</span><span>1인 · 기획 · 개발</span></div>
+      <div class="r"><span class="k">구조</span><span>Radar(대상) · Guard(규제) · Dispatch(발송)</span></div>
+    </div>
+    <div class="lbl">담당 업무</div>
+    <ul>
+      <li>정보통신망법·카카오 정책 위반을 코드로 검사하는 규칙 엔진(R01~R12) 설계 — "자동"보다 "제재에 걸리지 않는 것"을 우선</li>
+      <li>발송 경로를 한 곳으로 모으고 사람 승인 두 번을 거치도록 설계해, 잘못된 메시지가 혼자 나가지 않도록 차단</li>
+    </ul>
+  </div>
+
+  <div class="pj">
+    <div class="pj-h">
+      <span class="pj-n">05 · 팀</span>
       <span class="pj-tw"><img class="pj-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAE8AAABUCAIAAABMR/2JAAAlEElEQVR42s18eZxV1ZXuWnvvc+58b92a5yooCijmQUYFFQfiGBU1JtGoiTFJtyZ56U6/vLy81piOPaRfd8Y2rYkajeI8IQqooIAoyCQCykwVVFFFzXc+w16r/zj3FoWiApr+9fnVD+qOtb+99l7rW99a+yAzwyleRCSEGP4MEyEiIMLpXkQkjv8GZkaAz/KdH73wVNEyE6LI5awDuz8Y7OsNhyN1o0bFiuL58Z364JgZmFEIAGg/eKCz/TADVNbV19Y35Ofx+Jn970PrWXX1imWbXn2psiRUHC9KpnOd3b1VoyZceM11kUhUay2lPCWo3gRtfWvdG8uWkHZHjhzJAIf27w/HSq++9duRWOz0JvGzovWgLnnskfat6y65+JyikjijYEArl9u5fc+mHbsvv/E7zePGk9bi5AB7MGwr9/Cvf5nu6bz0y19pbGkRPj8AQC63adWry1es+t5dPw+GQgDwuVj4ZNF6UHds3bzi/t987YYrASHn2IiSUShDxkKxtrbDzy15bcGXvnbGmfO11ogIUPjmob+AhYeIwCykTCeT/3HXHS2jR1705etkMEyZLDEBAwihwvE1T/55x76D3/7RTz4v84qTNQKA1rTk4T9ecO4cqTCXy0ohlUCFwK4eGOyrqqu+7ppLVz52/7aNG6SUQgghZP5HFn6GHgohpLSt3H/8/M5Zs8+49Ju3CJA6mQIgIVEoEKwp0T3vsot0Nrl7+3uIyESfHa06SbRCiJ2bN8ZNqqmryGaySimwXTfnKL8pfAYhphOJeEnRokWXPnr/7wFEJBrt7jqSHOjPJgdsy2JmIhAgfMFAKBIpKiktrax68dGHp02fOn/RIkokARGVBO26/QkhhQqHHCbhD5+/cOHa5UtHT5j4uexbdZLOBAB2bFw/eWKLYRg52wUNdiKNLtmW7YuF0W8iQiadrKgsv+T8ua8v/kNxaXFFRWksGimPmkIFQZMRLUflyyQTicRg67aDrz93sGHUyPOuuEKn0gKRBaDr5LqOQjZLCEws4xFIZxuam19+8cV0KhUKh4H5MwYkdVKGlVJr3dfROmfBLItQKKVTOdAglALm7GDGh0L4pEDMpJNNoxsbR9YJZUglAZEYAIEcN1I5UpXWgGsBMJDmnIWGwZYlGBkRtM52dctMWpoKCHQqJSNBDeiPxiorq9r27mmZMpWYxV8arXf19XSTkwtGQi65QqCrSYJkApAoTQXIwFozIoKVzaIQtqsJABAQABHJ1TKVDAcS7NiesxJCsOMyIKDwHJgRDhGQazsShCBmV7OpwGeObB7Vumd3y5Spw9zdX85LMQPA0fb2ytJi0+fLe1ZmNlCEDFUU9MUC0hAIiAgMxMDEjIhSoEDvAgBCBIHgOSqUilEAChR5N40oVFHUqKqUZaUU9DsSGUAggubautojbQcLU/cX3rcMjADdXR0VFWVSIQOzQBXxoxCoJDMTkzcMzkcZZAAG8qzG3gtMyjCACAEAgYAQZGEXMjAyAGgGFCocgWBI2xYqyazBykZjsXRi0AuBnzEUnWwESvb3xeMxZkCQBAJ9fjAUATMwAxIIAsEsGJCRgSH/Sn4haPAFfYEwEzMwMxcYMX8o2iMDEzGCCPhRKmQA7fpNA7SdSaeHAvZfEC0CImI6MeD3+7ypRUBmIEYGySAZJWD+F0bBxwaVB8PEgUiZMIMADIiMCCBOSGp46D/NwAAoCYT0+V3HzaRTfBoZzCmhZWZA7OvpObLvA5/PsCybkQggbx08hqzwBAIIZBb51QnAzNIMxUu9NzECIwB/upG8/U4MGI62tIxd99oKRITPhvfT0SLik/f9ds70lmg0pG0Hh/wsCgSBKE6wkRCBPQbGrqZgvNIMhokJhEAQ4uTWo2dIgUhW7tzLLtm9af3BvXtQCPoMpOqT0DKREGLDmjeCbmLcuNGZdEoIZGLk/CJlBvRgIwJgftUDMDMhgEBH20YoHi2rI5cBkRkBxMkYFo4RamStzVjxdTfc8Pwjf/Js/vmj9axq5XKvPfno7FnTHEcjIHMBZX7pIjAgCgCJKD1rAwhGQMHadZQ/XlzTxIBAhIQFr40nP2JmRiHcdLp+0oSa8uINa1cjImn9eaMlAsS1y19urisprSy1bHtoiEzMVHAZCESUd7DefhTIyK5mM1pR1tCCysdMgJ6nBi5cnwr4uDcggMZ555+/9uUlWmshxeeJ1ptR27Y3rFo+bvwYJ2cJBG8pcn7UxETAxMwICMAoQAhEjyrKYKSiqaRuLEiDmYazgo+C/GRHi4jAKFHorFXR2FRVXrJjy2aA00yJxMcZFhE/eHdLZWX5yDPmsRnVBNrRTC4yIZMARiBmAmBAYmAN4IIEMxwsqy9rnBAtrQZg4A8ToCFs+eDExxn8o+CZGQAZkIFAyhlz5mx6feXnzKU8C2x7e93UGbP85TWmL2ynE5nBHjuTIMcm1vkggoDAQhrSF/QHomY47A9FpGGC1kQn8EVYoBTDnxl66L16bL8cext7vBoy2foRTQNPP5McHIzEYqeREqmPXcaWdbTj8MgrL4NsBgD80bg/HNOurV2btMN5UgRCSGma0gwIZXqLghwHkBmEJ1EAc95dwyexgyGQHv6hWchPEBAAu65jRsK19TX73t8+ZfaZH938wz9yajy5q6M9HIlEi0vJthCRtQsMQippGHlGkad/CEzMQFrnmRYiIAyNBAFPsD6HRBsiHoZwCGTh/czMgMCewyACIUaPHnOkrRVmn8nHh7Ih8FprgXhCHUuc2BsDdLYfrquvg6Dfo1OAAqRkRGIgJiIirVm7rF0i8EYkDUNIqbX32POkgvkE0pdHPohIKqV8JuSlY2A4zlwMzEAAlI/UKIC4srp2sK/3QymRBzWbzQKAlNIjIcx0ErZFAIC+ziOl8RgAs8CC22UYCjVYIIbACEzI0u8b6GjXpEuq69iyYGhn5xlmPkVABkZAEIyoQqFsb08um4lXVoHjcCFpOJZKMSMA0rC8lnQwEsmkE8NVSE9zfubhB7a9+UY4WjRi3KR5C79QXlXtiYc47J3qhGkAAAz0dNWObgYNwIzEUJDt86Nh6aU5AMDI0h9Y9vjiJYsf1lovvGLRlTfcRLYWQrBABPRWKwOL/BpGQpT+0NqXnn/+T3+0spkZ55z/5W/fLni4AkpM+X0PDIAFj+RqZRqJvt5MOh0MhYDzufTe93fu27zxyzffpEzj/c1bfvl//2bU+CkLF11b0zhieHFDnNBFOY7TfnBfZX09OI5EiYDAyF42gBJRFJIAJAbp87fv2/fsw/eDtiXopx6+f/e2bdLvJ28hCZTRiIzGVDQmhABAYhKmr6ej9Yl7fpMd7FVIrzy9eOv6tSIY1KTze1FwgY0C5zkYs0BXu4FwpLy0ZNe2d4fEUER8fcmz5yw8v6SmlllMOXfBTX/13aKQ7/c/+/uHfvVvRzs6vMT4OLTMzEREmoj27dheXlJSUlOtc9n8IhTeW9FjTFKAkCiEkAhgGD1HO8m1/X6/PxAwlert6wGfwSBACA28YcVLz9z7q1VPP5azciAEkYvIfZ2duWzGCPjRUIFAoK+nB4QflUQphBSIBiIIREAJQiJKRiQEYgJlTJoyecfm9cystQaE/p6eQ3v21I8YsWbZ8qcXL9Y52/Cbcy+65Obv3l5REv3Pf/h/r77wnKfRquNiAKIEAQBt+3dPO+MMCMSlSoAQoDW4ml0biVggAOpMjmybgYFB2lZj44hArKSvu0MIESurGTN5GlkWSCECwSP79vz27ruCBvb0Jyqr61pmztKDGZ1M1DU0xqtq2vftCQSDLqpR4yZSNqUHB5FII6IyZMAHygBGISRIAVKClEAaBDaPGbt27TpEVIYBAOtfX1lbU+ELhrZu2DBm7Fih3T/d+5+Xfena8urqaWfNaxo75tlHF1c3No6bNEUBgOPYif7+ZCKRy2asXJaIDu/blY2Ge1NJU8lwOByLFRUVx8PRGCGD7Tr9A5DLioJAZZMOF8Vu/7sfv7J0qTKMC69aVFxeASiFId1Mrqyi8vpbv/Xi4sXX3HBVY8toJ5U0DBOUDJj6uz++48UnHstks2dfdPGI6lqrdb9kjV4EQrBNU8VLZSTi5rJ9HUd7e7oTg4PZTNrK5dxsJtnXu/SJR4tLy3yBwJsvL5k5d1bHoUMDvUfnnHvrhnVrcwMDDXX1ryx/ufvwka9959Z4cVFqYCDvpToOHTrafjgciwWCwVg8bvr8+7a/2zy2KVpePdjbnRoc7GjfmUoMCJQLLv5CQAOk0oYhGT0pAoWUbt9AU01t853/AIjguEzyg/e2lpaVlDU0A1DT6An9A6mxEyYFiioAnHRH+9ZNG+acc25NY+O3/v5OEApyWevgfhML+iMxIIJlYzq95d1NO7a/F4lEQuFoUbykqrYhGA76TNXa1jpuyrRIrGjPzu12LjVq7Ni3166prKkJh8Mb17159gXnpbPpt15dedVXv9rd0dF66Mj1M2czswKAhpFNDSObhvsqXzBcUl5R0TyhdmQahABNYFu5VNLvM5zuPk8wAiqEK2alDCuT86USDEgERrSo+0jHA7/6xcIrruzt6Ny6+o35kyY8/Mtfvrtxc9O4ccuffWrctGlnBiNuIgEOCyWdgV4pBCMCsSdoMZEUoK3s2DFjJ54xXYXCwAKEBAJABm0zYFFpWby4ZOOa1ROnTi0tq9iwZt01N96wfctWO5ebMmf2i089WVNbPX3OrGcfeuTMhZf4/X7SWg2Rco+kEpGU0lCi/2hXRVMGbAtME7Sbzab7e3tCwVDQNCidVoYk4II2g5q1CgZRGsCkBFIqMf+yy0tLiu79+d1njG6+6QsLymKxjqPdHxw89Ni/r7j06zcuvP4GnUoL0/QcnzAMYlSIhCzYC8msHSKTU5k0pdPRuBOIRMA0wXWJ2EolyAVv0x7cuXN8S2NX55HKxoaRo0b99hf/MuOs+b1Heza9/c5tP/zfrXv37D1w4Nrv/tCLyaqQXR+Tl5iorKqm82j7WGG0t+4+1Lq/5+hRx7YNlJNnzozW1lrpjKu1hLyGQcAUDJvRODAjo8cp3MH+cXPnTz1zdYmdHFlfe7T36OiG+qyjy/sHFi5axOlUnrIAALMKRWzLdlMpFKDBY4rsKhGIRtvf29528AARGaZZXl0zonlMaUNTpqvd9PnD4QgABKLRZN/g2Bmzrv/mLalMpqSqetqMmX9+4IHRLS01jQ0P/ubXCxddZ5qmV/s/jtYNFcL37XxvzfOPl9bXA3FNQ2NtXX28pEQFQ+A62rHRJTeTAsvJh3y/34jEQGC+HyGvHxMY6mhb6+9+eses5qYpLS1He/oWL1txzW23zVpwrpvOCGV46WB+rpnddEbbOXA1MAjDUKEgCkRTASg3Z/V0d7Ye2NPedjgUjQcVD1pw6VduZOaOQ233/OzHc8+aN27GLMu2/IbKpLNLnn7qsqsXdR08+PaGTT/6xa+G2MWHSWxioH/rhrcS/X37tm649Korm2bMBq1Ba3ZdralA9As83vuokHCM8cFQ3Za1I4PB/e/veumxR51k0maas/Ci+RdfojMpr0QwLInxSg14XB7DDKSJXCaUUoGhQAlw3c7D7U8/9GB5Y/OEmXPGTpiIQrTt3/eHu++48obrK2vrLMuWUkVjkb6Oww/87p7v/PSfqmpqGRhRHMccHdv+YOuWzsNt9aPHzL/w4pdQHty1p2nyNDudUYbyJMbhxWuAQjGA+ATSGbOQhrb0yPETb7vrZ6nBZCAUkP6gTiUFqiG+nsfmqTxDiV4+6fEcvsGCmDRbrs64Rihk+BT7fBd96au7t7+38uWlE6adUT+yyTADAZ9/24YNO7dsLisrF0J0HO744te/XVVbN7wnRg3N8WB/fyAcvuCqa7wX5l6w8J6f/p+pZ51VXFVDjuNV0wsW9LyTQPb0/ROk6QBAgChQZ1ICMRwKAbJOJdFbD3nKPKTFHK9scP4vUEG1A4HIIIAAeflTz0ybd144Epk2Z+5AX+/Rrq6uw23RSIBce+vWbfMvuiKTTvv8/gVfHl9ZXeNVnj+pE2Eob3j1hWdTnW1X3HqrTucEALNbmH4AFojHNdEM5agfhe2lM4AfztHyKQLkBbqP5vdD8g0Ck6tVJLzt9ddeWbn6B3f/K3uDEBIAfn3XT6aOG9N2uG3EpFlzF5z/0Yz3BPmtR5PzmggiEZ1/+ZXdg5mNK1bIUEg7DhRW2lBf03Cow4UYPF5D5ULp68PqFB579eOEK++rSLsqHDyye9czzzx7/e0/KHw/MvP+3R9kkwMlFaUHWztmzjtbuy5pTVoz00dFDDF8LoeMPuQnv/pXt7+57q3tb7ymohEmAAIECSw/TjccrqodPxFwTI4eNjsfVqGYERiIhhYHIhKxisX6uzof/P29V9z4rYrqGiLyWD4iPvfwg+eed97uD3ZPn3eOMgyP2wkpPbd0snoyIjJAMBS++fs/eu2V1zeveElGwkIZedOeSPv5qFWH4S/k88cvh+HIvUoKAiN6CgIzM4FQsXjnwQN/+OWvF1x93ZTZc7TrIqLWrlRqz/vbIz5/fePIrZs3z7vwIi50mZ1mB5EHIJ1MPvzb/19XVbHgyqsCsRJKp5i1OPU+ug/tyWMrH/IhTCDlFzcRM8hgAKTcvn790meeXfil66fMnD38S/a+v/OBu++cPH2y4Qu6vtA1X7/1UxvnPn3EQ8Na/vSTu7Zs/MKVl4+ePBlQctYi1x2edg+reJFnz7zdCp6Wh96JH5LQ8to8s8ukhZDo9wHi4b17Vi9fZrG45pa/DkejVi6XHBhIpxKGaQ709z/w0x+eNX5EW2fP3iPJv7//0eKysk+tEp2cfTwNG7GjrfXlJx832J4zf/7IlnEyEgXHZcsirb1IBAAoEPJoOb9IC8uYUeTZR163KcS1fGkUhRLgMyCb2b1j+4Y3Vu/YtKm0tn7K/HNTgwNdh9tymaQS0vQZQPDe+rdnj6k8d97UZNJ6+IU1N//81yOaR3+03fS0uky8yh1RdX3DN/7m73Zv3/bsH3/P5IybOm36nDOr6+pkIAhCgmODq4l0Xvkn9irbhWoK5ItlwPlfhUAhhVJgmgACbKunvW3rhre3vbMxl7MCAV/TuLG+UMgd7K4tiU8cc3ZZTW0gElPR4oPvbd319uqJY0dlU7lMOusQRYriJ1O5V6ex2TLplOE3z5gzf6B/4IkH/yhR1NbV1YxsrmmoK46XBMJBCAZByLxozhpAAnvFk0LbimdLTW42k+jp6eo8cqStbc+OnYP9PZW1dRdffW3z2GZpGIAAUoEyAAC0BtchWwPp5x55qLGqqCikiMW+A4ebpp9ZWlb2qYY9CbSc53TMLKV0XWfxPb+2+rquv+UbZSOagIFSyba9ex753W/6tu94x+U0kxkNhyKRWElJJF4UjkR8voA0TCElkNa25dqObVupVHKwv39wsN9KJKWtiyPR9s72UbNmXf+D74cicSAb0mlviYBjAeW8PY7EIhBo3bZl9ztrb758vpXN5Czc+H7bd355x0l23KhP9U9Y2PqZdPqx3/1q9Kj6s27/DoCCbAZcRyhV1zSqNFJ07dyzgtHo7596MlJeNmb6tK5D7YMDia4jXY5jOa5mIiZiZqVUMBAMBIMlleW19XWrn3r+5ksurW4Z+/zTT1Y3NIYiZc5grxCAQhY6VAgFcd5Ru2gaLz71RFNFUVlRGAD2tR2umjCtbsTIkzHsp6BFxIH+/r7urnQqlRwYWPXcU35B1DJy3dIXwsFwUXFJLFYUjcedXNa1HdMfkEVFsWi0vKFx1nmXgU4DIhDlOyXyMil72Q6wBkMOHmx9+/mlYV+AEyknZ2eTKWYbBaAQmA8ETAUlmYlkMHBk776d77x1w4UzXNt2CDd80Hrz3T88+UCoPsGqLz72yMEd7yqfLxQMBoOh8ZMmWJa1c/PWTCqVTadzVhaA/aY/YPp7u7pWbtk8acpkUCo/w7YNUhaaQsSQZwICAAJyQZl2zhEASkh0wRQqnUggu0iuQEEwFNXyMYUQhT/82rJlI8pileUl2nUPtXaWjJ7c1DL+JA378TU+xIG+3hWPPzxn/vwLF10dKS5xAa2c5dq2q112tHacnJXNppLpgcFEf19mXMvBQ4e2L3tpoKe3S7vheDwajUlEqaTwpPZ8HEZgdmw7m8nYttO6axe5ZBomMMZC4fbeHiANnoBe0LsBBSAyg1DCSSd3bd20cPoEafoIxObdrVf++F8/n164VCJRVlbWcaTz337604ra2obm0XWNI4pKik2/H6UU0h8I+IPxeHmjUF5jAKKVyfZ2tO/dsW3F44+R5dSWlNmOo11ymYjJY7CGUkIIhdInpc8wLpw7XwgDmMvLyrft3QmW5dUTvGQPEZhJe3luwC+EDAfDO/e2FkUjPUd7gyPGj5kw6eQN+3FoGQB9gUBRWem3v/f9/fsP7P5g14Gd72984w1GCEciRcXFRcUl0XhRKBLxB4NKKYGCCV3XtaxMKBYLRcNhm2754iLOOfncHBgB2RAoJSqJQuZDlONoywKBtXW16Xfe6jvaXVxRTo6br+sLgaYSfj9oGOjqWr9qZbC4zB9vfmHdu/5Y0Q1/dwecYiOggo8p8sVLSlOZbGdXV82IkfWjmm3X7evu7u7o6O/pGRwYSCQG+7o6nZxlu65Dmog8cVQgFpWUGP6g1X+UMjZpQinz9NHbJJpIM4CLDIQACEJJDRAprSgOhLZt3nTOF6+ATFYEfIBCZzKD3Uc7Dh16992t/f2DYybP+NZP7jJ9PsuyfD7f8Ob900frsQilVCAc6Tx40DD8XUc7g6FIUUlZdEKp7diGVEIqYCbSWuejS54zMpcUx5/6wx85YQtfQGeSBRdVqFsNJcYIoiBaELMEmDa2ZdXKlWdfeAH41e73tq1ZsTyVyaH0VdQ1Tjrz/JYpU5VSntiQh/q5dCLkxUcpx06atuy5Z4Xh85rB/YHA1LlnTjjjjJTtAOGxUCwAUQAzuRoA2lsPb1v31i0LLwVyUKDX11jICPAYDchnDJ4nQspmJrdMWPbm6nfWrJ158Rczg4OJtHPdbX9bVlnl6cYAQFqjEEMFu9NoE/vYvot0KrVz48aZ88+eOnNmOBzKZLM7tu9YuWzZzq2bF930DTRMl1zwyl6ul/MyMZUWFT/2+OLa4nhT81g3kxFSDvVBsvAUAoRC6OWCboHARGSYgUvnLXj8gYdapkwZPW78xi3bqurqPZD5lrvCwRtPaSDSnsrj6TWneUKGSAshX/jzn+I+Ne+aayCdBCYQEgIBJ5t54J9/MZBIXH/b92zLRRxqGGBlGsXFsdUvvbDmuSU/+Pq3Yr4ge9odFqqsBYXA65/L9/AXFAZmAAYZDi159eWtrXsvvfbat1av/sYd/5jv//6IQvCpz5zwknfeeecJ20dXPPP4gksvDgb9ZFuAAoh1LmdINX3emcuefVoIOaJ5rGPbSimpVDDkB9te9vhj765cddvN3yyraxRCyEBQ+v3S55d+n/T5hGkKqYSSwlBCGkJJgUiOm9c0hEApiWhsyzidy61Y+pJl2ZPnnxMMhz+ENt9ikcm8uWLphtdf6Whrraip9fn9J7ON1cc185DWzAAgPcmNEaQUOpeV0di8c8/dtH7D5CnTMrkMa8qmUnt2bt+zcWOlP/KDb/yVZWWXPvGoQAFcyN4RgZhdrV0XiMmTYBxdU109Y/IUZgAlvfYcZNRZa8GZ50wdP3nJay93d7SXlFcMh+FB7enqfPBfftZUFW8Z3dzRdfC+f77r1h/deTKHStSJXZQQpRU1e3fuLG0co1MJWcjJEQU5Tk1t/dKnn1l8738As7btno7OCbUN15113ugRzWAYjzz9dDo1UFNZrknnF6onxjouuYTECKCkyFjOmnVrxzWPCYdDGhjZ488AxOw6G7e8M5AaINcdknKGfrFyufv+8Y7ZE0bOnj/HZTFuynj7xRXr33htwaVXEGmB8hR9MiIAnH/lovvuvrNqRENDyzRI95F2GQUKFIGiAwcPVpSVT5ow3spl97y/e2RZxde/8jWwXDuXM4QgrSc3j545YULGtgVKhnw2z5pQExABgZKiK5loX73K8ZgSICIyoBfFtOO4SpbWNfDxaw2FAMQH//2fxlYXz5x7RiqRBBZSQFl5aUdv72eKtxU1tRdff+Pie+87+wsXTZw+PRyJgRCgnR3rXt25/i1Tu5279kUM/8SSmllTp1IqS0woBCoVikS6B/qzlpXO5Qod6Jg/aUCMDMxsunIgMSiEDPj94HXFMAF49EmmBwc0YjhepAzDazqTiEJK7eoH//2fdU/H/Osuz2Vz+eMamroOd8aaJgN8+gmaj+1zJKJpc+ZV1TS8+vQTb7yyIhoJxWKx/u4+lr7J8xbsW73qwplza2oawLLBdYgIpWAAkKK6vvaD995FYSjI4ZDczoCALAGIgUiasm9wMByL+YNByuZQGcwEnosmMA0j3dc7eNRecH2TF3WIaPd7215+9KGKsqKr//p2N3HEdbJSmErKvu6+rTt2fee6b8JJnOP82KxACEFEVfX1N/yvv00lk+0H9iX7+4tKy0aNn3Bg1/u7V74KjkuZjOs4UklQggFQCCJ33Pjx69e/3dXfUxYM5Cw7f6wF8h2BpABYgGnsbD04ZeZMQMH5vnxPO2fW5PP5wHX7Oo8suf8eIxhOZTOJ/r6AqS784iXjp00HrS2/b/DIfta2Lxh8ZcWqcXPml1dWfValxhsoM4cjkTGTphyLWko5rjaUIYQQhmJxTAfXjh2NF0+YPGnJqtduvOgSv1S247IAQKEFsGTDMIOB8Gvr1rHPN33aDLJsECKfMzCjZmaQhuG6bry+dsrsGTqXC8aiJRVVsZIy8PkpnQLtmKFYUU0TpXvWvPJ6a0/6+z/4+knGW/XpBzcK1Sf0CK2U/lCYAH2GDxBZCo8Ii/w5KXYHBxfMOaun/cgfn3t+4ew5daVl0jRRKVSCgHsTqaVr1nX2D3zthhuVz0/EgnXhkJC3vQmAHdtuOmNKy+wFQBkQEiybbJtzNghAoTAYVIZcvvTF9/a0f+sndxmG8fmgPa4sBOB5d9M0DcOQfpPEUPejV48lr9OUcvpLV171xltvLt+w3lBGLBIJBAIEnMxmBlOZqrq6byxaFA1H3FxOSMGemuF1neUL4KxARGNF5CR1MoFSCmkIKSFggjIom92/7d1XXngmFK/83s9/4fMHTv4AmDolVp2vaAJIJaVpDP2RfFUy73WRgbTtnD13/qzJ01s72nsTgw6RYRrhSKSmqqakrJytnJvL5YuiAhkkMAETC/ROLDCClcsgOYYSnuJjW9mBro7WPXs2vr2OQM2/aNHEGbPgFG9NoODULyeXM6UKhEOgwXXsfI9xPq56h2YEMTu5jGkaY0aPAdMAKUEAEIPjuKkEAwrIh+H8JkBkEAgshESfGYuEX39p2fatWwzTRCHS2RwzmsFgVX3TBdd8bVTL+JPpvf580KKUacvad/hAebwyEgqCVMAMtg2O5Z169/5lITSQa2U4h1w4GIZSFJioACFQCCklSglKei2G2cRgX8fhtGNfdNOtI8a0DPb3MbM/EIzGiyOx2NAao+OL7qefA33qaiamLWvXvLNiqe7vkyhLI7Gyonh5cbw0Eg2HogHTD8oAU4HIF3nApWMSkAQQEqT0zhxbtpXOZgaTib7+/t7+vqMDfWkro81Ay9x5Z11yueE1VB2fnwGgON37I5xOVdLbKm379758/z1zFpx/6MDenvbDqd7+XCYjCALKDAWDwUAgHI3GwmEDBbsaGZCZAFxyk1Yulc5YrpO1raxraxTS7w/FovGy0vqxY/Zt29o4ec70eWcz09BRXxyqeX+2S53ex5iosqbWIh4/efKks+eBbUEul0qmBvr7BwcGEolkznEPvb/j/bbuhtETbMgBExMo0+hq3Z9LDoybPbs0VhQvKY4XF8fiJaFIGP1+EAYAb3xz3YyqatIaC208+PndvOW09i0iM5s+f7ikbMfWjZPOnOdmskoZ4ZLScEVlrVSAADK04s/3tTQ0z5h3zvDPHti967UnHrro+pvyrUfaAZeAtU6npfJ1tx8eSCarG0cIKT/z8dNTP6P5yQcoJ82cu23ru959OlgIJs2WpVMJSiYznfu2btrUNHac1/Mx9FNd39Az0N/TuoeyOTfZr3Np0hazCwwQ8O3bvbNxVItSymtS/p+CFoVg5kkzZx8+cuTo4cMiXESUb/FkTSIS3vfBB5F4aXFZOQoxdHcPAPD5/U1jJu7cuFEEDNBuvnrNgELowYG333xzznkLT105/UujRQRm0+ebf/EVq5YtByFk0AcMSKCiMSeZevXFl8+78toPn+wSgpnPu+Lq15at7N23VxUVMTEQCxAiXPT2qpXFlfU1DQ2nJP//d6CFfMZDcxdcaIF68cH7Brs6HVe7jN2dRx67/w+jps0cPXHSh1vREJm5uKzsgi995cF77m3fvpNsTZpty9m47PkNGzctuukWZhLiL2LY04xAx/ezMSO+9NSje7e8YyqFymDG8bPOPPsLl3hdTR/dfp7p3n5j5VsvvygEhAIBBiqtbjj/6i8f4w//A9EOv2zb6j3aJVCUVlRKpT5ZEPOkL2I+cqhNO3a8tCwSKzr+zNv/VLTe0Zrh95Q6mRt+fWhzfr73CPu4678Aor6syLJT6noAAAAASUVORK5CYII=" alt=""><span class="pj-t">냠냠플래닛 — AI 맞춤 식단 관리 서비스</span></span>
     </div>
     <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고,
@@ -296,64 +316,69 @@
       <div class="fl"><b>해결</b> '분류명' 기반 카테고리 필터링 추가 + 목표 칼로리에 맞춘 메뉴별 섭취량(g) 자동 분배·DB 동적 매핑
         → 밥·국·메인·반찬이 갖춰진 정식 형태로 출력</div>
     </div>
-    <div class="fix">
-      <div class="ft">[실시간 영상 분석 시 렌더링 지연·브라우저 과부하 위험]</div>
-      <div class="fl"><b>원인</b> 매 프레임의 분석 결과가 상태로 반영되며 리렌더링이 연쇄 발생</div>
-      <div class="fl"><b>해결</b> 프레임 단위 상태 관리를 최적화해 불필요한 리렌더링 차단 → 지연 없는 자세 피드백 구현</div>
-    </div>
   </div>
 </section>
 
-<section class="keep">
-  <h2>경력<span class="en">Work Experience</span></h2>
+<section>
+  <h2>경력 및 활동 연표<span class="en">Experience &amp; Timeline</span></h2>
   <div class="edu">
-    <div><b>주식회사 코드리치</b> <span class="o">· 게임 개발 인턴</span></div>
-    <div class="p">2024.09 – 2024.12</div>
-    <div class="d">
-      · Unity 환경에서 운영 중인 게임의 UI를 수정하고 신규 UI를 추가하는 작업 담당<br>
-      · 게임 로직 수정 및 기능 추가를 맡아 2D·3D 리소스 작업을 병행<br>
-      · 교육 과정의 개인 프로젝트와 달리 이미 작성된 코드베이스를 읽고 영향 범위를 확인한 뒤 수정하는 방식을 익힘
-    </div>
+    <div><b>심화_생성형 AI 활용 인재양성과정</b> 수강 중. 병행해 <b>자동화 파이프라인 5종을 직접 구축·무인 운영</b>
+      (유튜브 콘텐츠 자동화, 마케팅 발행 자동화, 채용·논문 일일 수집, 모의투자 전략 검증, 지표 적재 허브)
+      + 팀 프로젝트 nudy 담당</div>
+    <div class="p">2026.08 – 현재</div>
   </div>
   <div class="edu">
-    <div><b>와이즈피플</b> <span class="o">· 매장 관리 · 고객 응대(CS)</span></div>
-    <div class="p">2016.06 – 2019.12<br>2023.03 – 2023.05</div>
-    <div class="d">
-      · 휴대폰 판매 매장에서 고객 응대(CS) 업무 전반을 담당 — 상담·판매부터 개통 후 문의 처리까지<br>
-      · 개통·변경 내역 전산 처리 및 매장 운영에 필요한 실적·재고 데이터 관리<br>
-      · 신입 교육 담당 — 신규 입사자가 바로 업무에 투입될 수 있도록
-        업무 매뉴얼과 교육용 문서를 직접 제작하고 교육 진행<br>
-      · 반복되는 응대·전산 업무를 문서로 표준화한 경험이 현재의 자동화 지향과 기록 습관으로 이어짐
-    </div>
-  </div>
-</section>
-
-<section class="keep">
-  <h2>교육<span class="en">Education</span></h2>
-  <div class="edu">
-    <div><b>심화_생성형 AI 활용 인재양성과정</b> <span class="o">· 수강 중</span></div>
-    <div class="p">2026.08 – 2026.10</div>
-    <div class="d">수강 기간 중 개인 자동화 파이프라인 5종을 직접 설계·운영하며 학습 내용을 실제 서비스로 검증</div>
-  </div>
-  <div class="edu">
-    <div><b>클라우드환경 자바 풀스택 AI융합 웹개발자 과정</b> <span class="o">· 정상 수료</span></div>
+    <div><b>클라우드환경 자바 풀스택 AI융합 웹개발자 과정</b> 전념 (약 7개월, 정상 수료).
+      Java · Spring Boot · React · AWS 이수, 팀 프로젝트 냠냠플래닛 · TravelProject 수행</div>
     <div class="p">2025.11 – 2026.06</div>
-    <div class="d">Java · Spring Boot · React.js · AWS 기반 풀스택 전 과정 이수.
-      팀 프로젝트 냠냠플래닛, TravelProject 수행</div>
   </div>
   <div class="edu">
-    <div><b>뉴딜 게임 / VR 콘텐츠 개발 과정</b> <span class="o">· 메디치교육센터</span></div>
+    <div><b>서비스직 근무와 개발 학습 병행</b> — 매장 관리·고객 응대로 생계를 유지하며 풀스택 과정 입과를 준비,
+      2025년 11월부터 교육에 전념</div>
+    <div class="p">2024.12 – 2025.10</div>
+  </div>
+  <div class="edu">
+    <div><b>주식회사 코드리치</b> · 게임 개발 인턴
+      <div class="d">· Unity 환경에서 운영 중인 게임의 UI 수정 및 신규 UI 추가<br>
+        · 게임 로직 수정 및 기능 추가, 2D·3D 리소스 작업 병행<br>
+        · 이미 작성된 코드베이스를 읽고 영향 범위를 확인한 뒤 수정하는 방식을 익힘</div></div>
+    <div class="p">2024.09 – 2024.12</div>
+  </div>
+  <div class="edu">
+    <div><b>뉴딜 게임 / VR 콘텐츠 개발 과정</b> (메디치교육센터) — Unity UI 구현, Socket Interactor</div>
     <div class="p">2024.05 – 2024.07</div>
-    <div class="d">Unity UI 구현(Button OnClick, XR Canvas), Socket Interactor 기능 구현</div>
   </div>
   <div class="edu">
-    <div><b>프로젝트 기반 VR 콘텐츠 개발 과정 (AR)</b> <span class="o">· 메디치교육센터</span></div>
+    <div><b>프로젝트 기반 VR 콘텐츠 개발 과정 (AR)</b> (메디치교육센터) — Unity Editor, C#,
+      FaceTracking 기반 AR 제작. 현재 MediaPipe 활용의 기반</div>
     <div class="p">2023.06 – 2023.11</div>
-    <div class="d">Unity Editor, C# 언어, FaceTracking 기반 AR 프로젝트 제작 — 현재 MediaPipe 활용의 기반</div>
   </div>
-    <div class="edu">
-    <div><span class="fill">【고등학교명】</span> 졸업 &nbsp;·&nbsp; 병역 군필 (2014.06 – 2016.06)</div>
-    <div class="p">2012.02</div>
+  <div class="edu">
+    <div><b>와이즈피플</b> 매장 관리 · 고객 응대(CS)</div>
+    <div class="p">2023.03 – 2023.05</div>
+  </div>
+  <div class="edu">
+    <div><b>반응형 웹디자인 &amp; 퍼블리셔 과정</b> (그린컴퓨터아트학원) — 개발로 방향을 돌린 첫 교육</div>
+    <div class="p">2022.07 – 2022.12</div>
+  </div>
+  <div class="edu">
+    <div>외식업 근무 (제네시스BBQ 등) — 매장 조리 · 운영</div>
+    <div class="p">2021.09 – 2022.07</div>
+  </div>
+  <div class="edu">
+    <div><span class="fill">【2020.01 – 2021.08 활동 내용을 적어주세요】</span></div>
+    <div class="p">2020.01 – 2021.08</div>
+  </div>
+  <div class="edu">
+    <div><b>와이즈피플</b> · 매장 관리 · 고객 응대(CS)
+      <div class="d">· 휴대폰 판매 매장 고객 응대(CS) 전반 — 상담·판매, 개통 후 문의 처리, 개통·변경 내역 전산 처리<br>
+        · 실적·재고 데이터 관리, 신입 교육 담당(업무 매뉴얼·교육 문서 직접 제작)<br>
+        · 반복 응대·전산 업무를 문서로 표준화한 경험이 현재의 자동화 지향으로 이어짐</div></div>
+    <div class="p">2016.06 – 2019.12</div>
+  </div>
+  <div class="edu">
+    <div>병역 <b>군필</b> &nbsp;·&nbsp; <span class="fill">【고등학교명】</span> 졸업 (2012.02)</div>
+    <div class="p">2014.06 – 2016.06</div>
   </div>
 </section>
 
