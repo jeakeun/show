@@ -139,10 +139,15 @@
 <section>
   <h2>핵심 요약<span class="en">Summary</span></h2>
   <ul>
-    <li>유튜브 콘텐츠 자동화를 1인으로 구축·운영 — 트렌드 수집부터 업로드·주간 회고까지 무인화, 매일 2편 발행, 누적 50편+, 일평균 조회 2,175회</li>
-    <li>마케팅 자동화 에이전트 구축 — 5개 채널 원클릭 발행, 정보통신망법·플랫폼 정책 검사를 코드로 내장해 제재 0건 유지</li>
+    <li>AI 자동화 에이전트를 직접 설계·운영 — 수집 · 생성 · 검수 · 발행 · 회고를 각각의 에이전트로 나누고,
+      LLM에는 문구만 맡기고 판단 기준은 코드로 고정하는 구조</li>
+    <li>유튜브 콘텐츠 자동화를 1인으로 구축·운영 — 매일 2편 무인 발행, 누적 50편+, 일평균 조회 2,175회.
+      주간 회고 에이전트가 직전 전략을 스스로 채점해 전략 파일을 갱신</li>
+    <li>마케팅 발행 에이전트 구축 — 5개 채널 원클릭 발행, 정보통신망법·플랫폼 정책 검사를 규칙 엔진으로 내장해
+      제재 0건, 발송 전 사람 승인 2단 게이트로 오발송 차단</li>
     <li>얼굴 인식 기반 촬영과 가상 메이크업 기능 구현, FLUX를 RTX 3060 서버에 올려 VRAM 제약을 해결</li>
-    <li>KNN 식단 추천 알고리즘을 칼로리 단일 기준에서 카테고리·섭취량 분배를 더한 구조로 재설계, MediaPipe 실시간 자세 분석 구현</li>
+    <li>KNN 식단 추천 알고리즘을 칼로리 단일 기준에서 카테고리·섭취량 분배를 더한 구조로 재설계,
+      MediaPipe 실시간 자세 분석 구현</li>
     <li>통계 수집 코드의 페이지네이션 누락을 추적해 지표 오진(-76%)을 바로잡고 전략 폐기를 철회</li>
   </ul>
 </section>
@@ -162,8 +167,9 @@
     <div class="d">추천 알고리즘 설계·개선, 웹캠 관절 좌표 추출, 로컬 GPU 영상·이미지 생성 및 VRAM 최적화</div>
   </div>
   <div class="sk">
-    <div class="c">LLM 활용</div><div class="t">Claude Code (헤드리스 CLI), 프롬프트 설계</div>
-    <div class="d">무인 실행, 생성 → 검수 2단 에이전트 구조, LLM 권한 제한 및 승인 게이트 설계</div>
+    <div class="c">LLM · 에이전트</div><div class="t">Claude Code (헤드리스 CLI), 프롬프트 설계, 규칙 엔진</div>
+    <div class="d">수집·생성·검수·발행·회고 역할 분리, 생성 → 검수 2단 구조, 정규식 사후검사,
+      LLM 권한 제한과 사람 승인 게이트 설계</div>
   </div>
   <div class="sk">
     <div class="c">Language</div><div class="t">Python 3.12, Java, JavaScript, SQL, C#</div>
@@ -320,64 +326,82 @@
 </section>
 
 <section>
-  <h2>경력 및 활동 연표<span class="en">Experience &amp; Timeline</span></h2>
+  <h2>경력 사항<span class="en">Work Experience</span></h2>
   <div class="edu">
-    <div><b>심화_생성형 AI 활용 인재양성과정</b> 수강 중. 병행해 <b>자동화 파이프라인 5종을 직접 구축·무인 운영</b>
-      (유튜브 콘텐츠 자동화, 마케팅 발행 자동화, 채용·논문 일일 수집, 모의투자 전략 검증, 지표 적재 허브)
-      + 팀 프로젝트 nudy 담당</div>
-    <div class="p">2026.08 – 현재</div>
-  </div>
-  <div class="edu">
-    <div><b>클라우드환경 자바 풀스택 AI융합 웹개발자 과정</b> 전념 (약 7개월, 정상 수료).
-      Java · Spring Boot · React · AWS 이수, 팀 프로젝트 냠냠플래닛 · TravelProject 수행</div>
-    <div class="p">2025.11 – 2026.06</div>
-  </div>
-  <div class="edu">
-    <div><b>서비스직 근무와 개발 학습 병행</b> — 매장 관리·고객 응대로 생계를 유지하며 풀스택 과정 입과를 준비,
-      2025년 11월부터 교육에 전념</div>
+    <div><b>서비스직 근무</b> · 개발 전환 준비
+      <div class="d">· 부만사(카운터, 2024.12–2025.04) → 넌럭셔리어스컴퍼니(주방보조, 2025.07–2025.08)
+        → 태신무역(검수사, 2025.08–2025.10)<br>
+        · 생계를 유지하며 풀스택 과정 입과를 준비, 2025년 11월부터 교육에 전념</div></div>
     <div class="p">2024.12 – 2025.10</div>
   </div>
   <div class="edu">
-    <div><b>주식회사 코드리치</b> · 게임 개발 인턴
+    <div><b>주식회사 코드리치</b> · 게임 개발 (인턴)
       <div class="d">· Unity 환경에서 운영 중인 게임의 UI 수정 및 신규 UI 추가<br>
         · 게임 로직 수정 및 기능 추가, 2D·3D 리소스 작업 병행<br>
+        · Input System을 신버전에서 구버전 체계로 전환하며 입력 처리 전반을 수정<br>
         · 이미 작성된 코드베이스를 읽고 영향 범위를 확인한 뒤 수정하는 방식을 익힘</div></div>
     <div class="p">2024.09 – 2024.12</div>
   </div>
   <div class="edu">
-    <div><b>뉴딜 게임 / VR 콘텐츠 개발 과정</b> (메디치교육센터) — Unity UI 구현, Socket Interactor</div>
-    <div class="p">2024.05 – 2024.07</div>
-  </div>
-  <div class="edu">
-    <div><b>프로젝트 기반 VR 콘텐츠 개발 과정 (AR)</b> (메디치교육센터) — Unity Editor, C#,
-      FaceTracking 기반 AR 제작. 현재 MediaPipe 활용의 기반</div>
-    <div class="p">2023.06 – 2023.11</div>
-  </div>
-  <div class="edu">
-    <div><b>와이즈피플</b> 매장 관리 · 고객 응대(CS)</div>
+    <div><b>주식회사 와이즈피플</b> · 판매 · 영업</div>
     <div class="p">2023.03 – 2023.05</div>
   </div>
   <div class="edu">
-    <div><b>반응형 웹디자인 &amp; 퍼블리셔 과정</b> (그린컴퓨터아트학원) — 개발로 방향을 돌린 첫 교육</div>
-    <div class="p">2022.07 – 2022.12</div>
+    <div><b>외식업 근무</b> · 매장 조리 · 운영
+      <div class="d">· 명장시대(베이커리) · 한국카레하우스 · 제너시스BBQ</div></div>
+    <div class="p">2021.06 – 2022.06</div>
   </div>
   <div class="edu">
-    <div>외식업 근무 (제네시스BBQ 등) — 매장 조리 · 운영</div>
-    <div class="p">2021.09 – 2022.07</div>
-  </div>
-  <div class="edu">
-    <div><span class="fill">【2020.01 – 2021.08 활동 내용을 적어주세요】</span></div>
-    <div class="p">2020.01 – 2021.08</div>
-  </div>
-  <div class="edu">
-    <div><b>와이즈피플</b> · 매장 관리 · 고객 응대(CS)
+    <div><b>와이즈피플</b> · 판매 관리 · 고객 응대(CS) &nbsp;<span class="o">3년 7개월</span>
       <div class="d">· 휴대폰 판매 매장 고객 응대(CS) 전반 — 상담·판매, 개통 후 문의 처리, 개통·변경 내역 전산 처리<br>
         · 실적·재고 데이터 관리, 신입 교육 담당(업무 매뉴얼·교육 문서 직접 제작)<br>
         · 반복 응대·전산 업무를 문서로 표준화한 경험이 현재의 자동화 지향으로 이어짐</div></div>
     <div class="p">2016.06 – 2019.12</div>
   </div>
+</section>
+
+<section>
+  <h2>교육 사항<span class="en">Education &amp; Training</span></h2>
   <div class="edu">
-    <div>병역 <b>군필</b> &nbsp;·&nbsp; <span class="fill">【고등학교명】</span> 졸업 (2012.02)</div>
+    <div><b>심화_생성형 AI 활용 인재양성과정</b> <span class="o">· 수강 중</span>
+      <div class="d">· 수강과 병행해 자동화 파이프라인 5종을 직접 구축·무인 운영
+        (유튜브 콘텐츠 자동화, 마케팅 발행 자동화, 채용·논문 일일 수집, 모의투자 전략 검증, 지표 적재 허브)<br>
+        · 팀 프로젝트 nudy — 촬영·가상 메이크업 기능과 이미지 생성 서버, 서비스 마케팅 담당</div></div>
+    <div class="p">2026.08 – 현재</div>
+  </div>
+  <div class="edu">
+    <div><b>클라우드환경 자바 풀스택 AI융합 웹개발자 과정</b> <span class="o">· 정상 수료 (약 7개월)</span>
+      <div class="d">· Java · Spring Boot · React · AWS 전 과정 이수<br>
+        · 팀 프로젝트 냠냠플래닛 · TravelProject 수행</div></div>
+    <div class="p">2025.11 – 2026.06</div>
+  </div>
+  <div class="edu">
+    <div><b>뉴딜 게임 / VR 콘텐츠 개발 과정</b> <span class="o">· 메디치교육센터</span>
+      <div class="d">· Unity 게임 콘텐츠 개발, NavMesh 기반 이동 스크립트, XR Canvas UI, Socket Interactor 구현<br>
+        · METAVERSE EXPO 부스 참가 및 프로젝트 시연 (2024.06)</div></div>
+    <div class="p">2024.05 – 2024.07</div>
+  </div>
+  <div class="edu">
+    <div><b>프로젝트 기반 VR 콘텐츠 개발 과정 (AR)</b> <span class="o">· 메디치교육센터</span>
+      <div class="d">· Unity Editor, C#, FaceTracking 기반 AR 제작, HandTracking, XR Interaction Toolkit
+        — 현재 MediaPipe 활용의 기반</div></div>
+    <div class="p">2023.06 – 2023.11</div>
+  </div>
+  <div class="edu">
+    <div><b>반응형 웹디자인 &amp; 웹퍼블리셔</b> <span class="o">· 그린컴퓨터아트학원</span>
+      <div class="d">· 개발로 방향을 돌린 첫 교육 — 기획·와이어프레임·시안부터 웹 구현까지 단독 수행</div></div>
+    <div class="p">2022.07 – 2022.12</div>
+  </div>
+</section>
+
+<section class="keep">
+  <h2>학력 및 병역<span class="en">Education &amp; Military</span></h2>
+  <div class="edu">
+    <div><span class="fill">【고등학교명】</span> 졸업</div>
+    <div class="p">2012.02</div>
+  </div>
+  <div class="edu">
+    <div>병역 <b>군필</b> <span class="o">· 공익 소집해제</span></div>
     <div class="p">2014.06 – 2016.06</div>
   </div>
 </section>
