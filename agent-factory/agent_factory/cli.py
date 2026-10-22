@@ -8,6 +8,9 @@
   python -m agent_factory list                   팀·도구·모델 목록
 
 공통 옵션: --demo (API 키 없이 가짜 모델로 흐름만), --workspace 폴더 (에이전트가 읽을 폴더)
+
+설계 에이전트가 만든 팀은 teams/local/ 에 저장한다 (깃 제외: 상황 글·폴더 경로가 공개 저장소에 올라가지 않게).
+teams/ 바로 아래는 사람이 다듬은 예제만.
 """
 from __future__ import annotations
 
@@ -18,10 +21,10 @@ from typing import Optional
 
 from . import rules
 from .designer import Design, DesignError, design_team
-from .llm import MODELS, AnthropicLLM, BaseLLM, BudgetExceeded, Ledger, LLMError, find_api_key
+from .llm import MODELS, AnthropicLLM, BaseLLM, Ledger, LLMError, Stopped, find_api_key
 from .spec import SpecError, TeamSpec, load_team, save_team, team_to_yaml
 from .team import new_run_dir, run_team, team_mermaid
-from .tools import TOOLS, Workspace, list_files
+from .tools import TOOLS, ToolError, Workspace, list_files
 
 ROOT = Path(__file__).resolve().parent.parent
 TEAMS_DIR = ROOT / "teams"
@@ -52,10 +55,11 @@ def describe(team: TeamSpec) -> str:
             out.append(_agent_line(team, n))
     if team.review:
         r = team.review
-        out.append(f"\n[검토] 최대 {r.max_rounds}회, 미통과면 마지막 작성자가 다시 씀")
+        out.append(f"\n[검토] 최대 {r.max_rounds}회, 미통과면 마지막 작성자가 다시 씀" if r.max_rounds > 1
+                   else "\n[검토] 판정만 (1회, 다시 쓰지 않음)")
         out.append(_agent_line(team, r.reviewer))
         out.append("    기준: " + " / ".join(r.criteria))
-    out.append(f"\n예산 상한: ${team.budget_usd:.2f} (넘으면 자동으로 멈춤)")
+    out.append(f"\n예산 상한: ${team.budget_usd:.2f} (다 쓰면 다음 호출부터 멈춤. 마지막 호출 1번만큼은 넘을 수 있음)")
     return "\n".join(out)
 
 
@@ -96,11 +100,36 @@ def approver(agent: str, tool: str, args: dict) -> bool:
     return ask_yes("허락할까요?")
 
 
+def local_teams_dir() -> Path:
+    return TEAMS_DIR / "local"
+
+
+def all_team_files() -> list[Path]:
+    return sorted(TEAMS_DIR.glob("*.yaml")) + sorted(local_teams_dir().glob("*.yaml"))
+
+
 def resolve_team_path(arg: str) -> Path:
     p = Path(arg)
     if p.is_file():
         return p
-    cand = TEAMS_DIR / (arg if arg.endswith(".yaml") else f"{arg}.yaml")
+    name = arg if arg.endswith(".yaml") else f"{arg}.yaml"
+    for d in (TEAMS_DIR, local_teams_dir()):
+        if (d / name).is_file():
+            return d / name
+    return TEAMS_DIR / name
+
+
+def pick_workspace(arg: Optional[str], team: Optional[TeamSpec] = None) -> Optional[Path]:
+    """읽을 폴더: 명령에 준 것 → 설계도에 기록된 것 → 예제 폴더. 쓸 수 없으면 안내하고 None."""
+    cand = Path(arg) if arg else (Path(team.workspace) if team and team.workspace else SAMPLE_WS)
+    if not cand.is_dir():
+        print(f"읽을 폴더가 없습니다: {cand}")
+        return None
+    try:
+        Workspace(cand, cand)
+    except ToolError as e:
+        print(e)
+        return None
     return cand
 
 
@@ -114,20 +143,21 @@ def workspace_listing(ws_root: Path, limit: int = 60) -> str:
 
 
 def unique_team_path(name: str) -> Path:
-    p = TEAMS_DIR / f"{name}.yaml"
-    n = 2
-    while p.exists():
-        p = TEAMS_DIR / f"{name}-{n}.yaml"
+    """새 설계는 teams/local/ 에. 예제(teams/)와도 이름이 겹치지 않게."""
+    d = local_teams_dir()
+    cand, n = name, 2
+    while (d / f"{cand}.yaml").exists() or (TEAMS_DIR / f"{cand}.yaml").exists():
+        cand = f"{name}-{n}"
         n += 1
-    return p
+    return d / f"{cand}.yaml"
 
 
 def check_key(demo: bool) -> bool:
     if demo:
         return True
     key, where = find_api_key()
-    if key:
-        print(f"(API 키: {where} 에서 찾음)")
+    if key or where != "없음":
+        print(f"(API 인증: {where} 에서 찾음)")
         return True
     print("API 키를 찾지 못했습니다. agent-factory/.env 파일에 ANTHROPIC_API_KEY=... 한 줄을 넣거나,")
     print("돈 안 드는 데모로 먼저 보려면 --demo 를 붙이세요.")
@@ -152,14 +182,19 @@ def cmd_design(situation: str, ws_root: Path, demo: bool, yes: bool, run_after: 
         for f in e.findings:
             print(f"  {f}")
         return 1
-    except (LLMError, BudgetExceeded) as e:
+    except (LLMError, Stopped) as e:
         print(f"\n설계 중 오류: {e}")
+        return 1
+    except KeyboardInterrupt:
+        print("\n설계를 멈췄습니다.")
         return 1
 
     team = d.team
     path = unique_team_path(team.name)
     if path.stem != team.name:
         team.name = path.stem
+    if Path(ws_root).resolve() != SAMPLE_WS.resolve():
+        team.workspace = str(Path(ws_root).resolve())  # 나중에 run 할 때 같은 폴더를 읽게 기록
     save_team(team, path)
     rec_dir.mkdir(parents=True, exist_ok=True)
     crit = ""
@@ -196,10 +231,11 @@ def cmd_design(situation: str, ws_root: Path, demo: bool, yes: bool, run_after: 
     if run_after is None and not yes and not ask_yes("\n이 팀으로 지금 실행할까요?"):
         print(f"나중에 실행: python -m agent_factory run {team.name}")
         return 0
-    return cmd_run(str(path), None, ws_root, demo, yes=True, checked=True)
+    return cmd_run(str(path), None, str(ws_root), demo, yes=True, checked=True)
 
 
-def cmd_run(team_arg: str, task: Optional[str], ws_root: Path, demo: bool, yes: bool, checked: bool = False) -> int:
+def cmd_run(team_arg: str, task: Optional[str], ws_arg: Optional[str], demo: bool, yes: bool,
+            checked: bool = False) -> int:
     try:
         team = load_team(resolve_team_path(team_arg))
     except SpecError as e:
@@ -207,6 +243,9 @@ def cmd_run(team_arg: str, task: Optional[str], ws_root: Path, demo: bool, yes: 
         return 2
     if rules.check(team) if checked else not show_check(team):  # 방금 설계에서 검사 결과를 보여줬으면 다시 출력하지 않음
         return 1
+    ws_root = pick_workspace(ws_arg, team)
+    if ws_root is None:
+        return 2
     if not check_key(demo):
         return 2
     task = (task or team.situation).strip()
@@ -235,7 +274,12 @@ def cmd_run(team_arg: str, task: Optional[str], ws_root: Path, demo: bool, yes: 
     if preview:
         print(f"\n--- 결과 앞부분 ({res.final_agent}) ---")
         print("\n".join(preview[:30]) + ("\n..." if len(preview) > 30 else ""))
-    return 0 if not res.stopped else 1
+    # 성공은 결과물로 판정: 멈춤·마지막 에이전트 비정상·검토 미통과면 1 (자동 실행에서 실패로 잡히게)
+    if res.stopped or not res.final_ok or res.review_passed is False:
+        if not res.final_ok and not res.stopped:
+            print(f"\n주의: 마지막 에이전트 {res.final_agent} 가 정상적으로 끝나지 않았습니다 (agents/ 기록 참고)")
+        return 1
+    return 0
 
 
 def cmd_check(team_arg: str) -> int:
@@ -263,17 +307,19 @@ def cmd_show(team_arg: str) -> int:
 
 
 def cmd_list() -> int:
-    print("저장된 팀 (teams/):")
-    files = sorted(TEAMS_DIR.glob("*.yaml"))
-    for f in files:
-        try:
-            t = load_team(f)
-            ok = "통과" if not rules.check(t) else "규칙 위반"
-            print(f"  - {f.stem}: {t.shape()} [{ok}] — {t.situation.strip().splitlines()[0][:60]}")
-        except SpecError:
-            print(f"  - {f.stem}: (형식 오류)")
-    if not files:
-        print("  (없음)")
+    for title, files in (("예제 팀 (teams/)", sorted(TEAMS_DIR.glob("*.yaml"))),
+                         ("내가 설계한 팀 (teams/local/, 깃 제외)", sorted(local_teams_dir().glob("*.yaml")))):
+        print(f"{title}:")
+        for f in files:
+            try:
+                t = load_team(f)
+                ok = "통과" if not rules.check(t) else "규칙 위반"
+                first = (t.situation.strip().splitlines() or [""])[0][:60]
+                print(f"  - {f.stem}: {t.shape()} [{ok}] — {first}")
+            except SpecError:
+                print(f"  - {f.stem}: (형식 오류)")
+        if not files:
+            print("  (없음)")
     print("\n도구:")
     for t in TOOLS.values():
         print(f"  - {t.name} [{t.risk}] {t.summary}")
@@ -301,23 +347,22 @@ def interactive(demo: bool) -> int:
         return cmd_list()
     if choice not in ("1", "2"):
         return 0
-    ws = input(f"에이전트가 읽을 폴더 (엔터 = 예제 폴더 {SAMPLE_WS.name}): ").strip().strip('"')
-    ws_root = Path(ws) if ws else SAMPLE_WS
-    if not ws_root.is_dir():
-        print(f"폴더가 없습니다: {ws_root}")
-        return 2
+    ws = input("에이전트가 읽을 폴더 (엔터 = 예제 폴더 또는 팀에 기록된 폴더): ").strip().strip('"') or None
     if choice == "1":
+        ws_root = pick_workspace(ws)
+        if ws_root is None:
+            return 2
         print("어떤 상황인가요? 한 줄로 쓰고 엔터. 예: 이 폴더의 주간 리포트들을 비교해서 잘된 점·못된 점을 정리해줘")
         situation = input("> ").strip()
         return cmd_design(situation, ws_root, demo, yes=False, run_after=None, critic=True)
-    files = sorted(TEAMS_DIR.glob("*.yaml"))
+    files = all_team_files()
     for i, f in enumerate(files, 1):
-        print(f"  {i}) {f.stem}")
+        print(f"  {i}) {f.stem}{'  (내 팀)' if f.parent.name == 'local' else ''}")
     pick = input("팀 번호: ").strip()
     if not pick.isdigit() or not 1 <= int(pick) <= len(files):
         return 0
     task = input("작업 내용 (엔터 = 설계도의 상황 그대로): ").strip() or None
-    return cmd_run(str(files[int(pick) - 1]), task, ws_root, demo, yes=False)
+    return cmd_run(str(files[int(pick) - 1]), task, ws, demo, yes=False)
 
 
 def main(argv: Optional[list] = None) -> int:
@@ -331,7 +376,7 @@ def main(argv: Optional[list] = None) -> int:
 
     def common(p):
         p.add_argument("--demo", action="store_true", default=argparse.SUPPRESS, help="가짜 모델 (비용 0)")
-        p.add_argument("--workspace", default=str(SAMPLE_WS), help="에이전트가 읽을 폴더")
+        p.add_argument("--workspace", default=None, help="에이전트가 읽을 폴더 (없으면 팀에 기록된 폴더, 그것도 없으면 예제 폴더)")
 
     p = sub.add_parser("design", help="상황에 맞는 팀 설계")
     p.add_argument("situation")
@@ -360,15 +405,14 @@ def main(argv: Optional[list] = None) -> int:
         return cmd_check(a.team)
     if a.cmd == "show":
         return cmd_show(a.team)
-    ws_root = Path(a.workspace)
-    if not ws_root.is_dir():
-        print(f"읽을 폴더가 없습니다: {ws_root}")
-        return 2
     if a.cmd == "design":
+        ws_root = pick_workspace(a.workspace)
+        if ws_root is None:
+            return 2
         run_after = False if a.no_run else (True if a.yes else None)
         return cmd_design(a.situation, ws_root, demo, a.yes, run_after, critic=not a.no_critic)
     if a.cmd == "run":
-        return cmd_run(a.team, a.task, ws_root, demo, a.yes)
+        return cmd_run(a.team, a.task, a.workspace, demo, a.yes)
     return 0
 
 

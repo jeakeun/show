@@ -117,7 +117,7 @@ def test_warnings():
     t = team([agent(f"a{i}", READ, model="opus") for i in range(3)] + [agent("w", ["web_search"])],
              [["a0", "a1", "a2"], ["w"]])
     w = rules.warnings(t)
-    assert len(w) == 3
+    assert len(w) == 4 and any("calculate" in x for x in w)
 
 
 def test_example_teams_pass():
@@ -129,3 +129,45 @@ def test_example_teams_pass():
     assert files, "예제 팀이 있어야 함"
     for f in files:
         assert rules.check(load_team(f)) == [], f.name
+
+
+def test_r12_web_and_workspace_split():
+    t = team([agent("solo", ["web_search", "read_file"])], [["solo"]])
+    assert codes(t) == ["R12"]
+    t = team([agent("web", ["web_search"]), agent("files", READ), agent("ww", ["calculate"])],
+             [["web", "files"], ["ww"]])
+    assert codes(t) == []
+
+
+def test_r09_reviewer_cannot_web_search():
+    t = good_parallel()
+    t.agents[3].tools = ["web_search"]
+    assert "R09" in codes(t)
+
+
+def test_empty_team_does_not_crash():
+    from agent_factory.spec import TeamSpec
+
+    assert "R03" in codes(TeamSpec(name="empty-team", situation="x", agents=[], stages=[]))
+
+
+def test_all_problems_reported_at_once():
+    t = team([agent("aa", READ, why_separate=""), agent("bb", READ)], [["aa"], ["ghost"], ["bb"]],
+             why_not_single="")
+    assert {"R04", "R05"} <= set(codes(t))  # 이름 문제가 있어도 나머지 규칙도 한 번에 알려줌
+
+
+def test_spec_typo_and_cp949(tmp_path):
+    import pytest
+
+    from agent_factory.spec import SpecError, load_team
+
+    bad = tmp_path / "typo.yaml"
+    bad.write_text("name: x-team\nsituation: s\nagents:\n- name: solo\n  role: r\n  model: haiku\n"
+                   "  instructions: i\n  tool: [read_file]\nstages:\n- agents: [solo]\n", encoding="utf-8")
+    with pytest.raises(SpecError, match="tool"):
+        load_team(bad)
+    ok = tmp_path / "cp949.yaml"
+    ok.write_bytes("name: x-team\nsituation: 한글 상황\nagents:\n- name: solo\n  role: 역할\n  model: haiku\n"
+                   "  instructions: 지시\nstages:\n- agents: [solo]\n".encode("cp949"))
+    assert load_team(ok).situation == "한글 상황"

@@ -9,7 +9,7 @@ from pathlib import Path
 from typing import Literal, Optional
 
 import yaml
-from pydantic import BaseModel, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 ModelAlias = Literal["opus", "sonnet", "haiku"]
 Effort = Literal["low", "medium", "high"]
@@ -17,6 +17,8 @@ Effort = Literal["low", "medium", "high"]
 
 class AgentSpec(BaseModel):
     """에이전트 1명 = 모델 + 지시문 + 도구 + 반복 상한."""
+
+    model_config = ConfigDict(extra="forbid")  # tool: 처럼 칸 이름 오타를 조용히 넘기지 않는다
 
     name: str = Field(description="영문 소문자·숫자·밑줄만. 예: data_scout")
     role: str = Field(description="한 줄 역할 (한국어)")
@@ -34,19 +36,25 @@ class AgentSpec(BaseModel):
 class Stage(BaseModel):
     """단계 1개. 에이전트가 1명이면 혼자, 2명 이상이면 동시에(병렬) 일한다."""
 
+    model_config = ConfigDict(extra="forbid")  # tool: 처럼 칸 이름 오타를 조용히 넘기지 않는다
+
     agents: list[str] = Field(description="이 단계에서 일할 에이전트 이름. 2명 이상이면 동시에 실행")
 
 
 class ReviewSpec(BaseModel):
     """마지막 단계 결과를 다른 에이전트가 검토하고, 고칠 게 있으면 다시 쓰게 한다."""
 
+    model_config = ConfigDict(extra="forbid")  # tool: 처럼 칸 이름 오타를 조용히 넘기지 않는다
+
     reviewer: str = Field(description="검토 에이전트 이름. 단계(stages)에는 넣지 않는다")
     criteria: list[str] = Field(description="통과 기준 목록")
-    max_rounds: int = Field(default=2, description="검토 최대 횟수 (1~3)")
+    max_rounds: int = Field(default=2, description="검토 최대 횟수 (1~3). 1이면 판정만 하고 다시 쓰지 않는다")
 
 
 class TeamSpec(BaseModel):
     """팀 설계도."""
+
+    model_config = ConfigDict(extra="forbid")  # tool: 처럼 칸 이름 오타를 조용히 넘기지 않는다
 
     name: str = Field(description="팀 이름. 영문 소문자·숫자·하이픈. 예: weekly-report-review")
     situation: str = Field(description="이 팀이 맡는 상황·일 (한국어)")
@@ -57,7 +65,8 @@ class TeamSpec(BaseModel):
     agents: list[AgentSpec]
     stages: list[Stage] = Field(description="실행 순서. 앞 단계 결과가 다음 단계로 넘어간다")
     review: Optional[ReviewSpec] = Field(default=None, description="검토 루프. 필요 없으면 null")
-    budget_usd: float = Field(default=0.5, description="이 팀 1회 실행 예산(달러). 넘으면 자동 중단")
+    budget_usd: float = Field(default=0.5, description="이 팀 1회 실행 예산(달러). 다 쓰면 다음 호출부터 자동 중단")
+    workspace: str = Field(default="", description="비워 둔다 (프로그램이 읽을 폴더를 채운다)")
 
     def agent(self, name: str) -> AgentSpec:
         for a in self.agents:
@@ -76,7 +85,10 @@ class TeamSpec(BaseModel):
             parts.append(f"동시 {n}명" if n > 1 else "1명")
         text = " → ".join(parts) if parts else "(단계 없음)"
         if self.review:
-            text += f" → 검토 루프(최대 {self.review.max_rounds}회)"
+            if self.review.max_rounds <= 1:
+                text += " → 검토(판정만)"
+            else:
+                text += f" → 검토 루프(최대 {self.review.max_rounds}회)"
         return text
 
 
@@ -112,9 +124,18 @@ def save_team(team: TeamSpec, path: Path) -> Path:
 
 def load_team(path: Path) -> TeamSpec:
     try:
-        data = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
+        raw = Path(path).read_bytes()
     except FileNotFoundError:
         raise SpecError(f"팀 파일이 없습니다: {path}") from None
+    try:
+        text = raw.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        try:
+            text = raw.decode("cp949")  # 메모장 ANSI 로 저장한 경우
+        except UnicodeDecodeError:
+            raise SpecError(f"팀 파일 글자 인코딩을 읽지 못했습니다 (UTF-8 로 저장하세요): {path}") from None
+    try:
+        data = yaml.safe_load(text)
     except yaml.YAMLError as e:
         raise SpecError(f"YAML 문법 오류: {e}") from None
     if not isinstance(data, dict):

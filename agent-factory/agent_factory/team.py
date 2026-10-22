@@ -1,7 +1,8 @@
 """팀 설계도(TeamSpec) → LangGraph 흐름도 → 실행.
 
 - 단계는 순서대로. 앞 단계 결과만 다음 단계로 넘긴다 (맥락 보호: 각자 필요한 것만 본다).
-- 2명 이상 단계는 LangGraph Send 로 동시에 실행하고, 다음 단계가 결과를 모아 받는다.
+- 2명 이상 단계는 LangGraph Send 로 동시에 실행하고, 합류 노드(sN_join)에서 모두 끝나길 기다린 뒤
+  다음 단계가 결과를 모아 받는다. (합류 노드가 없으면 병렬→병렬 구조에서 다음 단계가 앞 단계 인원수만큼 중복 실행된다)
 - 검토가 있으면 마지막 단계 결과를 검토자가 판정 → 고칠 게 있으면 같은 작성자가 다시 쓴다 (최대 횟수까지).
 - 실행 기록은 runs/<시각>-<팀이름>/ 폴더에 남긴다.
 """
@@ -18,7 +19,7 @@ from langgraph.types import Send
 from pydantic import BaseModel, Field
 
 from .agent import AgentResult, run_agent
-from .llm import BaseLLM, BudgetExceeded, Ledger, LLMError
+from .llm import BaseLLM, FormatError, Ledger, LLMError, Stopped
 from .rules import check
 from .spec import TeamSpec, save_team
 from .tools import Workspace
@@ -53,6 +54,7 @@ class RunResult:
     run_dir: Path
     final_text: str
     final_agent: str
+    final_ok: bool
     review_passed: Optional[bool]
     review_rounds: int
     stopped: Optional[str]
@@ -128,7 +130,11 @@ class TeamRunner:
         spec = self.team.agent(name)
         self.say(f"[{label}] {name} 시작 ({spec.model}, {spec.role})")
         content = compose_input(task, inputs, draft, issues)
-        res = run_agent(self.llm, spec, content, self.ws, approver=self.approver, on_event=self.say)
+        try:
+            res = run_agent(self.llm, spec, content, self.ws, approver=self.approver, on_event=self.say)
+        except (Stopped, LLMError) as e:  # 멈춰도 여기까지 받은 입력은 기록에 남긴다
+            self._save_agent(label, AgentResult(name, f"(중단됨: {e})", False, 0, "stopped"), content)
+            raise
         self._save_agent(label, res, content)
         self.say(f"[{label}] {name} 끝 (모델 호출 {res.turns}회{'' if res.ok else ', 문제: ' + res.stop_reason})")
         return res
@@ -182,9 +188,17 @@ class TeamRunner:
             )
             label = f"검토{rnd}-{rv.reviewer}"
             self.say(f"[검토 {rnd}회차] {rv.reviewer} 시작 ({spec.model})")
-            res = run_agent(self.llm, spec, content, self.ws, approver=self.approver,
-                            output_schema=ReviewVerdict, on_event=self.say)
+            try:
+                res = run_agent(self.llm, spec, content, self.ws, approver=self.approver,
+                                output_schema=ReviewVerdict, on_event=self.say)
+            except FormatError as e:  # 판정 형식 오류 → 결과는 내보내되 표시 (fail-open)
+                res = AgentResult(rv.reviewer, f"(검토 판정 형식 오류: {e})", False, 0, "format_error")
+            except (Stopped, LLMError) as e:
+                self._save_agent(label, AgentResult(rv.reviewer, f"(중단됨: {e})", False, 0, "stopped"), content)
+                raise
             self._save_agent(label, res, content)
+            if rv.reviewer in self.results:
+                del self.results[rv.reviewer]  # 검토자의 문제는 판정 칸에서 따로 보여준다
             v: Optional[ReviewVerdict] = res.parsed
             if v is None:  # 검토가 형식대로 답하지 못함 → 결과는 내보내되 표시 (fail-open)
                 self.say(f"[검토 {rnd}회차] 판정을 읽지 못함 → 검토 없이 마무리")
@@ -208,9 +222,12 @@ class TeamRunner:
                 g.add_node(node, self._single_node(i, st.agents[0]))
                 g.add_edge(prev, node)
             else:
-                node = f"s{i + 1}_parallel"
-                g.add_node(node, self._parallel_worker(i))
-                g.add_conditional_edges(prev, self._fan_out(i, node), [node])
+                par = f"s{i + 1}_parallel"
+                g.add_node(par, self._parallel_worker(i))
+                g.add_conditional_edges(prev, self._fan_out(i, par), [par])
+                node = f"s{i + 1}_join"  # 동시에 돈 일이 모두 끝나야 한 번 지나가는 합류 지점
+                g.add_node(node, lambda state: {})
+                g.add_edge(par, node)
             prev = node
             last_node = node
         if t.review:
@@ -247,11 +264,17 @@ class TeamRunner:
         stopped = None
         state: dict = {}
         try:
-            state = self.app.invoke({"task": task, "outputs": {}, "round": 0}, {"recursion_limit": 50})
-        except BudgetExceeded as e:
+            # 단계가 끝날 때마다 상태를 받아 두면, 중간에 멈춰도 그때까지의 검토 횟수·결과가 남는다
+            for snapshot in self.app.stream({"task": task, "outputs": {}, "round": 0}, {"recursion_limit": 50},
+                                            stream_mode="values"):
+                state = snapshot
+        except Stopped as e:
             stopped = str(e)
         except LLMError as e:
             stopped = f"모델 호출 오류: {e}"
+        except KeyboardInterrupt:
+            self.llm.ledger.cancel()  # 동시에 도는 에이전트도 다음 호출 전에 멈춤
+            stopped = "사용자가 멈춤 (Ctrl+C). 진행 중이던 호출은 끝까지 기다렸다가 멈춥니다"
         final_agent = self.team.stages[-1].agents[0] if self.team.stages else ""
         final = self.results.get(final_agent)
         final_text = final.text if final else ""
@@ -259,6 +282,7 @@ class TeamRunner:
         rounds = state.get("round", 0)
         res = RunResult(
             run_dir=self.run_dir, final_text=final_text, final_agent=final_agent,
+            final_ok=bool(final and final.ok),
             review_passed=passed, review_rounds=rounds, stopped=stopped, ledger=self.llm.ledger,
             seconds=time.time() - t0, results=dict(self.results),
         )

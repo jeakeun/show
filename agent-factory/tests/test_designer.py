@@ -89,7 +89,8 @@ def test_cli_demo_end_to_end(tmp_path, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert rc == 0, out
     assert "규칙 위반" in out and "규칙 검사: 통과" in out and "결과 파일" in out
-    saved = list((tmp_path / "teams").glob("*.yaml"))
+    assert not list((tmp_path / "teams").glob("*.yaml"))  # 설계 결과는 깃 제외 폴더(teams/local)에만
+    saved = list((tmp_path / "teams" / "local").glob("*.yaml"))
     assert len(saved) == 1
     assert cli.main(["check", str(saved[0])]) == 0
     rc = cli.main(["run", str(saved[0]), "--demo", "--yes", "--task", "다른 작업", "--workspace", str(cli.SAMPLE_WS)])
@@ -104,3 +105,38 @@ def test_cli_run_refuses_invalid_team(tmp_path, capsys):
     p = save_team(bad_team(), tmp_path / "bad.yaml")
     assert cli.main(["run", str(p), "--demo", "--yes"]) == 1
     assert "위반" in capsys.readouterr().out
+
+
+def test_critic_failure_keeps_paid_design():
+    def script(who, messages, tools, schema, none):
+        return text(good_team().model_dump_json()) if schema is TeamSpec else text("판정 아님")
+
+    d = design_team(ScriptedLLM(script), "x")
+    assert d.critique is None and len(d.team.agents) == 3
+    assert any("검토 에이전트 실패" in x for x in d.log)
+
+
+def test_designer_truncated_output_message():
+    from agent_factory.llm import Reply
+
+    llm = ScriptedLLM(lambda *a: Reply(content=[], stop_reason="max_tokens", text="{"))
+    with pytest.raises(DesignError, match="출력 한도"):
+        design_team(llm, "x")
+
+
+def test_cli_records_workspace_and_lists_empty_situation(tmp_path, monkeypatch, capsys):
+    monkeypatch.setattr(cli, "TEAMS_DIR", tmp_path / "teams")
+    monkeypatch.setattr(cli, "RUNS_DIR", tmp_path / "runs")
+    ws = tmp_path / "data"
+    ws.mkdir()
+    (ws / "note.md").write_text("메모", encoding="utf-8")
+    assert cli.main(["design", "요약해줘", "--demo", "--no-run", "--workspace", str(ws)]) == 0
+    from agent_factory.spec import load_team, save_team
+
+    saved = next((tmp_path / "teams" / "local").glob("*.yaml"))
+    assert load_team(saved).workspace == str(ws.resolve())
+    t = load_team(saved)
+    t.situation = ""
+    save_team(t, tmp_path / "teams" / "local" / "blank.yaml")
+    assert cli.main(["list"]) == 0
+    assert "blank" in capsys.readouterr().out

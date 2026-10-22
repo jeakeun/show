@@ -1,3 +1,5 @@
+import time
+
 import pytest
 
 from agent_factory import tools as T
@@ -91,3 +93,77 @@ def test_external_tool_needs_human(ws):
         assert not err and sent == [1]
     finally:
         T.TOOLS.pop("send_test")
+
+
+# ---- 검토 지적 반영 확인 -------------------------------------------------
+
+def test_symlink_out_of_workspace_is_not_followed(ws, ws_dir, tmp_path):
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    (outside / "private.txt").write_text("PRIVATE bank pin 1234", encoding="utf-8")
+    (ws_dir / "link").symlink_to(outside, target_is_directory=True)
+    assert "private" not in T.list_files(ws, {})
+    assert "PRIVATE" not in T.search_files(ws, {"query": "pin"})
+    with pytest.raises(T.ToolError):
+        T.read_file(ws, {"path": "link/private.txt"})
+
+
+@pytest.mark.parametrize("rel", ["secret/notes.txt", "my-secrets/x.txt", "credentials/gcp.json", "keys/x.json",
+                                 ".npmrc", ".claude/settings.local.json", "api_keys.txt", "apikey.txt",
+                                 "oauth.json", "cookies.txt", "zipga/uploader/config.json"])
+def test_secret_paths_blocked_on_direct_read(ws, ws_dir, rel):
+    f = ws_dir / rel
+    f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text("sk-secret", encoding="utf-8")
+    with pytest.raises(T.ToolError):
+        T.read_file(ws, {"path": rel})
+    assert "찾지 못함" in T.search_files(ws, {"query": "sk-secret"})
+
+
+def test_workspace_inside_secret_folder_refused(tmp_path):
+    d = tmp_path / "secrets"
+    d.mkdir()
+    with pytest.raises(T.ToolError):
+        Workspace(d, tmp_path / "out")
+
+
+@pytest.mark.parametrize("rel", ["\\\\host\\share\\x.txt", "//host/share/x.txt", "C:\\Windows\\x.txt", "C:x.txt",
+                                 "a.md:stream", ".env::$DATA", "sub/../a.md", "sub\\..\\a.md"])
+def test_unsafe_relative_paths_rejected_before_touching_disk(ws, rel):
+    with pytest.raises(T.ToolError):
+        T.read_file(ws, {"path": rel})
+
+
+def test_read_file_continuation_never_skips_lines(ws, ws_dir):
+    (ws_dir / "long.txt").write_text("\n".join(f"{i:04d}" + "x" * 296 for i in range(1, 1001)), encoding="utf-8")
+    seen, start = [], 1
+    for _ in range(50):
+        out = T.read_file(ws, {"path": "long.txt", "start_line": start, "max_lines": 2000})
+        body = [ln for ln in out.splitlines() if not ln.startswith("...")]
+        seen += [int(ln.split(":")[0]) for ln in body]
+        if "start_line=" not in out:
+            break
+        start = int(out.rsplit("start_line=", 1)[1].rstrip(")"))
+    assert seen == list(range(1, 1001))
+    assert "줄까지" in T.read_file(ws, {"path": "a.md", "start_line": 99})
+
+
+def test_big_files_are_not_read(ws, ws_dir):
+    (ws_dir / "huge.txt").write_bytes(b"a" * (T.MAX_FILE_BYTES + 1))
+    with pytest.raises(T.ToolError):
+        T.read_file(ws, {"path": "huge.txt"})
+    T.search_files(ws, {"query": "aaa"})  # 큰 파일은 건너뛰고 오류 없음
+
+
+@pytest.mark.parametrize("expr", ["round(1, -10**100)", "round(1, 2.5)", "(-8)**0.5", "10**60", "1" + "0" * 60])
+def test_calculate_rejects_slow_or_weird(expr):
+    t0 = time.time()
+    with pytest.raises(T.ToolError):
+        T.calculate(None, {"expression": expr})
+    assert time.time() - t0 < 1
+
+
+@pytest.mark.parametrize("name", ["NUL.md", "con.txt", "x.md.", "LPT1.json"])
+def test_save_rejects_windows_special_names(ws, name):
+    with pytest.raises(T.ToolError):
+        T.save_file(ws, {"filename": name, "content": "x"})

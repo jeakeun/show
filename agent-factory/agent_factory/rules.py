@@ -10,7 +10,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 
-from .llm import MODELS
 from .spec import TeamSpec
 from .tools import TOOLS
 
@@ -60,15 +59,22 @@ RULES = [
          "마지막 단계는 1명이다. 앞 단계 결과를 하나로 합치는 사람이 있어야 한다.",
          "여럿이 같은 결과물을 동시에 쓰면 말투·주장이 어긋난다."),
     Rule("R09", "검토자 분리",
-         f"검토자는 쓰기·외부 행동 도구가 없고, 통과 기준이 1개 이상이며, 검토 횟수는 1~{MAX_ROUNDS}회.",
-         "만든 쪽과 검사하는 쪽을 나눈다. 같은 맥락에서는 자기 결과에 관대해진다 (ADR-05)."),
+         f"검토자는 쓰기·외부 행동 도구와 웹 검색이 없고, 통과 기준이 1개 이상이며, 검토 횟수는 1~{MAX_ROUNDS}회"
+         "(1이면 판정만 하고 다시 쓰지 않음).",
+         "만든 쪽과 검사하는 쪽을 나눈다. 같은 맥락에서는 자기 결과에 관대해진다 (ADR-05). "
+         "검토 판정은 정해진 형식(JSON)으로 받는데 웹 검색의 인용 기능과 같이 쓸 수 없다."),
     Rule("R10", "반복 상한",
          f"각 에이전트의 max_turns 는 1~{MAX_TURNS}.",
          "끝없이 도는 루프를 막는다."),
     Rule("R11", "예산 상한",
          f"budget_usd 는 0보다 크고 {MAX_BUDGET_USD} 이하.",
          "비용은 호출마다 기록하고 상한을 넘으면 멈춘다 (ADR-08)."),
+    Rule("R12", "웹과 내 파일은 따로",
+         "web_search 를 가진 에이전트는 작업 폴더 읽기 도구(list_files·read_file·search_files)를 같이 가지지 않는다. "
+         "웹 조사와 파일 조사는 다른 에이전트로 나눈다.",
+         "웹 페이지에 숨은 지시가 내 파일 내용을 검색어에 실어 밖으로 내보내는 길을 막는다."),
 ]
+WORKSPACE_READ_TOOLS = {"list_files", "read_file", "search_files"}
 
 
 @dataclass
@@ -85,6 +91,8 @@ def rules_text() -> str:
 
 
 def _writes(team: TeamSpec, name: str) -> bool:
+    if not team.has_agent(name):
+        return False
     a = team.agent(name)
     return any(TOOLS[t].risk in ("write", "external") for t in a.tools if t in TOOLS)
 
@@ -109,8 +117,6 @@ def check(team: TeamSpec) -> list[Finding]:
 
     # R02 모델·도구
     for a in team.agents:
-        if a.model not in MODELS:
-            bad("R02", f"{a.name}: 없는 모델 '{a.model}'")
         for t in a.tools:
             tool = TOOLS.get(t)
             if tool is None:
@@ -148,8 +154,8 @@ def check(team: TeamSpec) -> list[Finding]:
             bad("R04", f"'{n}' 은 어느 단계에도, 검토자로도 쓰이지 않습니다")
         elif c > 1:
             bad("R04", f"'{n}' 이 {c}번 나옵니다 (한 번만)")
-    if out and any(f.code in ("R01", "R04") for f in out):
-        return out  # 이름·배치가 틀리면 뒤 검사가 의미 없음
+    if not team.stages or not team.agents:
+        return out  # 빈 팀은 뒤 검사가 의미 없음
 
     # R05 혼자 먼저
     if len(team.agents) > 1:
@@ -182,6 +188,8 @@ def check(team: TeamSpec) -> list[Finding]:
         r = team.review
         if _writes(team, r.reviewer):
             bad("R09", f"검토자 {r.reviewer} 가 쓰기 도구를 가졌습니다")
+        if team.has_agent(r.reviewer) and "web_search" in team.agent(r.reviewer).tools:
+            bad("R09", f"검토자 {r.reviewer} 는 web_search 를 쓸 수 없습니다 (판정 형식과 함께 못 씀)")
         if not [c for c in r.criteria if c.strip()]:
             bad("R09", "검토 기준(criteria)이 없습니다")
         if not 1 <= r.max_rounds <= MAX_ROUNDS:
@@ -196,6 +204,12 @@ def check(team: TeamSpec) -> list[Finding]:
     if not 0 < team.budget_usd <= MAX_BUDGET_USD:
         bad("R11", f"예산 ${team.budget_usd} — 0 초과 ${MAX_BUDGET_USD} 이하")
 
+    # R12 웹과 내 파일은 따로
+    for a in team.agents:
+        both = WORKSPACE_READ_TOOLS & set(a.tools)
+        if "web_search" in a.tools and both:
+            bad("R12", f"{a.name}: web_search 와 {', '.join(sorted(both))} 를 같이 가졌습니다. 웹 조사와 파일 조사를 나누세요")
+
     return out
 
 
@@ -209,4 +223,6 @@ def warnings(team: TeamSpec) -> list[str]:
         w.append(f"opus {len(opus)}명({', '.join(opus)}): 단순한 칸은 sonnet/haiku 로 낮출 수 있는지 보세요.")
     if any("web_search" in a.tools for a in team.agents):
         w.append("웹 검색을 씁니다: 검색 1회 약 $0.01 + 검색 결과만큼 입력 비용이 더 듭니다.")
+    if not any("calculate" in a.tools for a in team.agents):
+        w.append("계산기(calculate)를 가진 에이전트가 없습니다. 숫자를 다루는 일이면 넣으세요 (숫자는 코드가 계산).")
     return w

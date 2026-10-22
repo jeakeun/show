@@ -132,3 +132,63 @@ def test_writer_saves_into_run_folder_only(ws_dir, tmp_path):
     res = go(t, ScriptedLLM(script), ws_dir, tmp_path)
     assert (res.run_dir / "files" / "report.md").read_text(encoding="utf-8") == "보고서"
     assert not (ws_dir / "report.md").exists()
+
+
+# ---- 검토 지적 반영 확인 -------------------------------------------------
+
+def test_parallel_then_parallel_runs_each_once_with_all_inputs(ws_dir, tmp_path):
+    t = team([agent("a1", READ), agent("a2", READ), agent("a3", READ), agent("b1", READ), agent("b2", READ),
+              agent("ww")], [["a1", "a2", "a3"], ["b1", "b2"], ["ww"]])
+    llm = ScriptedLLM(lambda who, m, *a: text(f"{who} 결과"))
+    res = go(t, llm, ws_dir, tmp_path)
+    whos = [c["who"] for c in llm.calls]
+    assert sorted(whos) == ["a1", "a2", "a3", "b1", "b2", "ww"]  # 중복 실행 없음
+    for c in llm.calls:
+        if c["who"] in ("b1", "b2"):
+            inp = first_user(c["messages"])
+            assert all(f"{x} 결과" in inp for x in ("a1", "a2", "a3")) and "결과 없음" not in inp
+    assert "b1 결과" in first_user([c for c in llm.calls if c["who"] == "ww"][0]["messages"])
+    assert res.final_text == "ww 결과"
+
+
+def test_parallel_budget_overshoot_is_bounded(ws_dir, tmp_path):
+    t = team([agent(f"p{i}", READ, model="opus") for i in range(4)] + [agent("ww", model="opus")],
+             [[f"p{i}" for i in range(4)], ["ww"]], budget_usd=0.05)
+
+    def script(who, *a):
+        time.sleep(0.05)
+        return text(who), Usage(input_tokens=10_000)  # 1회 $0.04
+
+    llm = ScriptedLLM(script, budget=0.05)
+    res = go(t, llm, ws_dir, tmp_path)
+    assert res.stopped and "예산" in res.stopped
+    assert llm.ledger.total_usd <= 0.05 + 0.04 + 1e-9  # 넘어도 호출 1번만큼만
+    assert len(llm.calls) == 2
+    saved = sorted((res.run_dir / "agents").glob("*.md"))
+    assert any("중단됨" in f.read_text(encoding="utf-8") for f in saved)  # 멈춘 에이전트도 기록이 남음
+
+
+def test_review_format_error_fails_open(ws_dir, tmp_path):
+    def script(who, messages, tools, schema, none):
+        return text("판정 대신 아무 글") if schema is ReviewVerdict else text(f"{who} 글")
+
+    res = go(review_team(), ScriptedLLM(script), ws_dir, tmp_path)
+    assert res.stopped is None and res.review_passed is None and res.final_text == "writer 글"
+    assert "판정을 내지 못해" in (res.run_dir / "result.md").read_text(encoding="utf-8")
+
+
+def test_stop_keeps_review_progress(ws_dir, tmp_path):
+    def script(who, messages, tools, schema, none):
+        if schema is ReviewVerdict:
+            return text(ReviewVerdict(passed=False, issues=["x"], summary="no").model_dump_json()), Usage()
+        if who == "writer" and "검토자가 고치라고" in first_user(messages):
+            return text("다시 씀"), Usage(input_tokens=100_000)
+        return text(f"{who}"), Usage()
+
+    t = review_team(rounds=3)
+    t.budget_usd = 0.1
+    llm = ScriptedLLM(script, budget=0.1)
+    llm.ledger.record("x", "sonnet", "claude-sonnet-5-5", Usage(input_tokens=40_000), "end_turn")  # 이미 $0.08 씀
+    res = go(t, llm, ws_dir, tmp_path)
+    assert res.stopped and res.review_rounds == 1  # 1회차 검토 → 다시 쓰기 → 2회차 전에 예산 초과
+    assert "미통과 (1회)" in (res.run_dir / "summary.md").read_text(encoding="utf-8")

@@ -111,3 +111,40 @@ def test_find_api_key_never_prints_value(monkeypatch, capsys):
     monkeypatch.setenv("ANTHROPIC_API_KEY", "sk-test-123")
     key, where = find_api_key()
     assert key == "sk-test-123" and "sk-" not in where
+
+
+def test_fallback_iterations_are_each_billed():
+    usage = {"iterations": [
+        {"type": "message", "model": "claude-opus-5-5", "input_tokens": 1000, "output_tokens": 500,
+         "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0},
+        {"type": "fallback_message", "model": "claude-opus-4-8", "input_tokens": 1000, "output_tokens": 100,
+         "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0},
+    ]}
+    llm = AnthropicLLM(Ledger(1), client=fake_client([msg([{"type": "text", "text": "ok"}], model="claude-opus-4-8",
+                                                          **usage)], []))
+    llm.chat(who="w", model="opus", system="s", messages=[{"role": "user", "content": "x"}])
+    expected = (1000 * 4 + 500 * 20) / 1e6 + (1000 * 5 + 100 * 25) / 1e6
+    assert llm.ledger.rows[0]["usd"] == pytest.approx(expected)
+
+
+def test_single_shot_call_skips_cache_write():
+    cap = []
+    llm = AnthropicLLM(Ledger(1), client=fake_client([msg([{"type": "text", "text": "ok"}])], cap))
+    llm.chat(who="c", model="opus", system="s", messages=[{"role": "user", "content": "x"}])
+    assert "cache_control" not in cap[0]["body"]
+
+
+def test_find_api_key_file_formats(tmp_path, monkeypatch):
+    from agent_factory.llm import find_api_key
+
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_AUTH_TOKEN", raising=False)
+    f = tmp_path / ".env"
+    f.write_bytes("# 한글 주석\nexport ANTHROPIC_API_KEY=\"sk-abc\" # 메모\n".encode("cp949"))
+    assert find_api_key([f]) == ("sk-abc", str(f))
+    g = tmp_path / "g.env"
+    g.write_text("ANTHROPIC_API_KEY=sk-plain # note\n", encoding="utf-8")
+    assert find_api_key([g])[0] == "sk-plain"
+    assert find_api_key([tmp_path / "none"]) == (None, "없음")
+    monkeypatch.setenv("ANTHROPIC_AUTH_TOKEN", "t")
+    assert find_api_key([tmp_path / "none"])[1] == "환경변수 ANTHROPIC_AUTH_TOKEN"

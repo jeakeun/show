@@ -14,7 +14,7 @@ from typing import Callable, Literal, Optional
 
 from pydantic import BaseModel, Field
 
-from .llm import BaseLLM, LLMError, model_catalog_text
+from .llm import MAX_TOKENS, BaseLLM, LLMError, Stopped, model_catalog_text
 from .rules import Finding, check, rules_text, warnings
 from .spec import TeamSpec, team_to_yaml
 from .tools import catalog_text
@@ -114,13 +114,16 @@ class _Conversation:
     def ask(self) -> TeamSpec:
         reply = self.llm.chat(
             who="designer", model=DESIGNER_MODEL, system=self.system, messages=self.messages,
-            output_schema=TeamSpec, effort="high",
+            output_schema=TeamSpec, effort="medium",  # high 는 생각 토큰이 출력 한도를 먹어 잘릴 위험 (ADR-08 9/13 사고)
         )
         self.messages.append({"role": "assistant", "content": reply.content})
+        if reply.stop_reason == "max_tokens":
+            raise DesignError(f"설계도가 출력 한도({MAX_TOKENS:,} 토큰)에 걸려 잘렸습니다. 상황 설명을 줄여 다시 시도하세요")
         if reply.parsed is None:
             raise DesignError(f"설계 에이전트가 설계도를 내지 못했습니다 ({reply.stop_reason}): {reply.text[:300]}")
         team: TeamSpec = reply.parsed
         team.situation = self.situation.strip()  # 상황은 사람이 쓴 그대로
+        team.workspace = ""  # 읽을 폴더는 사람이 정한다 (cli 가 채움)
         return team
 
     def tell(self, text: str) -> None:
@@ -171,9 +174,14 @@ def design_team(
     critique, applied = None, False
     if use_critic:
         say(f"검토 에이전트({CRITIC_MODEL})가 설계를 반박하는 중...")
-        critique = critique_team(llm, team)
-        log.append(f"검토 의견: {critique.verdict} / 문제 {len(critique.problems)}건 / 참고 {len(critique.notes)}건")
-        if critique.verdict == "revise" and critique.problems:
+        try:
+            critique = critique_team(llm, team)
+        except (LLMError, Stopped) as e:  # 검토가 실패해도 규칙을 통과한(이미 돈 낸) 설계는 버리지 않는다
+            log.append(f"검토 에이전트 실패 → 검토 없이 진행: {e}")
+            say(f"  검토 에이전트 실패 → 검토 없이 진행: {e}")
+        else:
+            log.append(f"검토 의견: {critique.verdict} / 문제 {len(critique.problems)}건 / 참고 {len(critique.notes)}건")
+        if critique is not None and critique.verdict == "revise" and critique.problems:
             say(f"  검토 지적 {len(critique.problems)}건 → 설계자가 고치는 중...")
             msg = "설계 검토자가 아래 문제를 지적했다. 맞는 지적은 반영하고 설계도 전체를 다시 내라.\n" + "\n".join(
                 f"- {p}" for p in critique.problems

@@ -12,27 +12,56 @@ from __future__ import annotations
 import ast
 import fnmatch
 import operator
+import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
 Risk = Literal["read", "write", "external"]
 
-# 경로 중 하나라도 이 이름이면 통째로 막는 폴더
-BLOCKED_DIRS = {"secrets", ".git", ".venv", "venv", "node_modules", "__pycache__", ".ssh"}
-# 파일 이름이 이 패턴이면 막는다 (대소문자 무시)
+# 경로 중 한 칸이라도 이 이름이면 막는 폴더. 점(.)으로 시작하는 칸도 전부 막는다 (.git .ssh .claude .npmrc ...)
+BLOCKED_DIRS = {"secrets", "keys", "venv", "node_modules", "__pycache__"}
+# 경로의 어느 칸이든 이 패턴이면 막는다 (대소문자 무시, 폴더 이름에도 적용)
 BLOCKED_FILES = [
-    ".env", ".env.*", "*.env", "*token*", "*secret*", "*password*", "*credential*",
-    "*.pem", "*.key", "*.p12", "*.pfx", "id_rsa*", "topic.txt", "*.kdbx",
+    "*.env", "*token*", "*secret*", "*password*", "*credential*", "*apikey*", "*api_key*", "*api-key*",
+    "*oauth*", "cookies*", "*.pem", "*.key", "*.p12", "*.pfx", "id_rsa*", "topic.txt", "*.kdbx",
 ]
+# 이름은 평범하지만 안에 키가 든 것으로 알려진 파일 (경로 끝부분 일치)
+BLOCKED_PATHS = ["uploader/config.json"]
+# 검색할 때 열어보지 않는 이진 파일 확장자
+BINARY_EXTS = {
+    ".mp4", ".mov", ".webm", ".mkv", ".avi", ".mp3", ".wav", ".flac", ".m4a", ".png", ".jpg", ".jpeg",
+    ".gif", ".webp", ".psd", ".zip", ".7z", ".rar", ".exe", ".dll", ".pdf", ".sqlite", ".db", ".pyc",
+}
 
 MAX_READ_CHARS = 60_000
+MAX_FILE_BYTES = 5_000_000
 MAX_LIST = 300
 MAX_HITS = 100
+
+_UNSAFE_REL = re.compile(r"^([\\/]|[A-Za-z]:)")
 
 
 class ToolError(Exception):
     pass
+
+
+def is_blocked(rel_path: Path) -> bool:
+    parts = [x.lower() for x in rel_path.parts]
+    for x in parts:
+        if x.startswith(".") or x in BLOCKED_DIRS or any(fnmatch.fnmatch(x, pat) for pat in BLOCKED_FILES):
+            return True
+    joined = "/".join(parts)
+    return any(joined == b or joined.endswith("/" + b) for b in BLOCKED_PATHS)
+
+
+def _is_link(p: Path) -> bool:
+    """바로가기(심볼릭 링크)·윈도우 정션은 따라가지 않는다."""
+    try:
+        return p.is_symlink() or bool(getattr(os.path, "isjunction", lambda _: False)(p))
+    except OSError:
+        return True
 
 
 @dataclass
@@ -45,9 +74,15 @@ class Workspace:
     def __post_init__(self):
         self.read_root = Path(self.read_root).resolve()
         self.out_dir = Path(self.out_dir).resolve()
+        bad = [x for x in self.read_root.parts if x.lower() in BLOCKED_DIRS or x.lower() in (".ssh", ".git")]
+        if bad:
+            raise ToolError(f"비밀 폴더 안을 작업 폴더로 쓸 수 없습니다: {self.read_root}")
 
     def resolve_read(self, rel: str) -> Path:
-        rel = (rel or ".").strip()
+        rel = str(rel or ".").strip()
+        # 절대 경로·드라이브(C:)·네트워크 경로(\\서버)·'..'·':'(윈도우 특수 경로)는 붙여 보기 전에 막는다
+        if _UNSAFE_REL.match(rel) or ":" in rel or ".." in re.split(r"[\\/]+", rel):
+            raise ToolError(f"작업 폴더 기준 상대 경로만 쓸 수 있습니다 ('..', 'C:', '\\\\' 금지): {rel}")
         p = (self.read_root / rel).resolve()
         if p != self.read_root and self.read_root not in p.parents:
             raise ToolError(f"작업 폴더 밖은 읽을 수 없습니다: {rel}")
@@ -59,18 +94,15 @@ class Workspace:
         return p.relative_to(self.read_root).as_posix() or "."
 
 
-def is_blocked(rel_path: Path) -> bool:
-    parts = [x.lower() for x in rel_path.parts]
-    if any(x in BLOCKED_DIRS for x in parts):
-        return True
-    name = rel_path.name.lower()
-    return any(fnmatch.fnmatch(name, pat) for pat in BLOCKED_FILES)
-
-
 def _read_text(p: Path) -> str:
-    data = p.read_bytes()
-    if b"\x00" in data[:4096]:
-        raise ToolError("글자 파일이 아닙니다 (이미지·영상 같은 이진 파일)")
+    size = p.stat().st_size
+    if size > MAX_FILE_BYTES:
+        raise ToolError(f"파일이 너무 큽니다 ({size:,} bytes, 최대 {MAX_FILE_BYTES:,})")
+    with p.open("rb") as f:
+        head = f.read(4096)
+        if b"\x00" in head:
+            raise ToolError("글자 파일이 아닙니다 (이미지·영상 같은 이진 파일)")
+        data = head + f.read()
     for enc in ("utf-8-sig", "cp949"):
         try:
             return data.decode(enc)
@@ -80,7 +112,7 @@ def _read_text(p: Path) -> str:
 
 
 def _walk(ws: Workspace, base: Path, pattern: str):
-    """막힌 폴더는 들어가지 않고, 막힌 파일은 건너뛰며 파일을 돌려준다."""
+    """막힌 폴더는 들어가지 않고, 막힌 파일·바로가기는 건너뛰며 파일을 돌려준다."""
     stack = [base]
     while stack:
         d = stack.pop()
@@ -89,13 +121,20 @@ def _walk(ws: Workspace, base: Path, pattern: str):
         except OSError:
             continue
         for e in entries:
-            relp = e.relative_to(ws.read_root)
-            if is_blocked(relp) or e.name.startswith("."):
+            if _is_link(e) or is_blocked(e.relative_to(ws.read_root)):
                 continue
             if e.is_dir():
                 stack.append(e)
             elif fnmatch.fnmatch(e.name.lower(), (pattern or "*").lower()):
                 yield e
+
+
+def _int_arg(args: dict, key: str, default: int) -> int:
+    v = args.get(key, default)
+    try:
+        return int(v if v not in (None, "") else default)
+    except (TypeError, ValueError):
+        raise ToolError(f"{key} 는 숫자여야 합니다: {v!r}") from None
 
 
 # ---------------------------------------------------------------- 도구 구현
@@ -117,18 +156,27 @@ def read_file(ws: Workspace, args: dict) -> str:
     p = ws.resolve_read(args.get("path", ""))
     if not p.is_file():
         raise ToolError(f"파일이 없습니다: {args.get('path')}")
-    text = _read_text(p)
-    lines = text.splitlines()
-    start = max(1, int(args.get("start_line", 1) or 1))
-    max_lines = max(1, min(int(args.get("max_lines", 400) or 400), 2000))
-    chunk = lines[start - 1 : start - 1 + max_lines]
-    out = "\n".join(f"{start + i}: {ln}" for i, ln in enumerate(chunk))
-    if len(out) > MAX_READ_CHARS:
-        out = out[:MAX_READ_CHARS] + "\n... (글자 수 한도로 잘림)"
-    end = start - 1 + len(chunk)
+    lines = _read_text(p).splitlines()
+    if not lines:
+        return "(빈 파일)"
+    start = max(1, _int_arg(args, "start_line", 1))
+    max_lines = max(1, min(_int_arg(args, "max_lines", 400), 2000))
+    if start > len(lines):
+        return f"(이 파일은 {len(lines)}줄까지입니다)"
+    out, used, end = [], 0, start - 1
+    for i in range(start - 1, min(len(lines), start - 1 + max_lines)):
+        ln = f"{i + 1}: {lines[i]}"
+        if len(ln) > MAX_READ_CHARS:
+            ln = ln[:MAX_READ_CHARS] + " …(이 줄은 너무 길어 뒤를 자름)"
+        if out and used + len(ln) + 1 > MAX_READ_CHARS:
+            break  # 줄 중간에서 자르지 않는다: 다음 읽기가 정확히 이어지게
+        out.append(ln)
+        used += len(ln) + 1
+        end = i + 1
+    text = "\n".join(out)
     if end < len(lines):
-        out += f"\n... (전체 {len(lines)}줄 중 {start}~{end}줄. 이어 읽으려면 start_line={end + 1})"
-    return out or "(빈 파일)"
+        text += f"\n... (전체 {len(lines)}줄 중 {start}~{end}줄. 이어 읽으려면 start_line={end + 1})"
+    return text
 
 
 def search_files(ws: Workspace, args: dict) -> str:
@@ -139,6 +187,8 @@ def search_files(ws: Workspace, args: dict) -> str:
     q = query.lower()
     hits = []
     for f in _walk(ws, base, args.get("pattern", "*")):
+        if f.suffix.lower() in BINARY_EXTS:
+            continue
         try:
             text = _read_text(f)
         except (ToolError, OSError):
@@ -158,22 +208,34 @@ _BINOPS = {
 }
 _UNARY = {ast.UAdd: operator.pos, ast.USub: operator.neg}
 _FUNCS = {"round": round, "abs": abs, "min": min, "max": max, "sum": lambda *a: sum(a)}
+MAX_ABS = 1e50  # 이보다 큰 수는 계산하지 않는다 (엄청 큰 수로 멈추게 하는 것 방지)
+
+
+def _num(v):
+    if isinstance(v, bool) or not isinstance(v, (int, float)):
+        raise ToolError("실수 범위의 숫자만 계산합니다")
+    if abs(v) > MAX_ABS:
+        raise ToolError("숫자가 너무 큽니다")
+    return v
 
 
 def _eval(node):
     if isinstance(node, ast.Expression):
         return _eval(node.body)
     if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)) and not isinstance(node.value, bool):
-        return node.value
+        return _num(node.value)
     if isinstance(node, ast.BinOp) and type(node.op) in _BINOPS:
         left, right = _eval(node.left), _eval(node.right)
         if isinstance(node.op, ast.Pow) and (abs(right) > 100 or abs(left) > 1e6):
             raise ToolError("거듭제곱 숫자가 너무 큽니다")
-        return _BINOPS[type(node.op)](left, right)
+        return _num(_BINOPS[type(node.op)](left, right))
     if isinstance(node, ast.UnaryOp) and type(node.op) in _UNARY:
-        return _UNARY[type(node.op)](_eval(node.operand))
+        return _num(_UNARY[type(node.op)](_eval(node.operand)))
     if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in _FUNCS and not node.keywords:
-        return _FUNCS[node.func.id](*[_eval(a) for a in node.args])
+        args = [_eval(a) for a in node.args]
+        if node.func.id == "round" and len(args) == 2 and (not isinstance(args[1], int) or abs(args[1]) > 15):
+            raise ToolError("round 의 자릿수는 -15~15 정수만")
+        return _num(_FUNCS[node.func.id](*args))
     raise ToolError("숫자와 + - * / // % ** ( ) 와 round abs min max sum 만 쓸 수 있습니다. "
                     "천 단위 쉼표 없이 쓰세요 (1,000 → 1000)")
 
@@ -183,24 +245,28 @@ def calculate(ws: Workspace, args: dict) -> str:
     if len(expr) > 500:
         raise ToolError("식이 너무 깁니다")
     try:
-        tree = ast.parse(expr, mode="eval")
-        value = _eval(tree)
+        value = _eval(ast.parse(expr, mode="eval"))
     except ZeroDivisionError:
         raise ToolError("0으로 나눌 수 없습니다") from None
     except SyntaxError:
         raise ToolError(f"식을 이해하지 못했습니다: {expr}") from None
+    except (ValueError, TypeError, OverflowError) as e:
+        raise ToolError(f"계산할 수 없는 식입니다: {e}") from None
     if isinstance(value, float):
         value = round(value, 6)
     return f"{expr} = {value}"
 
 
 SAVE_EXTS = {".md", ".txt", ".csv", ".json", ".yaml", ".yml", ".html"}
+_WIN_RESERVED = {"CON", "PRN", "AUX", "NUL", *(f"COM{i}" for i in range(1, 10)), *(f"LPT{i}" for i in range(1, 10))}
 
 
 def save_file(ws: Workspace, args: dict) -> str:
     name = str(args.get("filename", "")).strip()
-    if not name or "/" in name or "\\" in name or name.startswith(".") or ":" in name:
+    if not name or "/" in name or "\\" in name or name.startswith(".") or ":" in name or name.endswith((".", " ")):
         raise ToolError("filename 은 폴더 없이 파일 이름만 씁니다. 예: report.md")
+    if Path(name).stem.upper() in _WIN_RESERVED:
+        raise ToolError(f"윈도우에서 쓸 수 없는 파일 이름입니다: {name}")
     if Path(name).suffix.lower() not in SAVE_EXTS:
         raise ToolError(f"저장할 수 있는 확장자: {', '.join(sorted(SAVE_EXTS))}")
     content = str(args.get("content", ""))
@@ -300,8 +366,8 @@ register(Tool(
 ))
 register(Tool(
     name="web_search", risk="read",
-    summary="웹 검색 (앤트로픽 서버에서 실행, 1회 약 $0.01, 에이전트당 최대 5회)",
-    server_def={"type": "web_search_20260209", "name": "web_search", "max_uses": 5},
+    summary="웹 검색 (앤트로픽 서버에서 실행, 1회 약 $0.01, 모델 호출 1번당 최대 3회)",
+    server_def={"type": "web_search_20260209", "name": "web_search", "max_uses": 3},
     models={"opus", "sonnet"},
     note="haiku 에서는 못 씀",
 ))
