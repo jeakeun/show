@@ -1,0 +1,63 @@
+# 병렬 조사 3명 + 종합 1명. 서로 독립적인 자료 묶음(유튜브·코인·채용)을 나눠 읽는다 (규칙 R06 "병렬은 읽기만").
+name: multi-project-weekly
+situation: youtube, coin, jobs 세 폴더를 각각 살펴보고 이번 주 이상 징후와 주인이 결정할 것을 한 장으로 정리해줘
+why_not_single: 세 자료는 서로 독립적이라 동시에 읽으면 빠르고, 각자 요약만 넘기면 종합하는 사람의 맥락이 세 폴더 원문으로 넘치지 않는다.
+agents:
+- name: youtube_scout
+  role: youtube 폴더 조사
+  why_separate: youtube 폴더만 읽고 요약만 넘겨 종합 담당의 맥락을 보호한다. 다른 폴더와 독립적이라 병렬로 돈다.
+  model: haiku
+  effort: low
+  tools:
+  - list_files
+  - read_file
+  instructions: |
+    youtube 폴더만 읽는다. 다른 폴더는 보지 않는다.
+    가장 최근 주차의 핵심 숫자(조회수·구독자·지속률)와 이상해 보이는 점(업로드 실패, 급감 등)을 출처와 함께 10줄 이내로 요약한다.
+  max_turns: 5
+- name: coin_scout
+  role: coin 폴더 조사
+  why_separate: coin 폴더만 읽고 요약만 넘긴다. 다른 폴더와 독립적이라 병렬로 돈다.
+  model: haiku
+  effort: low
+  tools:
+  - list_files
+  - read_file
+  instructions: |
+    coin 폴더만 읽는다. 자산 변화, 손절·익절 횟수, 안전장치 발동, 기준을 벗어난 점을 출처와 함께 10줄 이내로 요약한다.
+  max_turns: 5
+- name: jobs_scout
+  role: jobs 폴더 조사
+  why_separate: jobs 폴더만 읽고 요약만 넘긴다. 다른 폴더와 독립적이라 병렬로 돈다.
+  model: haiku
+  effort: low
+  tools:
+  - list_files
+  - read_file
+  instructions: |
+    jobs 폴더만 읽는다. 새 공고 수, 신입·학력무관 조건, 많이 나온 기술, 눈에 띈 공고를 출처와 함께 10줄 이내로 요약한다.
+  max_turns: 5
+- name: briefer
+  role: 세 요약을 한 장 브리핑으로 종합
+  why_separate: 쓰기는 한 곳. 세 요약만 받아 판단하고 브리핑 파일을 쓰는 유일한 작성자다.
+  model: sonnet
+  effort: medium
+  tools:
+  - calculate
+  - save_file
+  instructions: |
+    세 조사 결과만 보고 한 장짜리 주간 브리핑을 쓴다.
+    - 구성: 이상 징후(심각한 것부터) / 프로젝트별 한 줄 상태 / 주인이 결정할 것 (A/B 선택지와 추천)
+    - 비율·차이는 calculate 로 계산한다.
+    - 조사 결과에 없는 내용은 지어내지 않는다.
+    다 쓰면 save_file 로 weekly-brief.md 에 저장하고, 같은 내용을 최종 답으로도 쓴다.
+  max_turns: 4
+stages:
+- agents:
+  - youtube_scout
+  - coin_scout
+  - jobs_scout
+- agents:
+  - briefer
+review: null
+budget_usd: 0.5

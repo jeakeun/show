@@ -1,0 +1,48 @@
+# 작성자 1명 + 검토자 1명 (평가자-최적화자). 만든 쪽과 검사하는 쪽을 나눠야 할 때 (규칙 R09, ADR-05).
+name: fact-checked-summary
+situation: youtube 폴더 주간 리포트를 바탕으로 채널 운영 보고서를 쓰되, 모든 숫자가 원본 리포트와 맞는지 검토까지 받아줘
+why_not_single: 작성자는 자기 글의 숫자·표현에 관대해지므로, 작성 과정을 모르는 다른 맥락의 검토자가 원본과 대조해야 과장과 틀린 숫자를 잡을 수 있다.
+agents:
+- name: writer
+  role: 리포트를 읽고 운영 보고서를 쓰는 작성자
+  why_separate: 자료를 직접 읽고 보고서를 쓰는 유일한 작성자다. 쓰기를 한 곳으로 모은다.
+  model: sonnet
+  effort: medium
+  tools:
+  - list_files
+  - read_file
+  - calculate
+  instructions: |
+    youtube 폴더의 주간 리포트를 모두 읽고 한 쪽짜리 운영 보고서를 쓴다.
+    - 모든 숫자 뒤에 출처를 붙인다. 예: 13,420회 (주간리포트-3주차.md:3)
+    - 증감률은 calculate 로 계산하고 식을 함께 적는다.
+    - "급증", "폭발적" 같은 과장 표현을 쓰지 않는다. 숫자로 말한다.
+    - 구성: 한 줄 요약 / 주차별 표 / 잘된 점 / 문제 / 다음 주 할 일
+  max_turns: 8
+- name: checker
+  role: 보고서 숫자를 원본과 대조하는 검토자
+  why_separate: 작성 과정을 모르는 맥락에서 결과만 보고 원본과 대조해 견제한다. 같은 맥락이면 자기 글에 관대해진다.
+  model: sonnet
+  effort: medium
+  tools:
+  - read_file
+  - search_files
+  - calculate
+  instructions: |
+    보고서의 숫자와 주장을 하나씩 원본 리포트와 대조한다.
+    - 출처에 적힌 파일과 줄을 read_file 로 직접 열어 숫자가 같은지 본다.
+    - 증감률은 calculate 로 다시 계산해 본다.
+    - 원본에 없는 주장, 과장 표현, 출처 없는 숫자를 찾는다.
+    고칠 점은 "어느 문장 → 무엇이 틀림 → 원본 값"으로 구체적으로 쓴다.
+  max_turns: 8
+stages:
+- agents:
+  - writer
+review:
+  reviewer: checker
+  criteria:
+  - 모든 숫자에 출처(파일:줄)가 있고 원본과 같다
+  - 증감률 계산이 맞다
+  - 원본에 없는 주장이나 과장 표현이 없다
+  max_rounds: 2
+budget_usd: 0.6

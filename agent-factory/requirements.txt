@@ -1,0 +1,6 @@
+# 2026-10-22 이 버전으로 테스트 72개 통과 확인 (python 3.13, 메인 PC는 3.12)
+anthropic==2.1.0
+langgraph==1.2.16
+pydantic==2.14.1
+PyYAML==6.0.3
+pytest==9.1.1

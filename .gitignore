@@ -30,3 +30,6 @@ zipga-marketing/teaser/_tmp*/
 support-yr-makeup/
 # 드라이브 점검 리포트 (개인 경로 목록, 공개 저장소라 금지)
 드라이브점검-*.md
+
+# 에이전트 공장 실행 기록 (실행할 때마다 쌓임, 작업 폴더 내용이 들어갈 수 있어 공개 저장소에 올리지 않음)
+agent-factory/runs/

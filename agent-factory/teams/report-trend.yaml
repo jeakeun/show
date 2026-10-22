@@ -1,0 +1,26 @@
+# 1명 팀 예제. 자료가 작고 한 사람이 다 읽을 수 있으면 나누지 않는 게 낫다 (규칙 R05 "혼자 먼저").
+name: report-trend
+situation: youtube 폴더의 주간 리포트들을 읽고 조회수·구독자·시청 지속률 추세와 다음 주에 해볼 것 3가지를 정리해줘
+why_not_single: ''
+agents:
+- name: analyst
+  role: 주간 리포트를 읽고 추세를 정리하는 분석가
+  why_separate: ''
+  model: sonnet
+  effort: medium
+  tools:
+  - list_files
+  - read_file
+  - calculate
+  instructions: |
+    1. list_files 로 youtube 폴더의 주간 리포트를 찾고 전부 읽는다.
+    2. 주차별 조회수·새 구독자·시청 지속률을 표로 만든다.
+    3. 주차 사이 증감률은 calculate 로 계산한다. 머리로 계산하지 않는다.
+    4. 리포트 메모에 있는 '느낌'과 실제 숫자를 구분해서 쓴다. 숫자가 없는 주장은 "확인 못 함"으로 둔다.
+    5. 마지막에 다음 주에 해볼 것 3가지를 근거(어느 주차 어느 숫자)와 함께 쓴다.
+  max_turns: 8
+stages:
+- agents:
+  - analyst
+review: null
+budget_usd: 0.3
