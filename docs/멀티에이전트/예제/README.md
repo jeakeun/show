@@ -14,11 +14,13 @@
 
 ## 메인 PC에서 실행하는 법
 
+가상환경은 OneDrive 밖(D 드라이브)에 만듭니다. OneDrive가 파일을 클라우드 전용으로 바꿔 아침 실행이 실패한 적이 있어서, 자동화 폴더도 OneDrive 밖으로 옮겼습니다(8/07).
+
 ```
+py -3 -m venv D:\study-venv
 cd C:\Users\User\OneDrive\Desktop\show\docs\멀티에이전트\예제
-py -3 -m venv .venv
-.venv\Scripts\pip install -r requirements.txt
-.venv\Scripts\python 01_review_loop.py
+D:\study-venv\Scripts\pip install -r requirements.txt
+D:\study-venv\Scripts\python 01_review_loop.py
 ```
 
 공부할 때는 결과만 보지 말고, 코드에서 한 줄씩 바꿔보며 결과가 어떻게 달라지는지 봅니다.

@@ -16,6 +16,7 @@ structured = splitter.split_documents(by_header)                            # �
 print(f"글자 수로만: {len(blind)}조각 / 제목 기준: {len(by_header)}조각 / 제목 기준+500자: {len(structured)}조각")
 print("제목 기준 조각에 붙은 정보:", structured[5].metadata)
 print("글자 수로만 자른 조각에 붙은 정보:", blind[5].metadata or "(없음)")
+print("글자 수로만 자른 조각 중 본문에 ## ADR 제목 줄이 있는 것:", sum("## ADR" in d.page_content for d in blind), "/", len(blind))
 
 q = "사람 승인은 어디에 두나"
 fake = InMemoryVectorStore.from_documents(structured, DeterministicFakeEmbedding(size=64))
@@ -33,3 +34,10 @@ with_title = [Document(page_content=f"[{d.metadata.get('h2', '')}]\n{d.page_cont
               for d in structured]
 bm25_t = BM25Retriever.from_documents(with_title, preprocess_func=ko_tokens, k=3)
 print("제목 붙인 뒤 BM25 상위 3:", [d.metadata.get("h2") for d in bm25_t.invoke(q)])
+
+# 비교: 글자 수로만 자른 조각(제목 줄이 본문에 남음), 제목 기준이지만 제목을 본문에 남기는 설정(strip_headers=False)
+first_line = lambda d: d.metadata.get("h2") or d.page_content.strip().split("\n")[0][:30]
+bm25_blind = BM25Retriever.from_documents(blind, preprocess_func=ko_tokens, k=3)
+print("글자 수로만 BM25 상위 3:", [first_line(d) for d in bm25_blind.invoke(q)])
+kept = splitter.split_documents(MarkdownHeaderTextSplitter([("#", "h1"), ("##", "h2")], strip_headers=False).split_text(text))
+print("strip_headers=False BM25 상위 3:", [d.metadata.get("h2") for d in BM25Retriever.from_documents(kept, preprocess_func=ko_tokens, k=3).invoke(q)])

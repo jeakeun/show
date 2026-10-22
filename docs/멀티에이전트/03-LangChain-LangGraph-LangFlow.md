@@ -2,6 +2,10 @@
 
 > 확인한 버전: langchain 1.4.7, langgraph 1.2.16 (2026-10-22 설치 기준).
 > 아래 예제 코드는 실제로 실행해서 확인했습니다. 실행 파일은 [예제/](예제/) 폴더에 있습니다.
+> 예제는 실제 모델 대신 시험용 가짜 모델과 단순 함수로 **구조만** 확인한 학습용입니다.
+>
+> 이 문서에서 "내가 만든 것"은 운영자인 내가 설계·운영하고 클로드 코딩 에이전트가 구현한 것을 말합니다.
+> 면접에서는 "설계하고 운영했으며, 구현은 AI 코딩 도구와 함께 했다"고 정확히 말합니다.
 
 ## 1. 세 가지의 관계
 
@@ -24,7 +28,7 @@
 |---|---|---|
 | **모델** | `"anthropic:모델이름"` 처럼 공급사만 바꾸면 같은 코드로 다른 회사 모델 사용 | 지금은 앤트로픽·제미나이를 각자 다른 코드로 부름 |
 | **도구 (Tool)** | 파이썬 함수에 `@tool` 을 붙이면 AI가 부를 수 있는 도구가 됨. **함수 설명문이 곧 AI가 읽는 사용설명서** | AI데일리 헤드리스 실행의 허용 도구 목록 |
-| **에이전트** | `create_agent(model, tools, system_prompt)` → 생각·도구 호출·결과 확인 루프가 자동 | 내가 직접 짠 대본 생성 루프 |
+| **에이전트** | `create_agent(model, tools, system_prompt)` → 생각·도구 호출·결과 확인 루프가 자동 | 유튜브 대본 생성은 클로드 API를 직접 호출 (서버 쪽 웹 검색 도구 사용) |
 | **미들웨어** | 루프 중간에 끼우는 규칙 | 아래 표 |
 | **RAG 부품** | 문서 로더, 텍스트 분할기, 임베딩, 벡터 저장소, 검색기 | → [04-RAG.md](04-RAG.md) |
 
@@ -32,30 +36,31 @@
 
 | LangChain 미들웨어 (1.4.7에 실제로 있음) | 하는 일 | 내가 직접 만든 것 |
 |---|---|---|
-| `HumanInTheLoopMiddleware` | 지정한 도구를 부르기 전에 멈추고 사람 승인 | 승인 대기 파일 + `src.approve` |
-| `ModelCallLimitMiddleware`, `ToolCallLimitMiddleware` | 호출 횟수 상한 | 대본 재생성 2회 상한 |
-| `ModelFallbackMiddleware` | 모델이 실패하면 다른 모델로 | 검수 장애 시 통과(fail-open), 예비 대본 |
-| `ModelRetryMiddleware`, `ToolRetryMiddleware` | 실패 시 재시도 | 업로드 5회 백오프 |
+| `HumanInTheLoopMiddleware` | 지정한 도구를 부르기 전에 멈추고 사람 승인 | 승인 대기 파일 + `src.approve` (9/7~9/20. 9/21부터는 자동 적용 후 보고, 설정 스위치로 복귀 가능) |
+| `ModelCallLimitMiddleware`, `ToolCallLimitMiddleware` | 호출 횟수 상한 | 대본 시도 2회(재생성 1회) 상한 |
+| `ModelFallbackMiddleware` | 모델 호출이 오류 나면 다른 모델로 바꿔 다시 부름 | **목적만 비슷함.** 내 시스템은 모델을 바꾸지 않고, 검수 장애 시 통과(fail-open)하거나 예비 대본으로 대체함. LangGraph에서는 갈림길·대체 노드로 구현할 일 |
+| `ModelRetryMiddleware`, `ToolRetryMiddleware` | 실패 시 재시도 | 해외 채널 업로드 5회 백오프 |
 | `SummarizationMiddleware` | 대화가 길어지면 요약 | — |
 | `PIIMiddleware` | 개인정보 가리기 | — |
 
-**실제로 확인한 도구 + 에이전트 코드** ([예제/04_create_agent.py](예제/04_create_agent.py))
+**도구 + 에이전트 코드** ([예제/04_create_agent.py](예제/04_create_agent.py))
 
 ```python
 from langchain.tools import tool
 from langchain.agents import create_agent
 
 @tool
-def query_hub(sql: str) -> str:
-    """공유 DB(hub.sqlite)에 읽기 전용 SQL을 실행해 결과를 돌려준다."""
-    ...
+def get_weekly_views(week_start: str) -> str:
+    """week_start(YYYY-MM-DD, 월요일)부터 7일간 채널 조회수 합계를 돌려준다. 읽기 전용."""
+    ...   # 자유 SQL이 아니라 정해진 쿼리에 날짜만 넣음 (05 문서 원칙 2)
 
-agent = create_agent(model="anthropic:모델이름", tools=[query_hub],
+agent = create_agent(model=model, tools=[get_weekly_views],
                      system_prompt="너는 운영 비서다.")
 agent.invoke({"messages": [{"role": "user", "content": "지난주 조회수?"}]})
 ```
 
-실행 흐름은 `사용자 질문 → AI(도구 호출 결정) → 도구 결과 → AI(최종 답)` 이었습니다. 이 반복이 에이전트 루프입니다.
+- 실행은 시험용 가짜 모델로 확인했습니다. 실제 모델을 쓰려면 `model="anthropic:모델이름"` 처럼 넘기고, `langchain-anthropic` 설치와 API 키가 필요합니다.
+- 실행 흐름은 `사용자 질문 → AI(도구 호출 결정) → 도구 결과 → AI(최종 답)` 이었습니다. 이 반복이 에이전트 루프입니다.
 
 ## 3. LangGraph 핵심 개념
 
@@ -66,14 +71,15 @@ agent.invoke({"messages": [{"role": "user", "content": "지난주 조회수?"}]}
 | **Edge (엣지)** | 다음 단계로 가는 화살표 | 파이프라인 순서 |
 | **Conditional edge** | 상태를 보고 갈 곳을 고르는 갈림길 | 차단급이면 재생성, 2연속이면 예비 대본 |
 | **Checkpointer** | 단계마다 상태를 저장. 멈췄다 재개, 되감기 | `playbook_history` 이전본 보관 |
-| **interrupt** | 사람 입력을 기다리며 멈춤. `Command(resume=...)` 로 재개 | 승인 대기 파일 + "적용해" |
-| **Send** | 같은 작업을 여러 개로 나눠 병렬 실행 | 감사 에이전트 3기 |
-| **Reducer** | 병렬 결과를 합치는 규칙 (예: 리스트에 덧붙이기) | 감사 결과 모으기 |
+| **interrupt** | 사람 입력을 기다리며 멈춤. `Command(resume=...)` 로 재개하면 **그 노드를 처음부터 다시 실행** | 승인 대기 파일 + "적용해" (9/7~9/20) |
+| **Send** | 같은 작업을 여러 개로 나눠 병렬 실행 | 8/27 1회성 감사에서 읽기 전용 에이전트 3기를 병렬로 돌려봄 (코드로 만든 기능은 아님) |
+| **Reducer** | 병렬 결과를 합치는 규칙 (예: 리스트에 덧붙이기) | — |
 | **Command** | "상태 갱신 + 다음 행선지"를 한 번에. 에이전트 사이 넘기기(handoff)에 사용 | — |
 
 ### 예제 1. 검수 루프 (평가자-최적화자) — [예제/01_review_loop.py](예제/01_review_loop.py)
 
-내 대본 검수 게이트를 LangGraph로 옮긴 것입니다.
+내 대본 검수 게이트의 **갈림길 구조만** 흉내 낸 학습 예제입니다.
+작성자는 정해진 문자열을 돌려주고, 검수는 "구독 멘트" 포함 여부만 봅니다. 실제 게이트의 경고급 규칙, 등급 낮춰 진행, fail-open은 없습니다.
 
 ```python
 def route(state):                     # 갈림길: 검수 결과를 보고 다음 행선지 결정
@@ -100,7 +106,8 @@ START → write → critique ─┬─ 통과 ──────────→ 
                           └─ 실패, 2회째 ────→ fallback → END
 ```
 
-실행 결과: 1차 대본은 "구독 멘트 누락"으로 실패하고, 2차에 통과해 업로드됐습니다 (`attempts: 2`).
+실행 결과: 최종 상태가 `attempts: 2, passed: True` 로, 1차는 실패하고 2차에 통과했습니다.
+최종 상태만 출력하므로 1차 실패 사유는 보이지 않습니다. 단계별로 보려면 `app.stream(...)` 을 씁니다.
 
 ### 예제 2. 사람 승인으로 멈췄다 재개 — [예제/02_human_approval.py](예제/02_human_approval.py)
 
@@ -115,7 +122,9 @@ app.invoke({}, config)                               # approve 에서 멈춤
 app.invoke(Command(resume="적용"), config)           # 같은 thread_id 로 재개
 ```
 
-- 실행 결과: 첫 호출은 `approve` 앞에서 멈췄고, `Command(resume="적용")` 으로 재개하자 `approved: True` 로 끝났습니다.
+- 실행 결과: 첫 호출은 `approve` 노드 안의 `interrupt` 에서 멈췄고(`next=('approve',)`), `Command(resume="적용")` 으로 재개하자 `approved: True` 로 끝났습니다.
+- **함정**: 재개하면 `approve` 노드가 **처음부터 다시 실행**되고, 이번에는 `interrupt()` 가 멈추는 대신 "적용"을 돌려줍니다.
+  그래서 `interrupt()` 앞에 메일 발송이나 DB 쓰기 같은 일을 두면 두 번 실행됩니다. 그런 일은 `interrupt()` 뒤나 다음 노드에 두거나, 두 번 실행돼도 괜찮게(멱등) 만듭니다.
 - `thread_id` 는 "어느 작업을 이어서 할지"를 가리키는 책갈피입니다.
 - `InMemorySaver` 는 프로그램을 끄면 기록이 사라지는 시험용입니다. 실제 운영에서는 DB에 저장하는 체크포인터를 씁니다.
 
@@ -149,17 +158,18 @@ g.add_edge("audit", "write_report")                  # 보고서 쓰기는 한 �
 
 | 필요했던 것 | 내가 직접 만든 방법 | LangGraph에서는 | 내 판단 |
 |---|---|---|---|
-| 재시도 상한 | 코드 카운터 (2회) | 상태 카운터 + 갈림길, 또는 호출 상한 미들웨어 | 기능은 같음. 그래프로 그려져서 남에게 설명하기 쉬움 |
-| 사람 승인 | 승인대기 파일 + 승인 명령 | `interrupt` + 체크포인터 + `Command(resume)` | LangGraph는 멈춘 지점에서 그대로 재개. 내 방식은 단순하고 파일로 추적하기 쉬움 |
+| 재시도 상한 | 코드 카운터 (시도 2회 = 재생성 1회) | 상태 카운터 + 갈림길, 또는 호출 상한 미들웨어 | 기능은 같음. 그래프로 그려져서 남에게 설명하기 쉬움 |
+| 사람 승인 | 승인대기 파일 + 승인 명령 (9/7~9/20 운영, 지금은 되돌릴 수 있는 건 자동 적용) | `interrupt` + 체크포인터 + `Command(resume)` | LangGraph는 같은 작업(thread)을 이어서 하되, 멈춘 노드는 처음부터 다시 실행. 내 방식은 단순하고 파일로 추적하기 쉬움 |
 | 이전본·되돌리기 | `playbook_history` 폴더 | 체크포인트 기록 (thread별) | 되감기가 표준 기능 |
-| 병렬 감사 | 서브에이전트 3기 | `Send` + reducer | 같음 |
+| 병렬 처리 | 8/27 1회성 감사에서 대화 안에서 3기 병렬 (코드화 안 됨) | `Send` + reducer | LangGraph로는 코드로 재현 가능한 기능이 됨 |
 | 실행 추적 | 로그 파일 + 폰 알림 + 비용 기록 | LangSmith | 단계별 입력·출력·토큰을 화면으로 봄 |
-| 실패 대체 | fail-open, 예비 대본 | `ModelFallbackMiddleware`, 갈림길 | 같음 |
-| 중간에 죽으면 | 스케줄러가 처음부터 다시 | 마지막 체크포인트부터 이어서 | LangGraph가 유리 |
+| 실패 대체 | fail-open, 예비 대본 | 갈림길·대체 노드 (`ModelFallbackMiddleware` 는 모델 교체용이라 다름) | 구현 방식이 다름 |
+| 중간에 죽으면 | 실패 알림 → 수동 재실행 (일부 중간 결과는 재사용) | 마지막 체크포인트부터 이어서 | LangGraph가 유리 |
 
 면접 한 줄:
-> "운영 중인 시스템에서 재시도 상한, 사람 승인, 이전본 보관, 병렬 감사를 직접 구현해봤기 때문에,
-> LangGraph의 상태·갈림길·체크포인터·interrupt·Send가 각각 어떤 문제를 푸는지 경험으로 압니다."
+> "운영 시스템에 재시도 상한, 사람 승인, 이전본 보관을 설계해서 넣어봤기 때문에,
+> LangGraph의 상태·갈림길·체크포인터·interrupt가 각각 어떤 문제를 푸는지 경험으로 압니다.
+> 반대로 중간에 죽었을 때 이어서 하기와 병렬 처리는 제 시스템에 코드로 없던 부분이라, LangGraph로 채워야 할 부분입니다."
 
 ## 6. 언제 LangGraph를 쓰고, 언제 안 쓰나
 
@@ -176,7 +186,7 @@ g.add_edge("audit", "write_report")                  # 보고서 쓰기는 한 �
 - 외부 의존성을 최소로 해야 할 때
 
 **주의**: LangChain은 1.0 전까지 버전마다 바뀌는 게 많기로 유명했습니다. 1.0부터 안정성을 약속했지만, 예제를 볼 때 **버전부터 확인하는 습관**이 필요합니다.
-예: `create_react_agent`(옛 방식) → `create_agent`(1.0 방식).
+예: `langgraph.prebuilt.create_react_agent`(LangGraph 1.0에서 지원 중단 예고) → `langchain.agents.create_agent`(1.0 방식).
 
 ## 7. LangFlow
 
@@ -203,8 +213,8 @@ LangGraph는 그 밑에서 도는 엔진으로, 상태·노드·엣지 그래프
 <details><summary>Q2. 왜 에이전트를 그래프로 설계하나요?</summary>
 
 상태가 어디서 바뀌고 어디로 갈라지는지가 그림으로 보여서 설계와 디버깅이 쉽습니다.
-단계마다 체크포인트가 남아 중간에 멈추거나 실패해도 그 지점부터 재개할 수 있습니다.
-제 유튜브 검수 게이트를 그래프로 옮겨보니 "작성 → 검수 → 통과/재작성/예비" 갈림길이 코드보다 훨씬 명확하게 드러났습니다.
+단계마다 체크포인트가 남아, 중간에 멈추거나 실패해도 같은 작업을 이어서 할 수 있습니다.
+제 유튜브 검수 게이트의 구조를 학습 예제로 그래프로 그려보니, "작성 → 검수 → 통과/재작성/예비" 갈림길이 한눈에 드러났습니다.
 </details>
 
 <details><summary>Q3. State는 어떻게 설계하나요?</summary>
@@ -218,7 +228,8 @@ LangGraph는 그 밑에서 도는 엔진으로, 상태·노드·엣지 그래프
 <details><summary>Q4. 사람 승인(Human-in-the-loop)은 어떻게 구현하나요?</summary>
 
 노드 안에서 `interrupt()` 를 부르면 상태가 체크포인터에 저장되고 멈춥니다.
-사람이 결정하면 같은 `thread_id` 로 `Command(resume=값)` 을 보내 그 지점부터 재개합니다.
+사람이 결정하면 같은 `thread_id` 로 `Command(resume=값)` 을 보내 재개합니다.
+이때 그 노드는 **처음부터 다시 실행**되고 `interrupt()` 가 사람의 값을 돌려줍니다. 그래서 `interrupt()` 앞에는 두 번 실행되면 안 되는 일을 두지 않습니다.
 도구 단위로 걸 때는 `HumanInTheLoopMiddleware` 로 특정 도구 호출 전에 멈추게 합니다.
 어디에 걸지는 제 운영 원칙대로 "되돌릴 수 없는 행동 앞"입니다.
 </details>
@@ -241,4 +252,5 @@ LangGraph는 그 밑에서 도는 엔진으로, 상태·노드·엣지 그래프
 2. LangChain Docs, [Interrupts](https://docs.langchain.com/oss/python/langgraph/interrupts) · [Persistence](https://docs.langchain.com/oss/python/langgraph/persistence)
 3. LangChain Docs, [Multi-agent (prebuilts)](https://docs.langchain.com/oss/python/multi-agent-prebuilts) · [Custom multi-agent](https://docs.langchain.com/oss/python/multi-agent-custom)
 4. LangChain Reference, [langgraph-supervisor](https://reference.langchain.com/python/langgraph-supervisor)
-5. IBM, [Langflow](https://www.ibm.com/products/langflow) · Langflow Docs, [lfx-mcp](https://docs.langflow.org/lfx-mcp)
+5. IBM, [Langflow](https://www.ibm.com/products/langflow) · Langflow Docs, [MCP server](https://docs.langflow.org/mcp-server)
+6. 설치한 langgraph 1.2.16의 `interrupt` 설명: "The graph resumes from the start of the node, re-executing all logic."
