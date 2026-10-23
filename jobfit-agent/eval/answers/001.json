@@ -1,0 +1,16 @@
+{
+  "posting_id": "001",
+  "requirements": [
+    {"id": "R1", "kind": "담당", "text": "LangChain(LangGraph, LangFlow 포함)과 LLM을 이용한 AI Agent 개발", "skills": ["LangChain", "LangGraph", "LangFlow", "LLM", "AI Agent"]},
+    {"id": "R2", "kind": "담당", "text": "Legacy System과 연계 (Agent Action에 필요한)", "skills": ["레거시 연계", "도구 호출"]},
+    {"id": "R3", "kind": "담당", "text": "RAG 구현", "skills": ["RAG"]},
+    {"id": "R4", "kind": "우대", "text": "LangChain(LangGraph, LangFlow 포함) 이용 개발 경험", "skills": ["LangChain", "LangGraph", "LangFlow"]},
+    {"id": "R5", "kind": "우대", "text": "RAG 구성 경험 (Chunking, Embedding, Vector 검색 등 포함)", "skills": ["Chunking", "Embedding", "Vector 검색"]},
+    {"id": "R6", "kind": "스킬", "text": "Python", "skills": ["Python"]}
+  ],
+  "excluded": [
+    {"text": "기타 AI Agent의 개발에 필요한 업무", "reason": "구체적인 요구가 없어 채점에서 제외"},
+    {"text": "스킬: LangChain, AI Agent", "reason": "R1·R4와 중복이라 합침"}
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}
