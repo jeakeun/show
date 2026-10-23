@@ -1,0 +1,6 @@
+# 2026-10-23 이 버전으로 테스트 통과 확인
+anthropic==2.1.0
+langgraph==1.2.16
+langchain-text-splitters==1.1.3
+rank-bm25==0.2.2
+pytest
