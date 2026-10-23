@@ -1,0 +1,158 @@
+{
+  "title": "첫 출근, 커피 한 잔의 악연",
+  "summary": "재벌가 막내딸 한서연은 '윤서연'이라는 가명으로 태일그룹 전략기획팀 계약직 비서로 첫 출근한다. 엘리베이터에서 내리다 팀장 강도현의 흰 셔츠에 커피를 쏟고, 선임 비서 차유나가 그녀를 계약직이라고 소개하자 도현은 '여긴 실수 한 번이면 끝'이라고 차갑게 경고한다. 그런데 서연이 떨어뜨린 손수건을 팀장실에서 집어 든 도현은 거기 수놓인 한서그룹 가문 문양을 알아보고 표정이 굳는다.",
+  "cliffhanger": "팀장실에서 서연의 손수건에 수놓인 한서그룹 문양을 발견한 도현이 \"계약직 비서가 이걸 왜...?\"라며 문 너머 서연을 노려본다.",
+  "shots": [
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon",
+        "dohyun"
+      ],
+      "action_ko": "엘리베이터 문이 열리자 커피를 들고 뛰어나오던 서연이 타려던 도현과 정면으로 부딪혀 그의 흰 셔츠에 커피를 쏟는다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: brushed steel elevator doors sliding open onto a modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Character 1: Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, tied in a low ponytail, wearing an ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings. Character 2: Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair, wearing a tailored charcoal-gray three-piece suit, crisp white dress shirt, dark navy silk tie, black leather oxford shoes, minimal black-strap watch. Action: the elevator doors open, the woman rushes out holding a paper coffee cup without a logo and collides head-on with the man stepping in; brown coffee splashes across his white shirt and vest; she gasps in shock. Camera: medium shot, quick slight push-in on impact, slow-motion splash for one beat. Sound: elevator chime, soft thud, liquid splash, her gasp. She says in Korean: \"어머! 죄송합니다!\"",
+      "dialogue": [
+        {
+          "speaker": "한서연",
+          "line": "어머! 죄송합니다!"
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "dohyun",
+        "seoyeon"
+      ],
+      "action_ko": "도현이 얼룩진 셔츠를 천천히 내려다본 뒤, 고개를 들어 서연을 얼음처럼 차갑게 노려본다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: elevator doorway of a modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Character: Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair, wearing a tailored charcoal-gray three-piece suit, crisp white dress shirt now stained with brown coffee, dark navy silk tie, black leather oxford shoes, minimal black-strap watch. In soft-focus foreground: Korean woman, 25 years old, slim petite build, long straight dark brown hair in a low ponytail with soft see-through bangs, ivory silk blouse, high-waist black pencil skirt. Action: he slowly looks down at the coffee stain, exhales quietly, then lifts his eyes to her with an icy, unblinking stare. Camera: close-up on his face, slow tilt from the stain up to his eyes. Sound: quiet office hum, a single tense low note. He says in Korean, low and cold: \"앞은 보고 다닙니까?\"",
+      "dialogue": [
+        {
+          "speaker": "강도현",
+          "line": "앞은 보고 다닙니까?"
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon",
+        "dohyun"
+      ],
+      "action_ko": "서연이 당황해 손수건으로 셔츠를 닦으려 하자 도현이 그녀의 손목을 잡아 밀어내고, 손수건이 바닥에 떨어진다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: elevator doorway of a modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Character 1: Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, tied in a low ponytail, wearing an ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings. Character 2: Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair, wearing a tailored charcoal-gray three-piece suit, coffee-stained crisp white dress shirt, dark navy silk tie, black leather oxford shoes, minimal black-strap watch. Action: she flusteredly presses a white silk handkerchief with a small gold embroidered floral crest against his shirt; he firmly catches her wrist and pushes her hand away; the handkerchief slips from her fingers and falls to the floor unnoticed. Camera: medium two-shot, then quick insert of the handkerchief drifting down. Sound: fabric rustle, soft drop. She says in Korean: \"세탁비 제가 드릴게요.\" He replies coldly in Korean: \"필요 없습니다.\"",
+      "dialogue": [
+        {
+          "speaker": "한서연",
+          "line": "세탁비 제가 드릴게요."
+        },
+        {
+          "speaker": "강도현",
+          "line": "필요 없습니다."
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "yuna",
+        "dohyun",
+        "seoyeon"
+      ],
+      "action_ko": "빨간 재킷의 유나가 걱정하는 척 다가와 도현을 챙기고, 서연을 힐끗 보며 계약직이라고 소개한다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: modern high-rise corporate open office near the elevator, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Character 1: Korean woman, 28 years old, slender tall build, 168cm, sharp heart-shaped face, cat-like upturned eyes with dark winged eyeliner, high nose, glossy red-coral lips, fair skin, shoulder-length wavy chestnut-brown hair with side part, wearing a fitted bright red blazer over black camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. Character 2: Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, narrow intense monolid-leaning eyes with straight thick eyebrows, short neat black hair with a clean side part swept back, wearing a tailored charcoal-gray three-piece suit, coffee-stained crisp white dress shirt, dark navy silk tie. Character 3 in background: Korean woman, 25 years old, slim petite build, long straight dark brown hair in a low ponytail with soft see-through bangs, ivory silk blouse, high-waist black pencil skirt, standing awkwardly. Action: the woman in red hurries over with clicking heels, sweetly fusses over the man with a worried face, then shoots a sly sideways glance at the young woman. Camera: medium shot tracking her approach, settling on a three-shot. Sound: stiletto heels clicking on the floor. She says in Korean, sugary sweet: \"팀장님! 괜찮으세요?\" then with a sly drawl: \"오늘 온 계약직 비서예요.\"",
+      "dialogue": [
+        {
+          "speaker": "차유나",
+          "line": "팀장님! 괜찮으세요?"
+        },
+        {
+          "speaker": "차유나",
+          "line": "오늘 온 계약직 비서예요."
+        }
+      ]
+    },
+    {
+      "seconds": 8,
+      "location_id": "office",
+      "character_ids": [
+        "dohyun",
+        "seoyeon"
+      ],
+      "action_ko": "'계약직'이라는 말에 도현이 서연에게 한 걸음 다가서며 낮고 차갑게 경고한다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Character 1: Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair, wearing a tailored charcoal-gray three-piece suit, coffee-stained crisp white dress shirt, dark navy silk tie, black leather oxford shoes, minimal black-strap watch. Character 2: Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, tied in a low ponytail, wearing an ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings. Action: he takes one slow step toward her, looking down from his height with cold contempt; she tilts her head up, startled but holding her ground. Camera: low-angle over-the-shoulder shot from behind her, slow push-in on his face. Sound: office noise fading to silence. He says in Korean, low and measured: \"계약직이라... 여긴 실수 한 번이면 끝입니다.\"",
+      "dialogue": [
+        {
+          "speaker": "강도현",
+          "line": "계약직이라..."
+        },
+        {
+          "speaker": "강도현",
+          "line": "여긴 실수 한 번이면 끝입니다."
+        }
+      ]
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon"
+      ],
+      "action_ko": "서연이 입술을 깨물고 고개를 숙였다가, 다시 고개를 들며 눈빛에 지지 않는 불꽃이 스친다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: modern high-rise corporate open office, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, softly blurred background, no visible signage. Character: Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, tied in a low ponytail, wearing an ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings. Action: she bites her lip and bows politely, then slowly raises her head; her eyes turn sharp and defiant with a faint confident smile. Camera: close-up, slow push-in to her eyes. Sound: a subtle rising string note. She says in Korean, polite but crisp: \"명심하겠습니다, 팀장님.\"",
+      "dialogue": [
+        {
+          "speaker": "한서연",
+          "line": "명심하겠습니다, 팀장님."
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "yuna",
+        "seoyeon"
+      ],
+      "action_ko": "도현이 떠나자 유나가 서연 귀에 바짝 다가와 비웃으며 속삭인다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Character 1: Korean woman, 28 years old, slender tall build, 168cm, sharp heart-shaped face, cat-like upturned eyes with dark winged eyeliner, high nose, glossy red-coral lips, fair skin, shoulder-length wavy chestnut-brown hair with side part, wearing a fitted bright red blazer over black camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. Character 2: Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, tied in a low ponytail, wearing an ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings. Action: the woman in red leans close to the younger woman's ear with a mocking smirk, arms crossed; the younger woman keeps a calm face, eyes steady. Camera: tight two-shot in profile, shallow focus shifting from the smirk to the calm eyes. Sound: low whisper, distant keyboard typing. She whispers in Korean with a sarcastic drawl: \"첫날부터 찍혔네? 오래 못 가겠다.\"",
+      "dialogue": [
+        {
+          "speaker": "차유나",
+          "line": "첫날부터 찍혔네?"
+        },
+        {
+          "speaker": "차유나",
+          "line": "오래 못 가겠다."
+        }
+      ]
+    },
+    {
+      "seconds": 9,
+      "location_id": "teamroom",
+      "character_ids": [
+        "dohyun"
+      ],
+      "action_ko": "팀장실에서 넥타이를 풀던 도현이 주워 온 손수건의 금색 가문 문양을 보고 얼어붙더니, 유리벽 너머를 날카롭게 노려본다.",
+      "prompt_en": "Cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos. Setting: private executive office enclosed by frosted glass walls, dark walnut desk, black leather chair, neat bookshelves, city view window behind the desk, warm desk lamp, sleek minimalist luxury. Character: Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair, wearing a tailored charcoal-gray three-piece suit, coffee-stained crisp white dress shirt, loosened dark navy silk tie, minimal black-strap watch. Action: standing by the desk, he loosens his tie, then unfolds a white silk handkerchief in his hand; he notices a small gold embroidered floral family crest with no letters, freezes, eyes narrowing in suspicion, then slowly turns his head toward the frosted glass wall. Camera: medium shot, cut to extreme close-up of the gold crest under warm lamp light, then slow push-in on his piercing eyes. Sound: silence, a deep suspenseful bass hit. He murmurs in Korean, low: \"이 문양... 계약직이 이걸 왜?\"",
+      "dialogue": [
+        {
+          "speaker": "강도현",
+          "line": "이 문양... 계약직이 이걸 왜?"
+        }
+      ]
+    }
+  ],
+  "caption_ko": "첫 출근날, 하필 커피를 쏟은 상대가 냉정한 팀장님이었다…☕\n그런데 그 팀장, 사실 집안끼리 정해 둔 내 약혼자라고?\n여러분이라면 '실수 한 번이면 끝'이란 말에 뭐라고 받아칠 건가요? 댓글로 알려주세요👇",
+  "hashtags": [
+    "#팀장님제가약혼녀인데요",
+    "#숏드라마",
+    "#재벌신분숨기기",
+    "#오피스로맨스",
+    "#1화"
+  ]
+}

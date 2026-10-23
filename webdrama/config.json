@@ -1,0 +1,36 @@
+{
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "fallback_env": "D:/yt-auto/secrets/.env",
+  "notify_dir": "D:/notify",
+
+  "episode_seconds": 60,
+  "shot_seconds_max": 10,
+  "season_episodes": 30,
+
+  "downloads_dir": "",
+  "bgm_dir": "D:/yt-auto/assets/bgm",
+  "bgm_volume": 0.07,
+  "subtitle_font": "Malgun Gothic",
+  "ending_text": "다음 화에 계속 ▶",
+
+  "publish_days": ["tue", "thu", "sat"],
+  "publish_time": "19:00",
+
+  "platforms": {
+    "youtube": {
+      "enabled": false,
+      "privacy": "public",
+      "client_secret": "D:/yt-auto/secrets/client_secret.json"
+    },
+    "instagram": {
+      "enabled": false,
+      "api_version": "v23.0"
+    },
+    "tiktok": {
+      "enabled": false,
+      "privacy_level": "SELF_ONLY",
+      "_note": "TikTok app audit before: only SELF_ONLY works. After audit set PUBLIC_TO_EVERYONE"
+    }
+  }
+}

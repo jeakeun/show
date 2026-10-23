@@ -1,0 +1,118 @@
+{
+  "title": "팀장님, 제가 약혼녀인데요",
+  "logline": "재벌가 막내딸 한서연이 신분을 숨기고 계약직 비서로 입사하지만, 자신을 무시하던 냉정한 팀장 강도현이 집안끼리 정해 둔 약혼자였다는 사실을 알게 되면서 정체를 숨긴 위험한 밀당이 시작된다.",
+  "genre": "오피스 로맨스 / 재벌 신분 숨기기 / 막장 반전 드라마",
+  "tone": "빠른 전개의 설렘과 긴장, 매회 반전과 사이다 한 방, 냉정한 남주와 당찬 여주의 티키타카",
+  "visual_style_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos",
+  "characters": [
+    {
+      "id": "seoyeon",
+      "name": "한서연",
+      "role": "주인공. 한서그룹 막내딸. 정략결혼을 피하고 실력을 증명하려 '윤서연'이라는 가명으로 태일그룹 전략기획팀 계약직 비서로 입사",
+      "age": 25,
+      "personality": "당차고 눈치 빠르며 부당한 일엔 참지 않는다. 겉으론 순한 신입처럼 굴지만 위기 때 재벌가 특유의 배짱이 튀어나온다.",
+      "look_en": "Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, usually tied in a low ponytail at work",
+      "outfit_en": "modest office look: ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings",
+      "voice_en": "clear bright young female voice, polite and soft at first but turns crisp and firm when angry"
+    },
+    {
+      "id": "dohyun",
+      "name": "강도현",
+      "role": "남주인공. 태일그룹 회장의 장남이자 전략기획팀 팀장. 서연의 정략 약혼자지만 서로 얼굴을 모른 채 맞선을 계속 피해 왔다",
+      "age": 31,
+      "personality": "완벽주의에 냉정하고 말수가 적다. 계약직을 대놓고 무시하지만 사실은 사람을 오래 지켜보고 판단하는 타입. 마음을 열면 직진한다.",
+      "look_en": "Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair",
+      "outfit_en": "tailored charcoal-gray three-piece suit, crisp white dress shirt, dark navy silk tie, black leather oxford shoes, minimal black-strap watch",
+      "voice_en": "low deep calm male voice, cold and measured, rarely raises it, slight warmth slips through when serious"
+    },
+    {
+      "id": "yuna",
+      "name": "차유나",
+      "role": "악역. 전략기획팀 선임 비서. 도현을 노리며 서연을 눈엣가시로 여겨 끊임없이 함정을 판다",
+      "age": 28,
+      "personality": "상사 앞에선 상냥하고 뒤에선 교활하다. 질투심과 출세욕이 강하고 남의 약점을 캐는 데 능하다.",
+      "look_en": "Korean woman, 28 years old, slender tall build, 168cm, sharp heart-shaped face, cat-like upturned eyes with dark winged eyeliner, high nose, glossy red-coral lips, fair skin, shoulder-length wavy chestnut-brown hair with side part",
+      "outfit_en": "fitted bright red blazer over black camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings",
+      "voice_en": "sweet high-pitched female voice with a sly sarcastic edge, drawls when mocking"
+    },
+    {
+      "id": "minjae",
+      "name": "서민재",
+      "role": "흑막. 새로 부임한 전략본부장. 서연의 정체를 단번에 알아보고 거래를 제안하며 도현의 후계 자리를 노린다",
+      "age": 33,
+      "personality": "늘 웃는 얼굴의 젠틀한 매너남이지만 속은 계산적이고 집요하다. 열등감과 야망을 숨기고 있다.",
+      "look_en": "Korean man, 33 years old, tall slim build, 182cm, soft oval face, gentle almond-shaped double-lidded eyes, thin silver round-frame glasses, constant faint smile, fair skin, medium-length brown hair with soft waves parted in the middle",
+      "outfit_en": "light beige double-breasted suit, pale blue shirt with open collar, no tie, brown leather loafers",
+      "voice_en": "smooth soft-spoken male voice, friendly and slow, quietly menacing underneath"
+    }
+  ],
+  "locations": [
+    {
+      "id": "office",
+      "name": "태일그룹 전략기획팀 사무실",
+      "look_en": "modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage"
+    },
+    {
+      "id": "teamroom",
+      "name": "팀장실",
+      "look_en": "private executive office enclosed by frosted glass walls, dark walnut desk, black leather chair, neat bookshelves, city view window behind the desk, warm desk lamp, sleek minimalist luxury"
+    },
+    {
+      "id": "rooftop",
+      "name": "회사 옥상 정원",
+      "look_en": "corporate rooftop garden with wooden deck, trimmed hedges, a few benches, glass railings, city skyline backdrop, golden hour sunset or night city lights"
+    },
+    {
+      "id": "mansion",
+      "name": "한서그룹 회장 저택 거실",
+      "look_en": "grand luxury Korean mansion living room, high ceiling with crystal chandelier, cream marble floor, large beige sofas, tall windows with sheer curtains, elegant antique decor, soft warm lighting"
+    },
+    {
+      "id": "hotel",
+      "name": "호텔 라운지 맞선 자리",
+      "look_en": "upscale hotel lounge, dim warm amber lighting, velvet armchairs around small round marble tables, piano in soft-focus background, large window with night city view, quiet and elegant"
+    }
+  ],
+  "season_beats": [
+    "1화: 첫 출근날 서연이 엘리베이터에서 도현의 셔츠에 커피를 쏟고, 그가 계약직이라 소개받자 \"실수 한 번이면 끝\"이라고 차갑게 경고한다.",
+    "2화: 유나가 일부러 틀린 회의 자료를 서연에게 넘기지만, 서연이 회의 직전 오류를 잡아내 도현의 시선을 처음으로 끈다.",
+    "3화: 서연이 옥상에서 아버지와 통화하며 \"맞선은 절대 안 나가요\"라고 버티는데, 그 말을 지나가던 도현이 엿듣고 의아해한다.",
+    "4화: 야근하던 팀장실에서 도현이 서연에게 \"약혼은 집안끼리 하는 거래일 뿐\"이라며 얼굴도 모르는 약혼녀를 깎아내린다.",
+    "5화: [반전] 아버지 성화에 몰래 호텔 맞선 자리를 훔쳐보러 간 서연, 약혼자 자리에 앉아 있는 사람이 바로 도현임을 목격하고 얼어붙는다.",
+    "6화: 충격받은 서연이 회사에서 도현을 피하려 하지만, 도현은 오히려 서연을 전담 비서로 지정해 자신의 개인 일정까지 맡긴다.",
+    "7화: 도현이 서연에게 '약혼녀에게 보낼 파혼 통보문'을 대신 써 오라고 시키고, 서연은 자기 자신을 차는 글을 쓰게 된다.",
+    "8화: 유나가 서연의 손목에서 수천만 원짜리 시계를 발견하고 \"계약직이 이걸 어떻게?\"라며 정체를 캐기 시작한다.",
+    "9화: 유나가 사무실에서 서연을 도둑으로 몰자, 도현이 서연 편을 들며 \"내 비서 일은 내가 판단합니다\"라고 잘라 말해 서연의 마음이 흔들린다.",
+    "10화: [반전] 새로 부임한 본부장 민재가 옥상에서 서연을 불러 \"한서그룹 막내 아가씨\"라고 부르며 비밀을 지켜 주는 대가로 거래를 제안한다.",
+    "11화: 민재가 도현의 신사업 프로젝트 자료를 빼 오라고 요구하고, 서연은 단호히 거절하며 전쟁을 선포한다.",
+    "12화: 민재와 서연이 옥상에서 단둘이 있는 장면을 본 도현이 처음으로 질투를 드러내며 서연을 팀장실로 불러 추궁한다.",
+    "13화: 유나가 민재의 지시를 받고 서연의 책상 서랍에 기밀 서류를 몰래 숨겨 둔다.",
+    "14화: 기밀 유출범으로 몰린 서연이 해고 위기에 처하고, 도현은 \"24시간 안에 증거를 가져와요\"라며 단 하루의 기회를 준다.",
+    "15화: [반전] 서연과 함께 CCTV를 돌려 보던 도현이 유나의 범행 장면과 함께, 서연이 한서그룹 회장 차에서 내리는 장면까지 보게 된다.",
+    "16화: 서연의 정체를 눈치챈 도현이 모른 척하며 일부러 \"내 약혼녀는 어떤 사람일까\"라고 떠보며 서연을 시험한다.",
+    "17화: 유나가 징계를 받고 앙심을 품는 사이, 저택 거실에서 한회장이 서연에게 \"한 달 안에 회사 그만두고 결혼 준비해라\"라고 최후통첩한다.",
+    "18화: 도현이 서연을 호텔 라운지로 데려가 \"약혼녀가 오면 대신 거절해 달라\"고 부탁하는 기묘한 상황이 벌어진다.",
+    "19화: 약혼녀가 나타나지 않자 도현이 서연을 바라보며 \"그럼 당신이 내 약혼녀라고 칩시다\"라고 말하고, 서연은 심장이 내려앉는다.",
+    "20화: [반전] 도현이 서연의 이름을 부르며 \"한서연 씨, 언제까지 숨을 겁니까\"라고 이미 정체를 알고 있었다고 폭로한다.",
+    "21화: 자신을 시험했다는 배신감에 서연이 팀장실 책상에 사직서를 내려놓고 뒤도 돌아보지 않고 떠난다.",
+    "22화: 도현이 저택으로 찾아와 한회장 앞에서 \"거래가 아니라 이 사람이라서 결혼하고 싶습니다\"라고 처음으로 진심을 고백한다.",
+    "23화: 서연이 복귀 조건으로 '회사에서는 철저히 비밀인 계약 연애'를 제안하고, 도현이 손을 내밀어 계약을 수락한다.",
+    "24화: 두 사람의 관계를 눈치챈 민재가 정략결혼을 이용한 특혜 의혹을 이사회에 흘리며 도현을 흔든다.",
+    "25화: [반전] 민재가 사실 도현 아버지의 숨겨진 혼외자, 즉 도현의 이복형이었음이 밝혀지며 후계 전쟁의 이유가 드러난다.",
+    "26화: 민재가 해고된 유나를 다시 끌어들여 서연이 재벌가 딸이라는 사실을 팀원들에게 터뜨린다.",
+    "27화: 정체가 들통난 서연을 유나가 비웃지만, 서연이 계약직 시절 성과만으로 정규직 특채 제안을 받으며 통쾌하게 맞받아친다.",
+    "28화: 민재가 한서그룹과 태일그룹의 합병 계약을 깨뜨리려 하고, 서연은 아버지의 회사와 도현 사이에서 선택을 강요받는다.",
+    "29화: 서연이 민재에게 버림받은 유나를 설득해 얻은 녹음 증거로 민재의 횡령을 밝혀 도현을 구하고, 옥상 야경 아래서 도현이 정식으로 청혼한다.",
+    "30화: [시즌2 떡밥] 저택 상견례 날, 낯선 여자가 거실에 들어와 \"제가 원래 강도현 씨의 약혼녀예요\"라고 말하고 한회장의 얼굴이 하얗게 질린다."
+  ],
+  "hashtags": [
+    "#팀장님제가약혼녀인데요",
+    "#숏드라마",
+    "#재벌로맨스",
+    "#신분숨기기",
+    "#오피스로맨스",
+    "#반전드라마",
+    "#사이다",
+    "#세로드라마"
+  ]
+}
