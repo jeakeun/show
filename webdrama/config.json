@@ -17,6 +17,14 @@
   "publish_days": ["tue", "thu", "sat"],
   "publish_time": "19:00",
 
+  "binge": {
+    "enabled": true,
+    "every": 10,
+    "season_full": true,
+    "layout": "landscape",
+    "_note": "Long-form compilation on YouTube: every N episodes + full season. layout landscape (16:9, blurred sides) or vertical"
+  },
+
   "platforms": {
     "youtube": {
       "enabled": false,
