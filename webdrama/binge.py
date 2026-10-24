@@ -9,13 +9,13 @@
 - 화면: landscape = 가로 16:9 (가운데 세로 영상 + 흐린 배경, TV·PC 시청용), vertical = 세로 그대로
 - 업로드 실패는 자동 재시도하지 않는다 (중복 게시 방지). 다시: python drama.py binge 1-10 --force
 """
-import datetime
+import os
 import shutil
+import tempfile
 from pathlib import Path
 
 from common import CONFIG, ROOT, STATE_PATH, ep_dir, episode_numbers, find_bin, load_status, read_json
 from editor import _ass_text, _probe, _run, clip_path
-from publisher import AI_NOTICE
 
 BINGES_DIR = ROOT / "binges"
 LW, LH = 1920, 1080   # 가로 화면
@@ -25,6 +25,7 @@ TW, TH = 1280, 720    # 썸네일
 def cfg() -> dict:
     c = {"enabled": True, "every": 10, "season_full": True, "layout": "landscape"}
     c.update(CONFIG.get("binge", {}))
+    c["every"] = max(2, int(c["every"]))
     return c
 
 
@@ -45,7 +46,7 @@ def parse_range(s: str) -> tuple[int, int]:
 def candidates(last: int) -> list[tuple[int, int]]:
     """last 화까지 있을 때 만들 수 있는 묶음. 작은 묶음 먼저 (21~30화 → 1~30화 순)."""
     c = cfg()
-    every = max(2, int(c["every"]))
+    every = c["every"]
     out = [(k - every + 1, k) for k in range(every, last + 1, every)]
     season = int(CONFIG.get("season_episodes", 30))
     if c["season_full"] and season > every and last >= season and (1, season) not in out:
@@ -70,6 +71,21 @@ def due(today: str) -> tuple[int, int] | None:
             continue                    # 마지막 회차를 오늘 올렸으면 다음 업로드 날에
         return a, b
     return None
+
+
+def blocked() -> list[tuple[int, int, list[int]]]:
+    """회차는 다 올라갔는데(published_done) 유튜브 기록이 없는 회차 때문에 영영 안 올라갈 묶음."""
+    nums = set(episode_numbers())
+    done = read_json(STATE_PATH, {}).get("binges", {})
+    out = []
+    for a, b in candidates(max(nums, default=0)):
+        eps = range(a, b + 1)
+        if key(a, b) in done or not all(k in nums and load_status(k).get("published_done") for k in eps):
+            continue
+        missing = [k for k in eps if not _yt(k).get("ok")]
+        if missing:
+            out.append((a, b, missing))
+    return out
 
 
 def next_preview() -> tuple[int, int] | None:
@@ -129,7 +145,7 @@ def _thumbnail(work: Path, out: Path, series: str, a: int, b: int, last_final: P
           f"eq=brightness=-0.28[bg];[y]scale=-2:{TH}[fg];[bg][fg]overlay=W-w-50:0,subtitles=thumb.ass[v]")
     _run([ffmpeg, "-y", "-i", "frame.png", "-filter_complex", fc, "-map", "[v]", "-frames:v", "1",
           "-q:v", "3", out.name], cwd=work)
-    shutil.move(str(work / out.name), out)
+    os.replace(work / out.name, out)
     return out
 
 
@@ -152,8 +168,8 @@ def build(a: int, b: int, series: str) -> dict:
     parts = [ep_dir(n) / "final.mp4" for n in range(a, b + 1)]
 
     folder = BINGES_DIR / f"ep{a:03d}-{b:03d}"
-    work = folder / "_work"
-    work.mkdir(parents=True, exist_ok=True)
+    folder.mkdir(parents=True, exist_ok=True)
+    work = Path(tempfile.mkdtemp(prefix="_work", dir=folder))  # 미리보기와 자동 실행이 겹쳐도 안 섞이게
     (work / "list.txt").write_text("".join(f"file '{p.resolve().as_posix()}'\n" for p in parts), encoding="utf-8")
     out = folder / "binge.mp4"
     args = [ffmpeg, "-y", "-f", "concat", "-safe", "0", "-i", "list.txt"]
@@ -170,7 +186,7 @@ def build(a: int, b: int, series: str) -> dict:
                  "-c:v", "libx264", "-preset", "fast", "-crf", "20", "-r", "30"]
     args += ["-c:a", "aac", "-b:a", "192k", "-ar", "48000", "-movflags", "+faststart", "binge.mp4"]
     _run(args, cwd=work)
-    shutil.move(str(work / "binge.mp4"), out)
+    os.replace(work / "binge.mp4", out)  # 미리보기로 열어 둔 파일이면 여기서 실패 → 알림
 
     thumb, thumb_error = None, ""
     try:
@@ -194,10 +210,8 @@ def texts(bible: dict, a: int, b: int, chapters: list, shorts_playlist: str = ""
     lines += [f"{_stamp(s)} {n}화 · {t}" for s, n, t in chapters]  # 0:00 부터 3개 이상이면 유튜브 챕터가 됨
     tags = list(dict.fromkeys(bible.get("hashtags", []) + ["#몰아보기", "#정주행", "#숏드라마", "#드라마몰아보기"]))
     tag_line = " ".join(x if x.startswith("#") else f"#{x}" for x in tags)
+    from publisher import AI_NOTICE
     lines += ["", tag_line, "", AI_NOTICE]
-    return {"title": title[:100], "description": "\n".join(lines)[:4900],
+    return {"title": title[:100], "description": "\n".join(lines),
             "tags": [x.lstrip("#") for x in tags][:20]}
 
-
-def now_iso() -> str:
-    return datetime.datetime.now().isoformat(timespec="seconds")

@@ -32,6 +32,10 @@
 - 몰아보기는 하루 한 편, 유튜브에만. 이미 쇼츠로 올라간 회차만 묶음(스포일러 방지). 업로드 실패는 자동 재시도 안 함 → 유튜브 스튜디오에서 확인 후 `python drama.py binge 1-10 --force`.
 - 몰아보기 화면은 기본 **가로 16:9**(가운데 세로 영상 + 흐린 배경, TV·PC용). 8분이 넘어야 중간 광고가 붙음 (회당 1분 × 10화 ≈ 10분).
 - 몰아보기 맞춤 썸네일은 **유튜브 채널 휴대폰 인증**을 해야 적용됨. 안 했으면 영상은 올라가고 썸네일만 실패 알림.
+- 몰아보기 영상(1GB 안팎)은 올린 뒤 지움 (OneDrive 용량·동기화 부담). 썸네일만 `binges/` 에 남음.
+- 유튜브 기록이 빠진 회차(예: 5화 유튜브 업로드 실패) 때문에 묶음이 멈추면 폰으로 한 번 알림, `현황보기.bat` 에 ⚠ 표시.
+  고치기: `python drama.py publish --ep 5 --only youtube --force` (스튜디오에서 직접 올렸다면 `python drama.py binge 1-10`).
+- 유튜브 API 하루 사용량은 yt-auto(1분호기심)와 같은 구글 클라우드 프로젝트를 나눠 씀. 업로드 실패가 잦으면 할당량부터 확인.
 - 대본은 앞 회차 줄거리를 모두 읽고 쓰며, 같은 사건·대사·반전을 되풀이하지 않도록 지시 (1분호기심 반복 금지 원칙과 같음).
 - 유튜브는 `containsSyntheticMedia`(AI 생성 표시), 틱톡은 `is_aigc`를 켜서 올림. 설명란에 AI 제작 문구 자동 추가.
 - 실존 인물·연예인·기존 작품 캐릭터·브랜드는 대본에서 금지.
@@ -43,7 +47,7 @@
 2. **인스타**: 프로페셔널 계정 + 메타 앱 → `secrets/instagram.json` 에 `{"ig_user_id": "...", "access_token": "..."}`. (집가 uploader 설명서 4장과 같은 절차)
 3. **틱톡**: TikTok for Developers 앱 + Content Posting API → `secrets/tiktok.json` 에 `client_key, client_secret, refresh_token`.
    **틱톡 심사 통과 전에는 "나만 보기(SELF_ONLY)"로만 올라감** → 심사 전에는 `업로드문구.txt` 를 복사해 직접 올리는 게 현실적.
-4. 다 연결되면 PowerShell 에서 `setup_scheduler.ps1` 실행 (메인 PC에서만).
+4. 다 연결되면 PowerShell 에서 `setup_scheduler.ps1` 실행 (메인 PC에서만). 회차 업로드 + 몰아보기를 함께 돌리므로 실행 시간 한도는 3시간.
 
 ## 설정 (`config.json`)
 

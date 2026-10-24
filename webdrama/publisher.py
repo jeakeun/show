@@ -13,6 +13,17 @@ from common import CONFIG, SECRETS_DIR, STATE_PATH, read_json, write_json
 AI_NOTICE = "※ 이 드라마의 영상과 음성은 AI로 제작되었습니다. 이야기와 인물은 모두 허구입니다."
 
 
+class NotStarted(RuntimeError):
+    """업로드를 시작하기 전에 실패 (로그인·설정 문제). 아무것도 안 올라갔으니 다음에 다시 해도 된다."""
+
+
+def yt_description(s: str) -> str:
+    """유튜브 설명란 한도는 5000 '바이트'(한글 3바이트)이고 <> 는 쓸 수 없다."""
+    s = s.replace("<", "(").replace(">", ")")
+    b = s.encode("utf-8")[:4900]
+    return b.decode("utf-8", errors="ignore")
+
+
 def texts(bible: dict, n: int, ep: dict) -> dict:
     tags = list(dict.fromkeys(ep.get("hashtags", []) + bible.get("hashtags", [])))
     tag_line = " ".join(t if t.startswith("#") else f"#{t}" for t in tags)
@@ -67,7 +78,7 @@ def _playlist(yt, bible: dict, state_key: str = "youtube_playlist", title: str =
     if pid:
         return pid
     r = yt.playlists().insert(part="snippet,status", body={
-        "snippet": {"title": title or f"{bible['title']} 전편 몰아보기", "description": bible["logline"],
+        "snippet": {"title": title or f"{bible['title']} 회차별 보기", "description": bible["logline"],
                     "defaultLanguage": "ko"},
         "status": {"privacyStatus": "public"},
     }).execute()
@@ -82,7 +93,7 @@ def upload_youtube(video: Path, bible: dict, n: int, ep: dict) -> str:
     yt = _youtube()
     t = texts(bible, n, ep)
     body = {
-        "snippet": {"title": t["title"], "description": t["description"][:4900],
+        "snippet": {"title": t["title"], "description": yt_description(t["description"]),
                     "tags": [h.lstrip("#") for h in ep.get("hashtags", []) + bible.get("hashtags", [])][:20],
                     "categoryId": "24", "defaultLanguage": "ko", "defaultAudioLanguage": "ko"},
         "status": {"privacyStatus": CONFIG["platforms"]["youtube"].get("privacy", "public"),
@@ -92,7 +103,7 @@ def upload_youtube(video: Path, bible: dict, n: int, ep: dict) -> str:
     req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
     resp = None
     while resp is None:
-        _, resp = req.next_chunk()
+        _, resp = req.next_chunk(num_retries=5)  # 같은 업로드 안에서의 재시도라 중복 게시가 생기지 않는다
     vid = resp["id"]
     try:
         yt.playlistItems().insert(part="snippet", body={"snippet": {
@@ -106,9 +117,12 @@ def upload_youtube(video: Path, bible: dict, n: int, ep: dict) -> str:
 def upload_youtube_long(video: Path, bible: dict, meta: dict, thumb: Path | None) -> tuple[str, str]:
     """몰아보기 롱폼 업로드. 반환: (주소, 덧붙일 말). 썸네일·재생목록 실패는 업로드 성공으로 친다."""
     from googleapiclient.http import MediaFileUpload
-    yt = _youtube()
+    try:
+        yt = _youtube()
+    except Exception as e:
+        raise NotStarted(f"유튜브 로그인 실패: {e}") from e
     body = {
-        "snippet": {"title": meta["title"], "description": meta["description"], "tags": meta["tags"],
+        "snippet": {"title": meta["title"], "description": yt_description(meta["description"]), "tags": meta["tags"],
                     "categoryId": "24", "defaultLanguage": "ko", "defaultAudioLanguage": "ko"},
         "status": {"privacyStatus": CONFIG.get("binge", {}).get(
                        "privacy", CONFIG["platforms"]["youtube"].get("privacy", "public")),
@@ -118,7 +132,7 @@ def upload_youtube_long(video: Path, bible: dict, meta: dict, thumb: Path | None
     req = yt.videos().insert(part="snippet,status", body=body, media_body=media)
     resp = None
     while resp is None:
-        _, resp = req.next_chunk()
+        _, resp = req.next_chunk(num_retries=5)  # 같은 업로드 안에서의 재시도라 중복 게시가 생기지 않는다
     vid = resp["id"]
     notes = []
     if thumb and thumb.exists():
