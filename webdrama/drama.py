@@ -6,6 +6,8 @@
   python drama.py collect [--shot N] 다운로드 폴더의 장면 영상을 회차 폴더로
   python drama.py build              장면을 이어 붙여 자막·음악 넣은 완성본
   python drama.py publish            올릴 차례인 회차 1편을 켜진 플랫폼에 업로드 (작업 스케줄러용)
+  python drama.py binge [1-10]       10화 묶음 몰아보기 롱폼을 유튜브에 (비우면 올릴 차례인 것, 작업 스케줄러용)
+  python drama.py binge --build-only 다음 몰아보기를 만들기만 해서 미리보기
   python drama.py status             회차별 진행 상황
   python drama.py connect youtube    유튜브 채널 연결 (최초 1회)
 """
@@ -183,6 +185,7 @@ def cmd_publish(a) -> None:
         return
     st["published_done"] = all(k in pub for k in _enabled())
     save_status(n, st)
+    state = read_json(STATE_PATH, {})  # 업로드 중에 재생목록 ID 가 저장됐을 수 있어 다시 읽는다
     state["last_publish"] = today
     write_json(STATE_PATH, state)
     left = len([k for k in nums if load_status(k).get("built") and not load_status(k).get("published_done")])
@@ -191,6 +194,140 @@ def cmd_publish(a) -> None:
         msg += "\n다음 회차 영상을 만들어 주세요."
     print(msg)
     notify("Webdrama", msg)
+
+
+def cmd_binge(a) -> None:
+    """몰아보기 롱폼. 범위 없이 실행하면 작업 스케줄러용 자동 모드 (올릴 차례인 묶음 1편)."""
+    import binge
+    today = datetime.date.today().isoformat()
+    done = read_json(STATE_PATH, {}).get("binges", {})
+    auto = not a.range and not a.build_only
+    if a.range:
+        r = binge.parse_range(a.range)
+        prev = done.get(binge.key(*r))
+        if prev and not (a.force or a.build_only or a.dry_run):
+            raise SystemExit(f"{r[0]}~{r[1]}화 몰아보기는 이미 {'올렸습니다' if prev.get('ok') else '올리다 실패했습니다'}"
+                             f" ({prev.get('at', '')}). 다시 올리려면 --force (유튜브에 한 편 더 생깁니다).")
+    elif a.build_only:
+        r = binge.next_preview()
+        if not r:
+            print("미리 만들 몰아보기가 없습니다 (다음 묶음의 회차가 모두 편집돼야 합니다. 현황보기.bat 참고).")
+            return
+    else:
+        if not binge.cfg()["enabled"]:
+            print("몰아보기가 꺼져 있습니다 (config.json 의 binge.enabled).")
+            return
+        if not CONFIG["platforms"]["youtube"].get("enabled"):
+            print("유튜브가 꺼져 있어 몰아보기를 건너뜁니다.")
+            return
+        if read_json(STATE_PATH, {}).get("last_binge") == today and not a.force:
+            print("오늘은 이미 몰아보기를 올렸습니다.")
+            return
+        r = binge.due(today)
+        if not r:
+            print("올릴 차례인 몰아보기가 없습니다.")
+            _warn_blocked(binge)
+            return
+    lo, hi = r
+    bible = load_bible()
+    if a.dry_run:
+        try:
+            chaps = binge.chapters(lo, hi)
+        except SystemExit as e:
+            print(e)
+            chaps = [(0, k, "?") for k in range(lo, hi + 1)]
+        meta = binge.texts(bible, lo, hi, chaps, read_json(STATE_PATH, {}).get("youtube_playlist", ""))
+        print(f"(테스트) {lo}~{hi}화 몰아보기를 올릴 예정\n\n제목: {meta['title']}\n\n{meta['description']}")
+        return
+
+    print(f"{lo}~{hi}화 몰아보기 만드는 중... (몇 분 걸립니다)")
+    try:
+        res = binge.build(lo, hi, bible["title"])
+    except (Exception, SystemExit) as e:  # 열어 둔 파일·깨진 json 등 무엇이든 알림은 가게
+        msg = f"{lo}~{hi}화 몰아보기 만들기 실패 (다음 업로드 날 다시 시도)\n{e}"
+        print(msg)
+        if auto:
+            notify("Webdrama", msg)
+        raise SystemExit(1)
+    length = f"{int(res['seconds'] // 60)}분 {int(res['seconds'] % 60)}초"
+    extra = "\n8분이 안 돼 중간 광고는 붙지 않습니다." if res["seconds"] < 480 else ""
+    if res["thumb_error"]:
+        extra += f"\n썸네일 만들기 실패: {res['thumb_error'][-150:]}"
+    if a.build_only:
+        print(f"완성: {res['path']} ({length}){extra}\n썸네일: {res['thumb'] or '없음'}\n(올리지는 않았습니다)")
+        _open(res["path"])
+        return
+
+    from publisher import NotStarted, upload_youtube_long
+    meta = binge.texts(bible, lo, hi, res["chapters"], read_json(STATE_PATH, {}).get("youtube_playlist", ""))
+    print(f"유튜브 롱폼 업로드 중... ({length})")
+    now = datetime.datetime.now().isoformat(timespec="seconds")
+    try:
+        url, note = upload_youtube_long(res["path"], bible, meta, res["thumb"])
+        rec = {"ok": True, "at": now, "where": url, "seconds": round(res["seconds"], 1), "note": note}
+        msg = f"몰아보기 {lo}~{hi}화 올림 ({length})\n{url}" + (f"\n{note}" if note else "") + extra
+    except NotStarted as e:  # 아무것도 안 올라갔으니 기록하지 않고 다음 업로드 날 다시
+        msg = f"몰아보기 {lo}~{hi}화를 못 올렸습니다 (업로드 시작 전 실패, 다음 업로드 날 다시 시도)\n{e}"
+        print(msg)
+        notify("Webdrama", msg)
+        raise SystemExit(1)
+    except Exception as e:  # 재시도 안 함 — 중복 게시 방지
+        rec = {"ok": False, "at": now, "error": str(e)[:300]}
+        msg = (f"몰아보기 {lo}~{hi}화 업로드 실패: {e}\n"
+               f"유튜브 스튜디오에서 올라갔는지 먼저 확인하고, 안 올라갔으면 python drama.py binge {lo}-{hi} --force")
+    try:
+        state = read_json(STATE_PATH, {})
+        state.setdefault("binges", {})[binge.key(lo, hi)] = rec
+        state["last_binge"] = today
+        write_json(STATE_PATH, state)
+    except Exception as e:  # 기록을 못 남기면 다음에 또 올릴 수 있으니 반드시 알린다
+        msg += (f"\n\n⚠ 기록 저장 실패({e}). 다음 업로드 날 같은 몰아보기가 또 올라가지 않게 "
+                f"series\\state.json 을 확인해 주세요.")
+    print(msg)
+    notify("Webdrama", msg)
+    if rec["ok"]:
+        try:
+            res["path"].unlink(missing_ok=True)  # 1GB 안팎이라 올린 뒤에는 지운다 (썸네일은 남김)
+        except OSError:
+            pass
+
+
+def _warn_blocked(binge) -> None:
+    """유튜브 기록이 빠진 회차 때문에 멈춘 묶음을 묶음마다 한 번만 알린다."""
+    state = read_json(STATE_PATH, {})
+    warned = set(state.get("binge_warned", []))
+    for lo, hi, missing in binge.blocked():
+        if binge.key(lo, hi) in warned:
+            continue
+        eps = ", ".join(map(str, missing))
+        msg = (f"몰아보기 {lo}~{hi}화가 멈춰 있습니다: {eps}화가 유튜브에 올라간 기록이 없습니다.\n"
+               f"다시 올리기: python drama.py publish --ep {missing[0]} --only youtube --force\n"
+               f"(직접 올렸다면 그냥 python drama.py binge {lo}-{hi})")
+        print(msg)
+        notify("Webdrama", msg)
+        warned.add(binge.key(lo, hi))
+        state["binge_warned"] = sorted(warned)
+        write_json(STATE_PATH, state)
+
+
+def _binge_status() -> None:
+    import binge
+    c = binge.cfg()
+    if not c["enabled"]:
+        return
+    done = read_json(STATE_PATH, {}).get("binges", {})
+    nums = episode_numbers()
+    print("\n몰아보기 (유튜브 롱폼)" + ("" if CONFIG["platforms"]["youtube"].get("enabled") else " — 유튜브 연결 후 시작") + ":")
+    for k, r in done.items():
+        lo, hi = k.split("-")
+        print(f"  {lo}~{hi}화 — " + (f"올림 ✓ {r.get('where', '')}" if r.get("ok") else f"실패 ✗ {r.get('error', '')[:80]}"))
+    last = max(nums, default=0)
+    pending = [r for r in binge.candidates(last + c["every"]) if binge.key(*r) not in done]
+    if pending:
+        lo, hi = pending[0]
+        print(f"  다음: {lo}~{hi}화 — {hi}화가 유튜브에 올라간 다음 업로드 날 자동으로 올라갑니다")
+    for lo, hi, missing in binge.blocked():
+        print(f"  ⚠ {lo}~{hi}화 멈춤: {', '.join(map(str, missing))}화의 유튜브 업로드 기록이 없음 (README 규칙 참고)")
 
 
 def cmd_status(a) -> None:
@@ -212,6 +349,7 @@ def cmd_status(a) -> None:
         else:
             stage = f"장면 {have}/{len(ep['shots'])}"
         print(f"{k:>3}화 「{ep['title']}」 — {stage}")
+    _binge_status()
 
 
 def cmd_connect(a) -> None:
@@ -231,6 +369,9 @@ def main() -> None:
     p = sub.add_parser("collect"); p.add_argument("ep", type=int, nargs="?"); p.add_argument("--shot", type=int)
     p = sub.add_parser("build"); p.add_argument("ep", type=int, nargs="?")
     p = sub.add_parser("publish"); p.add_argument("--ep", type=int); p.add_argument("--only", choices=["youtube", "instagram", "tiktok"])
+    p.add_argument("--force", action="store_true"); p.add_argument("--dry-run", action="store_true")
+    p = sub.add_parser("binge"); p.add_argument("range", nargs="?", help="예: 1-10 (비우면 올릴 차례인 묶음)")
+    p.add_argument("--build-only", action="store_true", help="만들기만 하고 올리지 않음 (미리보기)")
     p.add_argument("--force", action="store_true"); p.add_argument("--dry-run", action="store_true")
     sub.add_parser("status")
     p = sub.add_parser("connect"); p.add_argument("platform", choices=["youtube"])

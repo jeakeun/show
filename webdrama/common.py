@@ -43,8 +43,11 @@ def read_json(path: Path, default=None):
 
 
 def write_json(path: Path, data) -> None:
+    """임시 파일에 쓴 뒤 바꿔 끼운다 (쓰다 끊겨도 반쯤 쓴 파일이 남지 않게)."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    os.replace(tmp, path)
 
 
 def load_bible() -> dict:
