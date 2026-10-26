@@ -63,29 +63,66 @@ def cmd_series(a) -> None:
     _open(page)
 
 
-def cmd_write(a) -> None:
+def _write_one(bible: dict, n: int, force: bool):
     from sheet import episode_sheet
     from writer import make_episode
-    bible = load_bible()
-    nums = episode_numbers()
-    n = (nums[-1] + 1) if nums else 1
-    previous = [dict(n=k, **{f: read_json(ep_dir(k) / "script.json")[f] for f in ("title", "summary")})
-                for k in nums]
+    folder = ep_dir(n)
+    if (folder / "script.json").exists():  # 이미 있는 회차를 다시 쓰는 경우
+        st = load_status(n)
+        if st.get("published") or st.get("published_done"):
+            raise SystemExit(f"{n}화는 이미 업로드됐습니다. 다시 쓰면 중복 게시 위험이 있어 막습니다.")
+        later_pub = [k for k in episode_numbers() if k > n and load_status(k).get("published")]
+        if later_pub:  # 뒤 회차가 이미 올라갔으면 줄거리·업로드 순서가 어긋난다
+            raise SystemExit(f"{later_pub[0]}화가 이미 업로드돼서 {n}화를 다시 쓸 수 없습니다 (줄거리·순서가 어긋남).")
+        made = [p for p in (folder / "clips").glob("*.mp4")] if (folder / "clips").exists() else []
+        if (made or st.get("built")) and not force:
+            raise SystemExit(f"{n}화에 이미 만든 영상이 있습니다. 버리고 다시 쓰려면 --force 를 붙이세요.")
+        if made or (folder / "final.mp4").exists():  # 옛 영상은 지우지 않고 옆으로 치워 둔다
+            old = folder / f"old_{datetime.datetime.now():%Y%m%d_%H%M%S}"
+            try:
+                old.mkdir()
+                if (folder / "clips").exists():
+                    (folder / "clips").rename(old / "clips")
+                if (folder / "final.mp4").exists():
+                    (folder / "final.mp4").rename(old / "final.mp4")
+            except OSError as e:
+                raise SystemExit(f"옛 영상을 옮기지 못했습니다 ({e}). 영상을 연 창을 닫고 다시 실행하세요. 대본은 바뀌지 않았습니다.")
+            print(f"  옛 영상은 {old.name} 폴더로 옮겼습니다.")
+    previous = [dict(n=k, payoff=read_json(ep_dir(k) / "script.json").get("payoff", ""),
+                     **{f: read_json(ep_dir(k) / "script.json")[f] for f in ("title", "summary")})
+                for k in episode_numbers() if k < n]
     titles = {p["title"] for p in previous}
     print(f"{n}화 대본을 쓰는 중... (1~2분)")
     ep = make_episode(bible, n, previous)
     if ep["title"] in titles:
         ep = make_episode(bible, n, previous)
-    folder = ep_dir(n)
     (folder / "clips").mkdir(parents=True, exist_ok=True)
     write_json(folder / "script.json", ep)
     save_status(n, {"written": datetime.datetime.now().isoformat(timespec="seconds"),
                     "written_ts": time.time()})
     page = episode_sheet(bible, n, ep, folder)
     total = sum(s["seconds"] for s in ep["shots"])
-    print(f"\n{n}화 「{ep['title']}」 장면 {len(ep['shots'])}개 · 약 {total}초")
-    print(f"작업지시서: {page}")
-    _open(page)
+    print(f"{n}화 「{ep['title']}」 장면 {len(ep['shots'])}개 · 약 {total}초 · 보상: {ep.get('payoff', '')}")
+    print(f"  작업지시서: {page}")
+    return page
+
+
+def cmd_write(a) -> None:
+    bible = load_bible()
+    nums = episode_numbers()
+    nxt = (nums[-1] + 1) if nums else 1
+    if a.ep is not None and a.ep < 1:
+        raise SystemExit("--ep 는 1 이상이어야 합니다.")
+    start = a.ep or nxt
+    if start > nxt:
+        raise SystemExit(f"{nxt}화부터 써야 합니다 (앞 회차 줄거리를 읽고 이어 쓰기 때문).")
+    count = max(1, a.count)
+    pages = [_write_one(bible, n, a.force) for n in range(start, start + count)]
+    later = [k for k in episode_numbers() if k >= start + count]
+    if a.ep and later:
+        print(f"\n주의: {later[0]}화 이후 대본은 바뀐 앞 줄거리를 모릅니다. 필요하면 --ep {later[0]} 로 다시 쓰세요.")
+    if len(pages) == 1:
+        _open(pages[0])
 
 
 def cmd_sheet(a) -> None:
@@ -153,14 +190,19 @@ def cmd_publish(a) -> None:
         print("켜진 플랫폼이 없습니다 (config.json 의 platforms.*.enabled).")
         return
     nums = episode_numbers()
-    ready = [k for k in nums if load_status(k).get("built") and not load_status(k).get("published_done")]
+    pending = [k for k in nums if not load_status(k).get("published_done")]
     if a.ep:
-        ready = [a.ep]
-    if not ready:
+        pending = [a.ep]
+    if not pending:
         notify("Webdrama", "올릴 완성 회차가 없습니다. 1_대본만들기 → 힉스필드 → 편집을 해 주세요.")
         print("올릴 완성 회차가 없습니다.")
         return
-    n = ready[0]
+    n = pending[0]
+    if not load_status(n).get("built"):  # 순서 보호: 앞 회차가 덜 됐으면 뒤 회차를 먼저 올리지 않는다
+        msg = f"{n}화가 아직 편집되지 않아 오늘은 올리지 않습니다 (회차 순서 보호). {n}화를 먼저 완성해 주세요."
+        notify("Webdrama", msg)
+        print(msg)
+        return
     folder = ep_dir(n)
     ep = read_json(folder / "script.json")
     st = load_status(n)
@@ -173,6 +215,10 @@ def cmd_publish(a) -> None:
             results.append(f"{NAMES[key]}: (테스트) 올릴 예정")
             continue
         print(f"{n}화 → {NAMES[key]} 업로드 중...")
+        # 업로드 직전에 '진행 중' 기록을 먼저 남긴다: 도중에 PC가 꺼져도 다음 실행이 같은 영상을 또 올리지 않게
+        pub[key] = {"ok": False, "at": datetime.datetime.now().isoformat(timespec="seconds"),
+                    "error": "업로드 도중 중단됨 — 실제로 올라갔는지 사이트에서 확인 필요"}
+        save_status(n, st)
         try:
             where = HANDLERS[key](folder / "final.mp4", bible, n, ep)
             pub[key] = {"ok": True, "at": datetime.datetime.now().isoformat(timespec="seconds"), "where": where}
@@ -180,6 +226,7 @@ def cmd_publish(a) -> None:
         except Exception as e:  # 재시도 안 함 — 중복 게시 방지
             pub[key] = {"ok": False, "at": datetime.datetime.now().isoformat(timespec="seconds"), "error": str(e)[:300]}
             results.append(f"{NAMES[key]}: 실패 {e}")
+        save_status(n, st)
     if a.dry_run:
         print("\n".join(results))
         return
@@ -364,7 +411,8 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="웹드라마 반자동 파이프라인")
     sub = ap.add_subparsers(dest="cmd", required=True)
     p = sub.add_parser("series"); p.add_argument("logline", nargs="?"); p.add_argument("--force", action="store_true")
-    sub.add_parser("write")
+    p = sub.add_parser("write"); p.add_argument("--ep", type=int, help="이 회차부터 (다시) 쓰기. 비우면 다음 회차")
+    p.add_argument("--count", type=int, default=1, help="연달아 쓸 회차 수"); p.add_argument("--force", action="store_true")
     p = sub.add_parser("sheet"); p.add_argument("ep", type=int, nargs="?"); p.add_argument("--characters", action="store_true")
     p = sub.add_parser("collect"); p.add_argument("ep", type=int, nargs="?"); p.add_argument("--shot", type=int)
     p = sub.add_parser("build"); p.add_argument("ep", type=int, nargs="?")

@@ -4,8 +4,14 @@
   "fallback_env": "D:/yt-auto/secrets/.env",
   "notify_dir": "D:/notify",
 
-  "episode_seconds": 60,
+  "episode_seconds": 90,
   "shot_seconds_max": 10,
+  "video_tool": {
+    "site": "힉스필드(higgsfield.ai)",
+    "model": "Kling 3.0",
+    "resolution": "720p",
+    "_note": "작업지시서에 적히는 영상 사이트·모델 이름. 모델이 한 번에 만들 수 있는 길이가 짧으면 shot_seconds_max 도 줄일 것"
+  },
   "season_episodes": 30,
 
   "downloads_dir": "",
