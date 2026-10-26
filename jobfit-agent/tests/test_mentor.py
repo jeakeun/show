@@ -53,3 +53,15 @@ def test_batch_runs_until_human_confirm_without_saving(tmp_path):
     assert r["draft"] and r["writes"] == 1 and r["fit_score"] is not None
     assert list(tmp_path.rglob("*.md")) == []           # 테스트 실행은 승인·저장하지 않음
     assert "회사 읽기" in report_one(r) and "| 004 |" in summary([r], "가짜")
+
+
+def test_baseline_writes_once_and_runs_both_checks():
+    from jobfit.batch import all_sources, report_baseline_one, run_baseline_one, summary_baseline
+    cfg = Config()
+    sources = all_sources(load_chunks(cfg.sources, cfg.source_root))
+    draft = "## 자기소개서\n근거 없이 쓴 문장입니다.\n운영했습니다 [E1]."
+    llm = FakeLLM(drafts=[draft], verdicts=[[{"sentence": "운영했습니다", "problem": "과장", "detail": "x"}]])
+    r = run_baseline_one(llm, sources, ROOT / "eval" / "postings" / "004.md")
+    assert [c["role"] for c in llm.calls].count("verifier") == 1        # 코드 지적이 있어도 AI 검증가까지 돈다
+    assert len(r["code_issues"]) == 1 and len(r["ai_issues"]) == 1
+    assert "과장 1" in summary_baseline([r], "가짜") and "다시 쓰기 없음" in report_baseline_one(r)

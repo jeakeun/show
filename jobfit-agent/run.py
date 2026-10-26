@@ -70,9 +70,8 @@ def main() -> int:
 
     if args.baseline:
         # 기준선: 근거 검색 없이 모든 조각을 근거로 주고 한 번에 쓰게 한다
-        sources = {f"E{i + 1}": {"id": c.id, "source": c.source, "kind": c.kind, "section": c.section, "text": c.text}
-                   for i, c in enumerate(chunks)}
-        print(llm.baseline(posting, sources))
+        from jobfit.batch import all_sources
+        print(llm.baseline(posting, all_sources(chunks)))
         print("\n[비용]\n" + llm.cost_summary())
         return 0
 
