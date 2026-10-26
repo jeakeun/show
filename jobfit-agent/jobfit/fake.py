@@ -11,24 +11,31 @@ class FakeLLM:
         self.verdicts = list(verdicts or [])   # 정해진 검증 결과를 차례로 돌려줌 (없으면 문제 없음)
         self.calls: list[dict] = []
 
-    def analyze(self, posting: str) -> list[dict]:
+    def analyze(self, posting: str) -> dict:
         self.calls.append({"role": "analyzer"})
         reqs, kind = [], "담당"
         for line in posting.splitlines():
             line = line.strip()
-            if "우대" in line and not line.startswith("-"):
-                kind = "우대"
-            elif "스킬" in line and not line.startswith("-"):
-                kind = "스킬"
-            elif line.startswith("-") and "기타" not in line:
-                text = line.lstrip("- ").strip()
-                skills = re.findall(r"[A-Za-z][A-Za-z ]*[A-Za-z]|RAG", text)
-                reqs.append({"id": f"R{len(reqs) + 1}", "kind": kind, "text": text,
-                             "skills": [s.strip() for s in skills][:5]})
-        return reqs
+            if not line.startswith(("-", "•")):
+                if "우대" in line:
+                    kind = "우대"
+                elif "자격" in line or "필수" in line:
+                    kind = "필수"
+                elif "스킬" in line:
+                    kind = "스킬"
+                continue
+            text = line.lstrip("-• ").strip()
+            if not text or "기타" in text:
+                continue
+            skills = re.findall(r"[A-Za-z][A-Za-z ]*[A-Za-z]|RAG", text)
+            reqs.append({"id": f"R{len(reqs) + 1}", "kind": kind, "text": text,
+                         "skills": [s.strip() for s in skills][:5]})
+        company = {"business_model": "가짜 모델이라 알 수 없음", "company_type": "기타", "key_metrics": [],
+                   "weak_metrics": [], "basis": [], "confidence": "낮음"}
+        return {"requirements": reqs, "company": company}
 
-    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "") -> str:
-        self.calls.append({"role": "writer", "feedback": bool(feedback)})
+    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None) -> str:
+        self.calls.append({"role": "writer", "feedback": bool(feedback), "company": company})
         if self.drafts:
             return self.drafts.pop(0)
         lines = ["## 자기소개서"]
@@ -36,9 +43,10 @@ class FakeLLM:
             c = sources[eid]
             lines.append(f"{c['section'] or c['source']} 관련 경험이 있습니다 [{eid}].")
         lines += ["", "## 이력서 강조"] + [f"- {sources[e]['section']} [{e}]." for e in list(sources)[:3]]
+        lines += ["", "## 보강할 증거", "- 이 회사 지표로 말할 숫자가 부족함"]
         return "\n".join(lines)
 
-    def verify(self, draft: str, sources: dict) -> list[dict]:
+    def verify(self, draft: str, sources: dict, company: dict | None = None) -> list[dict]:
         self.calls.append({"role": "verifier"})
         return self.verdicts.pop(0) if self.verdicts else []
 

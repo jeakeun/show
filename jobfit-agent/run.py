@@ -31,6 +31,7 @@ def load_env(path: Path) -> None:
 def show(payload: dict) -> None:
     print("\n" + "=" * 60)
     print(f"적합도 {payload['fit_score']}점 (코드 계산)\n")
+    print("[회사 읽기 — AI 추정, 행간은 직접 다시 확인]\n" + payload.get("company", "") + "\n")
     print(payload["fit_table"] + "\n")
     print(payload["draft"])
     if payload["issues"]:

@@ -6,14 +6,20 @@ CITE = re.compile(r"\[(E\d+)\]")
 SENTENCE_END = re.compile(r"(?<=[가-힣)\]][.!?])\s+")
 ONLY_CITES = re.compile(r"^(\[E\d+\]\s*,?\s*)+[.!?]?$")
 LIST_MARK = re.compile(r"^(?:[-*•]|\d+[.)])\s+")
+NO_CITE_SECTIONS = ("보강할 증거",)
 
 
 def sentences(draft: str) -> list[str]:
     """제목(#)·표(|)·빈 줄을 빼고 문장 단위로 나눈다. 목록 항목(-)도 문장으로 본다."""
     out = []
+    skipping = False
     for line in draft.splitlines():
         line = line.strip()
-        if not line or line.startswith("#") or line.startswith("|"):
+        if line.startswith("#"):
+            # "## 보강할 증거" 는 지원자에게 주는 메모라 근거 번호를 달지 않는다 → 검사에서 뺀다
+            skipping = any(t in line for t in NO_CITE_SECTIONS)
+            continue
+        if skipping or not line or line.startswith("|"):
             continue
         line = LIST_MARK.sub("", line).strip()   # "- ", "1. ", "2) " 같은 목록 표시를 뗀다
         for s in SENTENCE_END.split(line):

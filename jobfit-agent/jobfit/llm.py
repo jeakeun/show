@@ -86,22 +86,24 @@ class ClaudeLLM:
                 {"type": "text", "text": evidence, "cache_control": {"type": "ephemeral"}}]
 
     # ---------- 에이전트별 ----------
-    def analyze(self, posting: str) -> list[dict]:
-        data = self._json("analyzer", self.cfg.analyzer, prompts.ANALYZER,
+    def analyze(self, posting: str) -> dict:
+        """요구 항목(1차 정보)과 회사 읽기(2차 정보: 돈 버는 방식 → 중요 지표)를 함께 돌려준다."""
+        return self._json("analyzer", self.cfg.analyzer, prompts.ANALYZER,
                           f"<공고>\n{posting}\n</공고>", prompts.ANALYZE_SCHEMA)
-        return data["requirements"]
 
-    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "") -> str:
-        user = f"<공고>\n{posting}\n</공고>\n\n<적합도 표 (코드가 계산)>\n{fit_table}\n</적합도 표>"
+    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None) -> str:
+        user = (f"<공고>\n{posting}\n</공고>\n\n<회사 읽기 (AI 추정)>\n{prompts.company_block(company or {})}\n</회사 읽기>"
+                f"\n\n<적합도 표 (코드가 계산)>\n{fit_table}\n</적합도 표>")
         if feedback:
             user += f"\n\n<검증 의견: 이 문제들을 고쳐서 다시 쓸 것>\n{feedback}\n</검증 의견>"
         return self._long_text("writer", self.cfg.writer,
                                self._cached_system(prompts.WRITER, prompts.evidence_block(sources)), user)
 
-    def verify(self, draft: str, sources: dict) -> list[dict]:
+    def verify(self, draft: str, sources: dict, company: dict | None = None) -> list[dict]:
         data = self._json("verifier", self.cfg.verifier,
                           self._cached_system(prompts.VERIFIER, prompts.evidence_block(sources)),
-                          f"<초안>\n{draft}\n</초안>", prompts.VERIFY_SCHEMA)
+                          f"<회사 읽기 (AI 추정)>\n{prompts.company_block(company or {})}\n</회사 읽기>\n\n<초안>\n{draft}\n</초안>",
+                          prompts.VERIFY_SCHEMA)
         return data["issues"]
 
     def baseline(self, posting: str, sources: dict) -> str:

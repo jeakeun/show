@@ -28,6 +28,8 @@
   ],
   "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다",
   "mentor_reading": {
+    "company_type": "새 사업",
+    "company_type_note": "멘토 발언을 보고 클로드가 분석가와 같은 분류(기술 판매/사용자 플랫폼/새 사업/상품 판매/기타)로 붙인 라벨",
     "discussed": "해석함. 멘토 스스로 '어려운 케이스'라고 함",
     "video_range": "07:55~10:39",
     "how_company_makes_money": "통신·렌탈 상품을 파는 회사. 그런데 AI Builder는 새 사업 하나를 맡아 필요한 모든 걸 하는 자리",

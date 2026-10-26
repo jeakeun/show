@@ -14,7 +14,7 @@ from typing import Annotated, TypedDict
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send, interrupt
 
-from . import citations, scoring
+from . import citations, prompts, scoring
 from .career import Retriever
 from .config import Config
 
@@ -23,6 +23,7 @@ class State(TypedDict, total=False):
     posting_id: str
     posting: str
     requirements: list[dict]
+    company: dict          # 회사 읽기: 돈 버는 방식 → 중요 지표 (AI 추정, 멘토 기준)
     found: Annotated[list[dict], operator.add]   # 병렬 검색 결과를 덧붙여 합친다
     sources: dict          # 근거 번호 → 조각  ("E1": {...})
     judged: list[dict]     # 요구 항목별 근거 판정 (코드)
@@ -37,10 +38,10 @@ class State(TypedDict, total=False):
 
 
 def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
-    # ① 공고 분석가: 공고만 보고 요구 항목을 뽑는다 (경력과 섞이지 않은 맥락, J-02)
+    # ① 공고 분석가: 공고만 보고 요구 항목(1차)과 회사 읽기(2차)를 뽑는다 (경력과 섞이지 않은 맥락, J-02·J-14)
     def analyze(state: State) -> dict:
-        reqs = llm.analyze(state["posting"])[: cfg.max_requirements]
-        return {"requirements": reqs}
+        result = llm.analyze(state["posting"])
+        return {"requirements": result["requirements"][: cfg.max_requirements], "company": result.get("company") or {}}
 
     # 요구 항목 수만큼 검색가를 보낸다. 몇 개로 나눌지 실행 중에 정해진다 (J-03)
     def fan_out(state: State):
@@ -74,14 +75,14 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
     # ④ 작성자: 한 명만 쓴다 (J-05)
     def write(state: State) -> dict:
         draft = llm.write(state["posting"], scoring.fit_table(state.get("judged") or []),
-                          state.get("sources") or {}, state.get("feedback", ""))
+                          state.get("sources") or {}, state.get("feedback", ""), state.get("company"))
         return {"draft": draft, "attempts": state.get("attempts", 0) + 1}
 
     # ⑤ 검증가: 코드 검사 먼저, 통과하면 AI 검사. 지적만 하고 고치지 않는다 (J-06)
     def verify(state: State) -> dict:
         issues = citations.check(state["draft"], (state.get("sources") or {}).keys())
         if not issues:
-            issues = llm.verify(state["draft"], state.get("sources") or {})
+            issues = llm.verify(state["draft"], state.get("sources") or {}, state.get("company"))
         feedback = "\n".join(f"- [{i['problem']}] {i['sentence']} → {i['detail']}" for i in issues)
         return {"issues": issues, "feedback": feedback}
 
@@ -96,6 +97,7 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
     def confirm(state: State) -> dict:
         answer = interrupt({
             "fit_score": state.get("fit_score"),
+            "company": prompts.company_block(state.get("company") or {}),
             "fit_table": scoring.fit_table(state.get("judged") or []),
             "draft": state.get("draft"),
             "issues": state.get("issues") or [],
@@ -126,6 +128,7 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
         path.write_text("\n\n".join([
             f"# 지원서 초안 ({state.get('posting_id')})",
             f"적합도 {state.get('fit_score')}점 (코드 계산, 운영 근거 1점 · 학습 근거 0.5점 · 담당/필수 2배 가중)",
+            "## 회사 읽기 (AI 추정 — 사람이 행간을 다시 확인할 것)\n" + prompts.company_block(state.get("company") or {}),
             scoring.fit_table(state.get("judged") or []),
             state.get("draft", ""),
             "## 근거 목록\n" + "\n".join(src_lines),

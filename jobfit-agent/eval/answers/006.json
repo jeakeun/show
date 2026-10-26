@@ -21,6 +21,8 @@
   ],
   "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다",
   "mentor_reading": {
+    "company_type": "사용자 플랫폼",
+    "company_type_note": "멘토 발언을 보고 클로드가 분석가와 같은 분류(기술 판매/사용자 플랫폼/새 사업/상품 판매/기타)로 붙인 라벨",
     "discussed": "지원자가 고른 회사로 해석함. 지원자와 문답하며 진행",
     "video_range": "15:12~19:25",
     "how_company_makes_money": "옛 아프리카TV. 시청자가 별풍선을 충전해 BJ에게 주면 수수료를 받음. 그래서 BJ 수와 시청자 수를 늘려야 매출이 남",
