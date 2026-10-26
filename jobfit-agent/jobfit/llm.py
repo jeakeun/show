@@ -9,7 +9,7 @@ import json
 import anthropic
 
 from . import prompts
-from .config import PRICE_PER_MTOK, Config, Role
+from .config import PRICE_PER_MTOK, Config, Role, api_key
 
 # 안전 분류기가 거절하면 서버가 알아서 다른 모델로 다시 돌린다 ("default" = 거절 종류에 맞는 모델을 Anthropic이 고름).
 FALLBACK_BETA = "server-side-fallback-2026-07-01"
@@ -22,7 +22,7 @@ class LLMError(RuntimeError):
 class ClaudeLLM:
     def __init__(self, cfg: Config, client: anthropic.Anthropic | None = None):
         self.cfg = cfg
-        self.client = client or anthropic.Anthropic()   # API 키는 환경 변수 ANTHROPIC_API_KEY 에서 읽음
+        self.client = client or anthropic.Anthropic(api_key=api_key())   # JOBFIT_API_KEY, 없으면 ANTHROPIC_API_KEY
         self.calls: list[dict] = []                     # 호출마다 토큰·비용 기록 (운영 시스템의 apicost 와 같은 원칙)
 
     # ---------- 공통 ----------

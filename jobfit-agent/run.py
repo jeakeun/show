@@ -1,6 +1,6 @@
 """실행: 공고 파일 하나로 맞춤 지원서 초안을 만든다.
 
-  python run.py eval/postings/001.md              # 실제 실행 (ANTHROPIC_API_KEY 필요)
+  python run.py eval/postings/001.md              # 실제 실행 (JOBFIT_API_KEY 필요)
   python run.py eval/postings/001.md --dry-run    # 가짜 모델로 흐름만 확인 (비용 없음)
   python run.py eval/postings/001.md --baseline   # 에이전트 1개짜리 기준선 (비교용)
 """
@@ -13,7 +13,7 @@ from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
 from jobfit.career import Retriever, load_chunks
-from jobfit.config import ROOT, Config
+from jobfit.config import ROOT, Config, api_key
 from jobfit.graph import build
 from jobfit.posting import read_posting
 
@@ -62,8 +62,8 @@ def main() -> int:
         llm = FakeLLM()
     else:
         load_env(ROOT / ".env")
-        if not os.environ.get("ANTHROPIC_API_KEY"):
-            print("ANTHROPIC_API_KEY 가 없습니다. jobfit-agent/.env 에 넣거나 --dry-run 으로 실행하세요.")
+        if not api_key():
+            print("API 키가 없습니다. 환경 변수 JOBFIT_API_KEY (또는 jobfit-agent/.env) 에 넣거나 --dry-run 으로 실행하세요.")
             return 1
         from jobfit.llm import ClaudeLLM
         llm = ClaudeLLM(cfg)

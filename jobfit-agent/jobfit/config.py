@@ -1,9 +1,18 @@
 """설정: 역할별 모델과 생각 강도, 경력 문서 위치, 한도. 바꿀 때는 여기만 고친다."""
+import os
 from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent   # jobfit-agent/
 SHOW_ROOT = ROOT.parent                          # 지금은 show 저장소 안에 있음
+
+KEY_NAMES = ("JOBFIT_API_KEY", "ANTHROPIC_API_KEY")
+
+
+def api_key() -> str | None:
+    """JOBFIT_API_KEY 를 먼저 본다. 클라우드 세션은 ANTHROPIC_API_KEY 를 Claude Code 자체용으로 관리해서
+    사용자가 넣은 값이 빠지기 때문이다. 이름을 따로 두면 다른 자동화의 키와도 섞이지 않는다."""
+    return next((os.environ[k] for k in KEY_NAMES if os.environ.get(k)), None)
 
 
 @dataclass(frozen=True)

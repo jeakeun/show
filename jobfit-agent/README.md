@@ -72,7 +72,7 @@
 pip install -r requirements.txt
 python -m pytest                                  # 테스트 (API 키 불필요)
 python run.py eval/postings/001.md --dry-run      # 가짜 모델로 흐름 확인 (비용 없음)
-python run.py eval/postings/001.md                # 실제 실행 (.env 에 ANTHROPIC_API_KEY 필요, 비용 발생)
+python run.py eval/postings/001.md                # 실제 실행 (JOBFIT_API_KEY 필요, 비용 발생)
 python run.py eval/postings/001.md --baseline     # 에이전트 1개짜리 기준선
 python eval_analyzer.py                           # 공고 분석가 채점 (평가셋 공고 전체)
 python batch_run.py --only 008,009 --max-usd 5    # 지원서 변경 테스트 (비용 상한)

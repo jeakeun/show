@@ -65,3 +65,14 @@ def test_keyword_search_misses_korean_spelling():
     j = scoring.judge({"id": "R", "kind": "스킬", "text": "Python", "skills": ["Python"]},
                       [{"kind": "운영", "text": "파이썬 3.12 설치"}])
     assert j["status"] == "없음"
+
+
+def test_api_key_prefers_jobfit_name(monkeypatch):
+    from jobfit.config import api_key
+    monkeypatch.delenv("JOBFIT_API_KEY", raising=False)
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    assert api_key() is None
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "b")
+    assert api_key() == "b"                      # 메인 PC 예전 .env 도 계속 동작
+    monkeypatch.setenv("JOBFIT_API_KEY", "a")
+    assert api_key() == "a"                      # 클라우드에서는 이 이름이 우선

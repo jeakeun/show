@@ -8,13 +8,12 @@
 결과는 eval/results/batch-날짜/ 에 공고별 파일과 요약으로 남는다. 승인·지원 이력 등록은 하지 않는다.
 """
 import argparse
-import os
 import sys
 from datetime import datetime
 
 from jobfit.batch import report_one, run_one, summary
 from jobfit.career import Retriever, load_chunks
-from jobfit.config import ROOT, Config
+from jobfit.config import ROOT, Config, api_key
 
 
 def main() -> int:
@@ -33,8 +32,8 @@ def main() -> int:
     else:
         from run import load_env
         load_env(ROOT / ".env")
-        if not os.environ.get("ANTHROPIC_API_KEY"):
-            print("ANTHROPIC_API_KEY 가 없습니다. --dry-run 으로 흐름만 확인할 수 있습니다.")
+        if not api_key():
+            print("API 키가 없습니다. 환경 변수 JOBFIT_API_KEY (또는 jobfit-agent/.env) 에 넣거나 --dry-run 으로 실행하세요.")
             return 1
         from jobfit.llm import ClaudeLLM
         llm, label = ClaudeLLM(cfg), f"작성자 {cfg.writer.model} · 생각 강도 {cfg.writer.effort}"
