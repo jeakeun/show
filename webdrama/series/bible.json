@@ -3,7 +3,7 @@
   "logline": "재벌가 막내딸 한서연이 신분을 숨기고 계약직 비서로 입사하지만, 자신을 무시하던 냉정한 팀장 강도현이 집안끼리 정해 둔 약혼자였다는 사실을 알게 되면서 정체를 숨긴 위험한 밀당이 시작된다.",
   "genre": "오피스 로맨스 / 재벌 신분 숨기기 / 막장 반전 드라마",
   "tone": "빠른 전개의 설렘과 긴장, 매회 반전과 사이다 한 방, 냉정한 남주와 당찬 여주의 티키타카",
-  "visual_style_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, realistic skin texture, consistent character faces, no on-screen text, no logos",
+  "visual_style_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos",
   "characters": [
     {
       "id": "seoyeon",
@@ -11,8 +11,8 @@
       "role": "주인공. 한서그룹 막내딸. 정략결혼을 피하고 실력을 증명하려 '윤서연'이라는 가명으로 태일그룹 전략기획팀 계약직 비서로 입사",
       "age": 25,
       "personality": "당차고 눈치 빠르며 부당한 일엔 참지 않는다. 겉으론 순한 신입처럼 굴지만 위기 때 재벌가 특유의 배짱이 튀어나온다.",
-      "look_en": "Korean woman, 25 years old, slim petite build, 163cm, oval face with soft jawline, large bright double-lidded brown eyes, small straight nose, natural pink lips, fair clear skin, long straight dark brown hair just below the shoulders with soft see-through bangs, usually tied in a low ponytail at work",
-      "outfit_en": "modest office look: ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, thin delicate silver wristwatch, small pearl stud earrings",
+      "look_en": "Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm",
+      "outfit_en": "fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings",
       "voice_en": "clear bright young female voice, polite and soft at first but turns crisp and firm when angry"
     },
     {
@@ -21,8 +21,8 @@
       "role": "남주인공. 태일그룹 회장의 장남이자 전략기획팀 팀장. 서연의 정략 약혼자지만 서로 얼굴을 모른 채 맞선을 계속 피해 왔다",
       "age": 31,
       "personality": "완벽주의에 냉정하고 말수가 적다. 계약직을 대놓고 무시하지만 사실은 사람을 오래 지켜보고 판단하는 타입. 마음을 열면 직진한다.",
-      "look_en": "Korean man, 31 years old, tall lean athletic build, 185cm, sharp V-line jaw, defined cheekbones, narrow intense monolid-leaning eyes with straight thick eyebrows, high straight nose, thin firm lips, fair skin, short neat black hair with a clean side part swept back, no facial hair",
-      "outfit_en": "tailored charcoal-gray three-piece suit, crisp white dress shirt, dark navy silk tie, black leather oxford shoes, minimal black-strap watch",
+      "look_en": "Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair",
+      "outfit_en": "impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt, dark navy silk tie, black leather oxford shoes, luxury black-strap watch",
       "voice_en": "low deep calm male voice, cold and measured, rarely raises it, slight warmth slips through when serious"
     },
     {
@@ -31,8 +31,8 @@
       "role": "악역. 전략기획팀 선임 비서. 도현을 노리며 서연을 눈엣가시로 여겨 끊임없이 함정을 판다",
       "age": 28,
       "personality": "상사 앞에선 상냥하고 뒤에선 교활하다. 질투심과 출세욕이 강하고 남의 약점을 캐는 데 능하다.",
-      "look_en": "Korean woman, 28 years old, slender tall build, 168cm, sharp heart-shaped face, cat-like upturned eyes with dark winged eyeliner, high nose, glossy red-coral lips, fair skin, shoulder-length wavy chestnut-brown hair with side part",
-      "outfit_en": "fitted bright red blazer over black camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings",
+      "look_en": "Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part",
+      "outfit_en": "fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings",
       "voice_en": "sweet high-pitched female voice with a sly sarcastic edge, drawls when mocking"
     },
     {
@@ -41,7 +41,7 @@
       "role": "흑막. 새로 부임한 전략본부장. 서연의 정체를 단번에 알아보고 거래를 제안하며 도현의 후계 자리를 노린다",
       "age": 33,
       "personality": "늘 웃는 얼굴의 젠틀한 매너남이지만 속은 계산적이고 집요하다. 열등감과 야망을 숨기고 있다.",
-      "look_en": "Korean man, 33 years old, tall slim build, 182cm, soft oval face, gentle almond-shaped double-lidded eyes, thin silver round-frame glasses, constant faint smile, fair skin, medium-length brown hair with soft waves parted in the middle",
+      "look_en": "Korean man, 33 years old, elegant and handsome with refined gentle features, tall slim build, 182cm, soft oval face, gentle almond-shaped double-lidded eyes behind thin silver round-frame glasses, fair flawless skin, medium-length soft wavy brown hair parted in the middle, constant faint smile",
       "outfit_en": "light beige double-breasted suit, pale blue shirt with open collar, no tie, brown leather loafers",
       "voice_en": "smooth soft-spoken male voice, friendly and slow, quietly menacing underneath"
     }
