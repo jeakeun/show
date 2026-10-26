@@ -1,0 +1,271 @@
+{
+  "posting_id": "011",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "LLM 기반 planning·tool-calling·multi-step reasoning 구조 설계·구현",
+      "skills": [
+        "planning",
+        "tool-calling",
+        "multi-step reasoning"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "단기·장기·검색 증강 agent memory 설계·최적화, workflow orchestration과 상태 관리",
+      "skills": [
+        "agent memory",
+        "orchestration",
+        "상태 관리"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "RAG 파이프라인과 문헌 검색 시스템 구축",
+      "skills": [
+        "RAG",
+        "문헌 검색"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "정량 평가 지표 정의와 평가 파이프라인 자동화 (task-success·tool-call accuracy·hallucination rate)",
+      "skills": [
+        "평가 파이프라인",
+        "평가 지표"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "담당",
+      "text": "의료 도메인 벤치마크 데이터셋 설계·수집·정제와 human-in-the-loop 레이블링 운영",
+      "skills": [
+        "벤치마크 데이터셋",
+        "레이블링"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "담당",
+      "text": "AI agent·LLM 논문 재현과 실험, 학회 발표 수준 연구",
+      "skills": [
+        "논문 재현",
+        "연구"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "담당",
+      "text": "지연시간·비용·신뢰성 기준 pipeline 최적화, 운영 실패 분석과 fallback 설계",
+      "skills": [
+        "비용 최적화",
+        "fallback"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "담당",
+      "text": "의료 환경의 안정성·재현성·감사 가능성 확보",
+      "skills": [
+        "재현성",
+        "감사 가능성"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "담당",
+      "text": "임상 의사결정 지원·의료 문서 요약·환자 상담 등 에이전트 서비스 기능 개발과 QA",
+      "skills": [
+        "의료 에이전트",
+        "QA"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "담당",
+      "text": "의료 AI 규제를 고려한 안전한 에이전트 설계와 의료진 파일럿 피드백 반영",
+      "skills": [
+        "규제 대응",
+        "안전 설계"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "담당",
+      "text": "Codex·Claude Code 등 coding agent와 loop engineering으로 개발 생산성 개선",
+      "skills": [
+        "Claude Code",
+        "Codex"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "필수",
+      "text": "Python 기반 딥러닝 프레임워크와 PyTorch 활용",
+      "skills": [
+        "Python",
+        "PyTorch"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "필수",
+      "text": "LangChain·LangGraph·AutoGen 등 에이전트 프레임워크 1종 이상 실무 적용",
+      "skills": [
+        "LangChain",
+        "LangGraph",
+        "AutoGen"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "필수",
+      "text": "planning·tool-calling·memory 등 에이전트 구성 요소 구현",
+      "skills": [
+        "에이전트 구성 요소"
+      ]
+    },
+    {
+      "id": "R15",
+      "kind": "필수",
+      "text": "RAG 파이프라인 구축, 벡터 DB와 임베딩 모델 활용",
+      "skills": [
+        "벡터 DB",
+        "임베딩"
+      ]
+    },
+    {
+      "id": "R16",
+      "kind": "필수",
+      "text": "정량 지표 정의, 자동화 eval harness 구축, 데이터셋 구성 등 평가 파이프라인 설계",
+      "skills": [
+        "eval harness",
+        "평가 설계"
+      ]
+    },
+    {
+      "id": "R17",
+      "kind": "필수",
+      "text": "Git 기반 협업, PR 리뷰, CI/CD 기본 이해",
+      "skills": [
+        "Git",
+        "PR 리뷰",
+        "CI/CD"
+      ]
+    },
+    {
+      "id": "R18",
+      "kind": "필수",
+      "text": "최신 AI 논문 분석과 코드 재현",
+      "skills": [
+        "논문 분석"
+      ]
+    },
+    {
+      "id": "R19",
+      "kind": "필수",
+      "text": "비즈니스 문제를 기술 요구사항으로 구조화하는 시스템적 사고",
+      "skills": [
+        "요구사항 구조화"
+      ]
+    },
+    {
+      "id": "R20",
+      "kind": "우대",
+      "text": "LangSmith·Langfuse·W&B 등 observability 도구로 에이전트 디버깅",
+      "skills": [
+        "LangSmith",
+        "Langfuse",
+        "observability"
+      ]
+    },
+    {
+      "id": "R21",
+      "kind": "우대",
+      "text": "의료 AI·헬스케어 프로젝트, 의학 용어·임상 워크플로우 이해",
+      "skills": [
+        "의료 AI"
+      ]
+    },
+    {
+      "id": "R22",
+      "kind": "우대",
+      "text": "multi-agent system 설계",
+      "skills": [
+        "멀티 에이전트"
+      ]
+    },
+    {
+      "id": "R23",
+      "kind": "우대",
+      "text": "RL·RLHF·GRPO 등 파인튜닝·alignment 또는 경량화 적용",
+      "skills": [
+        "RLHF",
+        "파인튜닝"
+      ]
+    },
+    {
+      "id": "R24",
+      "kind": "우대",
+      "text": "에이전트 안전성·환각 완화·신뢰성 향상 연구 또는 구현",
+      "skills": [
+        "환각 완화",
+        "안전성"
+      ]
+    },
+    {
+      "id": "R25",
+      "kind": "우대",
+      "text": "오픈소스 에이전트 프로젝트 기여",
+      "skills": [
+        "오픈소스"
+      ]
+    },
+    {
+      "id": "R26",
+      "kind": "우대",
+      "text": "Kubernetes·Docker 기반 ML 서빙 환경 운영",
+      "skills": [
+        "Kubernetes",
+        "Docker",
+        "ML 서빙"
+      ]
+    },
+    {
+      "id": "R27",
+      "kind": "우대",
+      "text": "모니터링·안정성을 포함한 production-grade 서비스 운영",
+      "skills": [
+        "프로덕션 운영",
+        "모니터링"
+      ]
+    },
+    {
+      "id": "R28",
+      "kind": "우대",
+      "text": "GraphRAG와 memory-augmented generation 활용",
+      "skills": [
+        "GraphRAG"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "필수: Claude Code·Codex 등 AI 코딩 도구를 개발 워크플로우에 통합한 경험",
+      "reason": "담당 R11과 같은 요구라 합침"
+    },
+    {
+      "text": "우대: 국가유공자 및 장애인 등 취업보호 대상자",
+      "reason": "법정 우대 사항이라 직무 요구가 아님"
+    },
+    {
+      "text": "경력직 (제목)",
+      "reason": "연차 숫자가 없어 별도 항목으로 채점하지 않음. 실무 적용 요구(R13)로 판단"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}

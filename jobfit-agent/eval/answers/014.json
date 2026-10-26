@@ -1,0 +1,166 @@
+{
+  "posting_id": "014",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "콘텐츠·크리에이터·커머스 업무 흐름을 분석해 AI Product로 구현·고도화",
+      "skills": [
+        "업무 분석",
+        "AI Product"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "사람의 판단 지점과 AI 실행 지점을 나눈 협업형 프로덕트 구조 설계·개발",
+      "skills": [
+        "Human-in-the-loop",
+        "프로덕트 구조"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "현업과 문제를 정의하고 실제 업무용 Agent 개발·배포",
+      "skills": [
+        "Agent 개발",
+        "배포"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "배포 후 사용 데이터와 현업 피드백으로 품질·활용도 개선",
+      "skills": [
+        "피드백 반영"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "담당",
+      "text": "AI Agent가 안전하게 운영되는 플랫폼 아키텍처(보안·인증·데이터 파이프라인) 설계·구축",
+      "skills": [
+        "플랫폼 아키텍처",
+        "보안",
+        "인증"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "담당",
+      "text": "Agent 컨텍스트 구조·실행 환경 설계와 테스트·CI/CD 품질 체계",
+      "skills": [
+        "컨텍스트 설계",
+        "CI/CD",
+        "테스트"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "담당",
+      "text": "공통 로직·프롬프트·로그 구조 표준화, 프로토타입을 프로덕션 수준으로 고도화",
+      "skills": [
+        "표준화",
+        "프로덕션화"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "필수",
+      "text": "소프트웨어 엔지니어링 경력 3년 이상, AI Agent·LLM 서비스를 직접 설계·개발·배포",
+      "skills": [
+        "경력 3년",
+        "LLM 서비스"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "필수",
+      "text": "Python 백엔드와 LLM API 실무, Agent Framework 활용 또는 자체 Harness 설계",
+      "skills": [
+        "Python",
+        "LLM API",
+        "Harness"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "필수",
+      "text": "현업 업무 흐름을 AI Product·Agent 요구사항과 구조로 전환한 경험",
+      "skills": [
+        "요구사항 전환"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "필수",
+      "text": "프로토타입을 실사용 프로덕션 시스템으로 고도화·운영",
+      "skills": [
+        "프로덕션 운영"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "필수",
+      "text": "Claude Code·Codex 등 AI 코딩 도구로 생산성을 높이고 있음",
+      "skills": [
+        "Claude Code",
+        "Codex"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "필수",
+      "text": "AWS·GCP 등 클라우드 운영 경험",
+      "skills": [
+        "AWS",
+        "GCP"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "우대",
+      "text": "작은 규모라도 AI Agent를 직접 만들어 현업에 배포·운영한 경험",
+      "skills": [
+        "Agent 운영"
+      ]
+    },
+    {
+      "id": "R15",
+      "kind": "우대",
+      "text": "Human-in-the-loop Product 설계·개발 경험",
+      "skills": [
+        "Human-in-the-loop"
+      ]
+    },
+    {
+      "id": "R16",
+      "kind": "우대",
+      "text": "비즈니스 문제를 이해하고 아키텍처 의사결정을 직접 내린 경험",
+      "skills": [
+        "아키텍처 결정"
+      ]
+    },
+    {
+      "id": "R17",
+      "kind": "우대",
+      "text": "Meta·Google·TikTok API 등 광고·마케팅 데이터 자동화 경험",
+      "skills": [
+        "광고 API",
+        "마케팅 자동화"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "우대: 현업의 업무 프로세스를 이해하고 기술 구조로 전환해본 경험",
+      "reason": "필수 R10과 같은 요구라 합침"
+    },
+    {
+      "text": "경력 3~10년 (리멤버 요약 칸)",
+      "reason": "필수 R8과 같은 요구라 합침"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}

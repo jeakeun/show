@@ -1,0 +1,156 @@
+{
+  "posting_id": "012",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "LLM·Agent 기반 기능을 실제 서비스에 통합",
+      "skills": [
+        "LLM 통합",
+        "Agent"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "제품 요구사항에 따른 AI 모델 활용 기술 설계·구현",
+      "skills": [
+        "기술 설계"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "LLM/Agent 시스템이 안정적으로 동작하는 백엔드 아키텍처 설계·최적화",
+      "skills": [
+        "백엔드 아키텍처"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "AI 기능의 성능·비용·지연시간 모니터링과 지속 최적화",
+      "skills": [
+        "비용 모니터링",
+        "지연시간"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "담당",
+      "text": "외부 API·데이터 소스·사내 시스템과 AI 기능 연동·확장",
+      "skills": [
+        "시스템 연동"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "담당",
+      "text": "모델 서빙 환경(REST API·gRPC·비동기 파이프라인) 설계와 인프라 운영",
+      "skills": [
+        "REST API",
+        "gRPC",
+        "비동기 파이프라인"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "필수",
+      "text": "5년 이상 소프트웨어 엔지니어링 경력",
+      "skills": [
+        "경력 5년"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "필수",
+      "text": "AI/ML 모델을 활용한 기능을 서비스에 실제 적용한 경험",
+      "skills": [
+        "AI 서비스 적용"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "필수",
+      "text": "Docker·Kubernetes·AWS ECS 등 컨테이너 배포 환경 경험",
+      "skills": [
+        "Docker",
+        "Kubernetes",
+        "AWS ECS"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "필수",
+      "text": "비동기 처리·캐싱·로깅·모니터링 등 서비스 안정성 확보 경험",
+      "skills": [
+        "캐싱",
+        "로깅",
+        "모니터링"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "필수",
+      "text": "모델 요구사항을 이해하고 제품 기능으로 구현",
+      "skills": [
+        "제품화"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "우대",
+      "text": "LLM 기반 기능(챗봇·요약·추천·Agent 등)을 직접 서비스에 적용한 경험",
+      "skills": [
+        "LLM 기능",
+        "요약",
+        "Agent"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "우대",
+      "text": "LangChain·LangGraph·CrewAI 등 Agent 프레임워크 활용 경험",
+      "skills": [
+        "LangChain",
+        "LangGraph",
+        "CrewAI"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "우대",
+      "text": "모델 서빙 최적화(Triton·ONNX Runtime·vLLM 등) 경험",
+      "skills": [
+        "Triton",
+        "ONNX Runtime",
+        "vLLM"
+      ]
+    },
+    {
+      "id": "R15",
+      "kind": "우대",
+      "text": "대규모 트래픽 환경 성능 최적화 경험",
+      "skills": [
+        "대규모 트래픽"
+      ]
+    },
+    {
+      "id": "R16",
+      "kind": "우대",
+      "text": "AWS/GCP/Azure 기반 인프라 관리·운영 경험",
+      "skills": [
+        "AWS",
+        "GCP",
+        "Azure"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "회사 미션·일하는 방식(Wanted Way)·팀 소개",
+      "reason": "회사 설명이라 요구 항목이 아님"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}

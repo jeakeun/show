@@ -1,0 +1,147 @@
+{
+  "posting_id": "013",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "정형·비정형 데이터를 AI Agent가 쓰도록 통합하는 Central Data Layer(OLAP·Vector DB·Graph DB) 설계·구축·운영",
+      "skills": [
+        "OLAP",
+        "Vector DB",
+        "Graph DB"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "사내 AI Native Workspace(MCP Server·업무 워크플로우 빌더·Flywheel 엔진) 설계·구축·운영",
+      "skills": [
+        "MCP Server",
+        "워크플로우 빌더"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "사내 도메인 팀(Sales·Finance·RA·QA·CS)과 핵심 업무 워크플로우를 AI 기반으로 재설계",
+      "skills": [
+        "업무 재설계"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "사내 AI 사용 정책·스킬 가이드 작성과 월간 교육 세션 운영",
+      "skills": [
+        "AI 정책",
+        "교육"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "필수",
+      "text": "백엔드 개발 실무 경력 3년 이상",
+      "skills": [
+        "백엔드 경력 3년"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "필수",
+      "text": "Go·Python·TypeScript 능숙, API 설계와 확장 가능한 시스템, AWS 기반 마이크로서비스(Docker·k8s)",
+      "skills": [
+        "Go",
+        "Python",
+        "TypeScript",
+        "AWS",
+        "Docker",
+        "Kubernetes"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "필수",
+      "text": "RDBMS(PostgreSQL·Aurora)와 OLAP DB 활용 경험",
+      "skills": [
+        "PostgreSQL",
+        "Aurora",
+        "OLAP"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "필수",
+      "text": "AI/LLM 도구(Claude Code·Codex·Gemini 등)를 일상 업무에 적극 활용하며 한계와 가능성을 체득",
+      "skills": [
+        "Claude Code",
+        "Codex"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "필수",
+      "text": "팀 프로젝트를 끝까지 해내는 실행력과 함께 성장하려는 태도",
+      "skills": [
+        "실행력"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "우대",
+      "text": "AI Harness·Agent Engineering: CLI AI 도구를 skill/hook/agent/MCP server로 customize, 하네스·personal agent 사용·구축",
+      "skills": [
+        "skill",
+        "hook",
+        "MCP server",
+        "하네스"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "우대",
+      "text": "Snowflake·Databricks 등 Lakehouse/Warehouse 위 ETL/ELT 파이프라인 설계·운영",
+      "skills": [
+        "Databricks",
+        "Snowflake",
+        "ETL"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "우대",
+      "text": "MCP Server 구현·활용, AI Agent 아키텍처(Tool Use·RAG·Function Calling·Agentic Workflow), Vector·Graph DB",
+      "skills": [
+        "MCP",
+        "RAG",
+        "Function Calling"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "우대",
+      "text": "Salesforce·SAP 등 엔터프라이즈 SaaS API 통합, 사내 도구로 동료에게 임팩트, 의료·헬스케어 관심",
+      "skills": [
+        "Salesforce",
+        "SAP",
+        "사내 도구"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "스킬",
+      "text": "GraphQL, React, TypeScript",
+      "skills": [
+        "GraphQL",
+        "React",
+        "TypeScript"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "주요업무 하위 설명: 사내 AI Flywheel 정의",
+      "reason": "R2의 용어 설명이라 합침"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}

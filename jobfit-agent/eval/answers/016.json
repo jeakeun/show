@@ -1,0 +1,229 @@
+{
+  "posting_id": "016",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "세탁 공정·물류·검수·카운팅·분류 업무 분석과 자동화 기술 요구사항 정의",
+      "skills": [
+        "현장 업무 분석",
+        "요구사항 정의"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "현장 담당자와 실제 운영에 적용 가능한 자동화 프로세스 설계",
+      "skills": [
+        "자동화 프로세스"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "세탁물 분류·오염 탐지·형태 인식·수량 카운팅용 AI/CV 모델 개발",
+      "skills": [
+        "컴퓨터 비전",
+        "모델 개발"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "Object Detection·Segmentation·Classification 모델 설계·고도화",
+      "skills": [
+        "Object Detection",
+        "Segmentation",
+        "Classification"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "담당",
+      "text": "카메라 영상·이미지·센서 데이터로 자동화 PoC와 상용화",
+      "skills": [
+        "센서 데이터",
+        "PoC"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "담당",
+      "text": "현장 데이터 수집 방식과 카메라·조명·라벨링 기준 실험 설계, 현장 변수 고려 성능 검증",
+      "skills": [
+        "데이터 수집 설계",
+        "라벨링"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "담당",
+      "text": "IPC·미니PC·Edge 환경 실시간 추론 최적화(ONNX·TensorRT·Quantization)",
+      "skills": [
+        "Edge AI",
+        "ONNX",
+        "TensorRT",
+        "Quantization"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "담당",
+      "text": "현장 장비와 연동되는 AI 시스템 구축·운영",
+      "skills": [
+        "장비 연동"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "담당",
+      "text": "LLM·Agent·Workflow Automation으로 빠르게 프로토타입을 만들고 문제 정의~운영 개선까지 주도",
+      "skills": [
+        "LLM",
+        "Agent",
+        "프로토타입"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "필수",
+      "text": "Python 기반 개발 경험",
+      "skills": [
+        "Python"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "필수",
+      "text": "컴퓨터 비전 또는 딥러닝 모델 개발 경험",
+      "skills": [
+        "컴퓨터 비전",
+        "딥러닝"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "필수",
+      "text": "PyTorch·TensorFlow·OpenCV 등 AI/CV 프레임워크 사용 경험",
+      "skills": [
+        "PyTorch",
+        "TensorFlow",
+        "OpenCV"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "필수",
+      "text": "AWS 기반 서비스 구성·운영 경험",
+      "skills": [
+        "AWS"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "필수",
+      "text": "Docker로 개발·배포 환경 구성 경험",
+      "skills": [
+        "Docker"
+      ]
+    },
+    {
+      "id": "R15",
+      "kind": "필수",
+      "text": "현장·운영 데이터를 분석해 기술 요구사항으로 정의하는 문제 해결 능력",
+      "skills": [
+        "문제 정의"
+      ]
+    },
+    {
+      "id": "R16",
+      "kind": "필수",
+      "text": "PoC에서 끝나지 않고 실제 사용 가능한 결과물로 구현한 경험",
+      "skills": [
+        "실사용 결과물"
+      ]
+    },
+    {
+      "id": "R17",
+      "kind": "필수",
+      "text": "비개발·현장 조직과 소통하며 문제를 구체화하고 개선안 실행",
+      "skills": [
+        "소통"
+      ]
+    },
+    {
+      "id": "R18",
+      "kind": "우대",
+      "text": "제조·물류·스마트팩토리 환경 AI/CV 프로젝트 경험",
+      "skills": [
+        "스마트팩토리",
+        "제조"
+      ]
+    },
+    {
+      "id": "R19",
+      "kind": "우대",
+      "text": "산업용 카메라·조명·센서를 직접 세팅하고 데이터 수집부터 진행한 경험",
+      "skills": [
+        "산업용 카메라",
+        "센서"
+      ]
+    },
+    {
+      "id": "R20",
+      "kind": "우대",
+      "text": "Detection·Segmentation·Classification 모델을 현장에 적용한 경험",
+      "skills": [
+        "현장 적용"
+      ]
+    },
+    {
+      "id": "R21",
+      "kind": "우대",
+      "text": "MLOps 또는 DevOps, 모델 학습·배포·모니터링·데이터 파이프라인 경험",
+      "skills": [
+        "MLOps",
+        "DevOps",
+        "모니터링"
+      ]
+    },
+    {
+      "id": "R22",
+      "kind": "우대",
+      "text": "Docker·Linux·CI/CD·클라우드/온프레미스 서버 운영 경험",
+      "skills": [
+        "Linux",
+        "CI/CD",
+        "온프레미스"
+      ]
+    },
+    {
+      "id": "R23",
+      "kind": "우대",
+      "text": "LLM·Agent·AI 자동화 도구를 빠르게 학습해 업무에 적용한 경험",
+      "skills": [
+        "LLM",
+        "AI 자동화"
+      ]
+    },
+    {
+      "id": "R24",
+      "kind": "우대",
+      "text": "하드웨어·소프트웨어·운영 현장을 함께 이해하고 완성물을 만든 경험",
+      "skills": [
+        "하드웨어 이해"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "우대: ONNX·TensorRT·Quantization 경량화 경험",
+      "reason": "담당 R7과 같은 요구라 합침"
+    },
+    {
+      "text": "회사·테크팀 소개",
+      "reason": "회사 설명이라 요구 항목이 아님"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}
