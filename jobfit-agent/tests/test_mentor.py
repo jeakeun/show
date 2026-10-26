@@ -43,3 +43,13 @@ def test_company_type_scored_only_when_mentor_labeled():
     assert ev.company_type_hit({"mentor_reading": {"company_type": "기술 판매"}}, {"company_type": "기술 판매"}) is True
     assert ev.company_type_hit({"mentor_reading": {"company_type": "새 사업"}}, {"company_type": "기술 판매"}) is False
     assert ev.company_type_hit({"mentor_reading": {"discussed": "해석 없음"}}, {"company_type": "기타"}) is None
+
+
+def test_batch_runs_until_human_confirm_without_saving(tmp_path):
+    from jobfit.batch import report_one, run_one, summary
+    cfg = replace(Config(), output_dir=tmp_path)
+    llm = FakeLLM()
+    r = run_one(llm, Retriever(load_chunks(cfg.sources, cfg.source_root)), cfg, ROOT / "eval" / "postings" / "004.md")
+    assert r["draft"] and r["writes"] == 1 and r["fit_score"] is not None
+    assert list(tmp_path.rglob("*.md")) == []           # 테스트 실행은 승인·저장하지 않음
+    assert "회사 읽기" in report_one(r) and "| 004 |" in summary([r], "가짜")

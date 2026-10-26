@@ -6,7 +6,7 @@
 3. **모든 문장에 근거가 달린** 자기소개서·이력서 강조점 초안을 만듭니다.
 4. 사람이 확정하면 지원 이력에 등록합니다.
 
-> 상태: **첫 골격 + 멘토 기준 반영** (2026-10-26). 흐름 전체가 가짜 모델로 테스트 19개를 통과했고, 실제 모델 실행은 아직 안 했습니다.
+> 상태: **첫 골격 + 멘토 기준 반영** (2026-10-26). 흐름 전체가 가짜 모델로 테스트 20개를 통과했고, 실제 모델 실행은 아직 안 했습니다.
 > 지금은 [show 저장소](https://github.com/jeakeun/show) 안의 폴더이고, 새 공개 저장소가 생기면 기록째로 옮깁니다.
 > 아직 만들지 않은 것을 만든 것처럼 쓰지 않습니다.
 
@@ -63,6 +63,7 @@
 | `jobfit/prompts.py` | 에이전트별 지시문, 출력 형식 |
 | `jobfit/fake.py` | 가짜 모델 (API 키 없이 흐름 시험) |
 | `jobfit/evaluate.py`, `eval_analyzer.py` | 공고 분석가 채점: 요구 항목 재현율·정밀도, 회사 유형이 멘토 해석과 같은지 |
+| `jobfit/batch.py`, `batch_run.py` | 지원서 변경 테스트: 여러 공고를 사람 확정 직전까지 돌려 초안·지적·비용을 모음 (승인·저장 안 함) |
 | `tests/` | 부품 테스트 + 흐름 테스트 |
 
 ## 실행
@@ -73,7 +74,8 @@ python -m pytest                                  # 테스트 (API 키 불필요
 python run.py eval/postings/001.md --dry-run      # 가짜 모델로 흐름 확인 (비용 없음)
 python run.py eval/postings/001.md                # 실제 실행 (.env 에 ANTHROPIC_API_KEY 필요, 비용 발생)
 python run.py eval/postings/001.md --baseline     # 에이전트 1개짜리 기준선
-python eval_analyzer.py                           # 공고 분석가 채점 (평가셋 7개 공고)
+python eval_analyzer.py                           # 공고 분석가 채점 (평가셋 공고 전체)
+python batch_run.py --only 008,009 --max-usd 5    # 지원서 변경 테스트 (비용 상한)
 ```
 
 ## 쓰는 기술
