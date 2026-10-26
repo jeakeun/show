@@ -1,0 +1,42 @@
+{
+  "posting_id": "006",
+  "requirements": [
+    {"id": "R1", "kind": "담당", "text": "안정적인 AI 서비스 서빙 아키텍처 설계·개발", "skills": ["AI 서빙", "아키텍처 설계"]},
+    {"id": "R2", "kind": "담당", "text": "AI 서비스 백엔드 서버 개발과 서빙 최적화", "skills": ["백엔드", "서빙 최적화"]},
+    {"id": "R3", "kind": "필수", "text": "개발 경력 4년 이상", "skills": ["경력 4년"]},
+    {"id": "R4", "kind": "필수", "text": "하나 이상의 프로그래밍 언어 숙련 (예: Node.js, Python)", "skills": ["Node.js", "Python"]},
+    {"id": "R5", "kind": "필수", "text": "컴퓨터 공학 기본 지식을 이해하고 활용", "skills": ["CS 기본기"]},
+    {"id": "R6", "kind": "필수", "text": "최신 AI/ML 기술에 관심", "skills": ["AI/ML 관심"]},
+    {"id": "R7", "kind": "우대", "text": "AI 코딩 Agent로 코드 작성·리팩토링·디버깅 생산성을 높여 본 경험", "skills": ["AI 코딩 에이전트"]},
+    {"id": "R8", "kind": "우대", "text": "Kubernetes·Docker Swarm 등 오케스트레이션 환경 운영 경험", "skills": ["Kubernetes", "Docker Swarm"]},
+    {"id": "R9", "kind": "우대", "text": "대용량 트래픽을 처리하는 서버 애플리케이션 개발 경험", "skills": ["대용량 트래픽"]},
+    {"id": "R10", "kind": "우대", "text": "MSA·REST·gRPC·MCP·Kafka 등 서비스 간 통신에 대한 높은 이해", "skills": ["MSA", "REST", "gRPC", "MCP", "Kafka"]},
+    {"id": "R11", "kind": "우대", "text": "DDD·EDD 패턴을 적용한 시스템 설계·구현", "skills": ["DDD", "EDD"]},
+    {"id": "R12", "kind": "우대", "text": "협업 커뮤니케이션과 문제 해결 능력", "skills": ["협업", "문제 해결"]},
+    {"id": "R13", "kind": "우대", "text": "NestJS 애플리케이션 개발 경험", "skills": ["NestJS"]}
+  ],
+  "excluded": [
+    {"text": "[팀소개] SOOP은 수많은 비디오·오디오·텍스트 데이터를 보유", "reason": "팀 소개라 요구 항목이 아님. 멘토 해석은 mentor_reading 에 적음"},
+    {"text": "스킬 태그", "reason": "공고에 기재 없음"}
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다",
+  "mentor_reading": {
+    "discussed": "지원자가 고른 회사로 해석함. 지원자와 문답하며 진행",
+    "video_range": "15:12~19:25",
+    "how_company_makes_money": "옛 아프리카TV. 시청자가 별풍선을 충전해 BJ에게 주면 수수료를 받음. 그래서 BJ 수와 시청자 수를 늘려야 매출이 남",
+    "metrics_they_care_about": ["별풍선 개수(가장 직관적인 매출 지표)", "BJ 수", "시청자 수", "BJ 잔존율", "BJ 수익률"],
+    "what_they_really_want": [
+      {"text": "BJ와 시청자 두 가지를 늘리기 위해 회사 안의 팀들이 어떤 목표로 일할지를 떠올려 봐야 함", "ts": "16:07"},
+      {"text": "BJ를 늘리려면 신입 BJ 지원, 추천 시스템 조정 등으로 BJ가 오래 남게 하는 것. 지원자의 답을 멘토가 맞다고 함", "ts": "16:27"},
+      {"text": "AI 서비스 서빙 포지션은 많은 사람이 쓰는 서비스를 추구하는 자리", "ts": "17:07"}
+    ],
+    "pitch_examples": [
+      {"text": "내가 만든 서비스를 사람들이 많이 썼다", "ts": "17:20"},
+      {"text": "만 명밖에 못 받던 시스템을 백만 명까지 받도록 최적화했다", "ts": "17:29"},
+      {"text": "한 달 만에 만 명이 관심을 가졌고 그중 다시 온 사람이 몇 명이었다", "ts": "18:17"},
+      {"text": "MSA로 기능마다 오토스케일링을 달아 사용자가 폭증해도 버티는 인프라를 만들었다", "ts": "18:35"}
+    ],
+    "not_effective_here": [],
+    "uncertain": ["18:35 '레이웨이 오토 스케일링'은 전사가 뭉개짐. 기능별 오토스케일링 취지로 판단", "18:47 '인프라를 프리로 만들었다' 부분 불명확"]
+  }
+}
