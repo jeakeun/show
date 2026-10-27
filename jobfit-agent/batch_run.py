@@ -15,7 +15,7 @@ from datetime import datetime
 
 from jobfit.batch import (all_sources, report_baseline_one, report_one, run_baseline_one, run_one,
                           summary, summary_baseline)
-from jobfit.career import Retriever, load_chunks
+from jobfit.career import Retriever, load_career
 from jobfit.config import ROOT, Config, api_key
 
 
@@ -44,13 +44,13 @@ def main() -> int:
 
     wanted = {x.strip() for x in args.only.split(",") if x.strip()}
     postings = [p for p in sorted((ROOT / "eval" / "postings").glob("*.md")) if not wanted or p.stem in wanted]
-    chunks = load_chunks(cfg.sources, cfg.source_root, cfg.chunk_size, cfg.chunk_overlap)
+    chunks = load_career(cfg)
     if args.baseline:
         sources = all_sources(chunks)
         run, report, summarize, prefix = (lambda p: run_baseline_one(llm, sources, p)), report_baseline_one, summary_baseline, "baseline"
         label = "기준선 · " + label
     else:
-        retriever = Retriever(chunks)
+        retriever = Retriever(chunks, cfg.match_words)
         run, report, summarize, prefix = (lambda p: run_one(llm, retriever, cfg, p)), report_one, summary, "batch"
     out_dir = ROOT / "eval" / "results" / f"{prefix}-{datetime.now():%Y%m%d-%H%M}"
 

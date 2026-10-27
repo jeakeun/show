@@ -37,6 +37,14 @@ class State(TypedDict, total=False):
     output_path: str
 
 
+def find_evidence(retriever: Retriever, cfg: Config, req: dict) -> dict:
+    """요구 항목 하나의 근거 조각을 찾는다. 그래프의 검색가와 검색 채점(eval_retrieval.py)이 같이 쓴다."""
+    hits = retriever.search(req["text"], cfg.top_k, cfg.per_kind, skills=req.get("skills") or [])
+    return {"req": req, "chunks": [{"id": c.id, "source": c.source, "kind": c.kind, "section": c.section,
+                                    "text": c.text, "score": round(s, 2), "extra": extra}
+                                   for c, s, extra in hits]}
+
+
 def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
     # ① 공고 분석가: 공고만 보고 요구 항목(1차)과 회사 읽기(2차)를 뽑는다 (경력과 섞이지 않은 맥락, J-02·J-14)
     def analyze(state: State) -> dict:
@@ -52,12 +60,7 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
 
     # ② 근거 검색가: 읽기만 한다. 그래서 동시에 여러 개 돌려도 안전하다
     def retrieve(task: dict) -> dict:
-        req = task["req"]
-        query = " ".join([req["text"], *req.get("skills", [])])
-        hits = retriever.search(query, cfg.top_k)
-        return {"found": [{"req": req, "chunks": [{"id": c.id, "source": c.source, "kind": c.kind,
-                                                   "section": c.section, "text": c.text, "score": round(s, 2)}
-                                                  for c, s in hits]}]}
+        return {"found": [find_evidence(retriever, cfg, task["req"])]}
 
     # ③ 적합도 계산: 코드가 한다 (J-04). 근거 번호(E1, E2 …)도 여기서 붙인다
     def score(state: State) -> dict:
@@ -69,7 +72,7 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
                     eid = f"E{len(sources) + 1}"
                     chunk_to_eid[c["id"]] = eid
                     sources[eid] = c
-            judged.append(scoring.judge(item["req"], item["chunks"]))
+            judged.append(scoring.judge(item["req"], item["chunks"], cfg.match_words))
         return {"sources": sources, "judged": judged, "fit_score": scoring.overall(judged)}
 
     # ④ 작성자: 한 명만 쓴다 (J-05)

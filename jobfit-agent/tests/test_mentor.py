@@ -4,7 +4,7 @@ from dataclasses import replace
 from langgraph.checkpoint.memory import InMemorySaver
 
 from jobfit import citations, evaluate as ev
-from jobfit.career import Retriever, load_chunks
+from jobfit.career import Retriever, load_career
 from jobfit.config import ROOT, Config
 from jobfit.fake import FakeLLM
 from jobfit.graph import build
@@ -19,7 +19,7 @@ def test_reinforce_section_is_not_citation_checked():
 def test_company_reading_reaches_writer_and_human(tmp_path):
     llm = FakeLLM()
     cfg = replace(Config(), output_dir=tmp_path)
-    app = build(llm, Retriever(load_chunks(cfg.sources, cfg.source_root)), cfg, checkpointer=InMemorySaver())
+    app = build(llm, Retriever(load_career(cfg), cfg.match_words), cfg, checkpointer=InMemorySaver())
     result = app.invoke({"posting_id": "006", "posting": read_posting(ROOT / "eval" / "postings" / "006.md")},
                         {"configurable": {"thread_id": "m"}})
     writer_call = next(c for c in llm.calls if c["role"] == "writer")
@@ -49,7 +49,7 @@ def test_batch_runs_until_human_confirm_without_saving(tmp_path):
     from jobfit.batch import report_one, run_one, summary
     cfg = replace(Config(), output_dir=tmp_path)
     llm = FakeLLM()
-    r = run_one(llm, Retriever(load_chunks(cfg.sources, cfg.source_root)), cfg, ROOT / "eval" / "postings" / "004.md")
+    r = run_one(llm, Retriever(load_career(cfg), cfg.match_words), cfg, ROOT / "eval" / "postings" / "004.md")
     assert r["draft"] and r["writes"] == 1 and r["fit_score"] is not None
     assert list(tmp_path.rglob("*.md")) == []           # 테스트 실행은 승인·저장하지 않음
     assert "회사 읽기" in report_one(r) and "| 004 |" in summary([r], "가짜")
@@ -58,7 +58,7 @@ def test_batch_runs_until_human_confirm_without_saving(tmp_path):
 def test_baseline_writes_once_and_runs_both_checks():
     from jobfit.batch import all_sources, report_baseline_one, run_baseline_one, summary_baseline
     cfg = Config()
-    sources = all_sources(load_chunks(cfg.sources, cfg.source_root))
+    sources = all_sources(load_career(cfg))
     draft = "## 자기소개서\n근거 없이 쓴 문장입니다.\n운영했습니다 [E1]."
     llm = FakeLLM(drafts=[draft], verdicts=[[{"sentence": "운영했습니다", "problem": "과장", "detail": "x"}]])
     r = run_baseline_one(llm, sources, ROOT / "eval" / "postings" / "004.md")

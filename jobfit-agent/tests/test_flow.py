@@ -5,7 +5,7 @@ from pathlib import Path
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
-from jobfit.career import Retriever, load_chunks
+from jobfit.career import Retriever, load_career
 from jobfit.config import ROOT, Config
 from jobfit.fake import FakeLLM
 from jobfit.graph import build
@@ -16,7 +16,7 @@ POSTING = read_posting(ROOT / "eval" / "postings" / "001.md")
 
 def make(tmp_path, llm):
     cfg = replace(Config(), output_dir=tmp_path)
-    retriever = Retriever(load_chunks(cfg.sources, cfg.source_root, cfg.chunk_size, cfg.chunk_overlap))
+    retriever = Retriever(load_career(cfg), cfg.match_words)
     app = build(llm, retriever, cfg, checkpointer=InMemorySaver())
     return app, {"configurable": {"thread_id": "t"}}
 

@@ -32,6 +32,19 @@ DEFAULT_SOURCES = (
     ("docs/멀티에이전트/05-레거시-시스템-연계.md", "학습"),
 )
 
+# 근거로 쓰면 안 되는 부분 (2-2 단계, 2026-10-27). 001 재현에서 LangChain 질문에 가장 높게 잡힌 "운영" 조각이
+# "아직 약한 곳"(프레임워크 실전 경험이 없다는 목록)과 이 프로젝트 자신(개발 중)이었다.
+# (문서, 절 제목에 든 말, 바꿀 종류 또는 None=뺌, 이유)
+SOURCE_RULES = (
+    ("README.md", "이 저장소 구조", None, "폴더 지도. 경력이 아니다"),
+    ("docs/멀티에이전트/02-내-설계결정-기록.md", "아직 약한 곳", None, "없는 경험 목록. 키워드가 겹쳐 근거로 잡혔다"),
+    ("README.md", "market-compass", "학습", "개발 중인 프로젝트는 운영 경험이 아니다"),
+    ("docs/멀티에이전트/02-내-설계결정-기록.md", "ADR-10", "학습", "market-compass (개발 중)"),
+)
+# 표 한 줄·인용 한 줄에서 뺄 말. 운영 중인 프로젝트 표에 개발 중인 것이 한 줄씩 섞여 있다.
+# "마지막 갱신" 줄은 커밋마다 바뀌어서, 넣어 두면 README를 고칠 때마다 근거가 달라진다.
+DROP_LINES = ("jobfit-agent", "webdrama", "market-compass", "마지막 갱신")
+
 
 @dataclass(frozen=True)
 class Config:
@@ -45,7 +58,15 @@ class Config:
     source_root: Path = SHOW_ROOT
     output_dir: Path = ROOT / "private" / "output"   # 깃 제외 폴더
 
-    top_k: int = 3              # 요구 항목마다 가져올 근거 조각 수
+    source_rules: tuple = SOURCE_RULES
+    drop_lines: tuple = DROP_LINES
+
+    # 검색 방식 (2-2). 셋 다 끄면 2-1 단계 방식과 같다. eval_retrieval.py 가 하나씩 켜 보며 비교한다.
+    clean_sources: bool = True  # 근거가 아닌 부분 빼기
+    match_words: bool = True    # 영어는 단어 통째로 + 동의어 사전
+    per_kind: int = 2           # 운영·학습 문서에서 각각 최소 몇 개씩 가져올지 (0이면 상위 k개만)
+
+    top_k: int = 3              # 요구 항목마다 가져올 근거 조각 수 (종류 상관없이 점수 순)
     max_requirements: int = 15  # 요구 항목이 너무 많으면 자름 (병렬 호출 수 상한)
     max_rewrites: int = 2       # 검증 실패 시 다시 쓰기 상한 (처음 1번 + 다시 2번)
     max_human_revisions: int = 2

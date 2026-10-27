@@ -12,7 +12,7 @@ from pathlib import Path
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
-from jobfit.career import Retriever, load_chunks
+from jobfit.career import Retriever, load_career
 from jobfit.config import ROOT, Config, api_key
 from jobfit.graph import build
 from jobfit.posting import read_posting
@@ -53,8 +53,8 @@ def main() -> int:
     cfg = Config()
     posting_path = Path(args.posting)
     posting = read_posting(posting_path)
-    chunks = load_chunks(cfg.sources, cfg.source_root, cfg.chunk_size, cfg.chunk_overlap)
-    retriever = Retriever(chunks)
+    chunks = load_career(cfg)
+    retriever = Retriever(chunks, cfg.match_words)
     print(f"경력 문서 조각 {len(chunks)}개를 색인했습니다.")
 
     if args.dry_run:
