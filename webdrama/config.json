@@ -1,0 +1,50 @@
+{
+  "model": "claude-opus-5-5",
+  "effort": "medium",
+  "fallback_env": "D:/yt-auto/secrets/.env",
+  "notify_dir": "D:/notify",
+
+  "episode_seconds": 90,
+  "shot_seconds_max": 10,
+  "video_tool": {
+    "site": "힉스필드(higgsfield.ai)",
+    "model": "Kling 3.0",
+    "resolution": "720p",
+    "_note": "작업지시서에 적히는 영상 사이트·모델 이름. 모델이 한 번에 만들 수 있는 길이가 짧으면 shot_seconds_max 도 줄일 것"
+  },
+  "season_episodes": 30,
+
+  "downloads_dir": "",
+  "bgm_dir": "D:/yt-auto/assets/bgm",
+  "bgm_volume": 0.07,
+  "subtitle_font": "Malgun Gothic",
+  "ending_text": "다음 화에 계속 ▶",
+
+  "publish_days": ["tue", "thu", "sat"],
+  "publish_time": "19:00",
+
+  "binge": {
+    "enabled": true,
+    "every": 10,
+    "season_full": true,
+    "layout": "landscape",
+    "_note": "Long-form compilation on YouTube: every N episodes + full season. layout landscape (16:9, blurred sides) or vertical"
+  },
+
+  "platforms": {
+    "youtube": {
+      "enabled": false,
+      "privacy": "public",
+      "client_secret": "D:/yt-auto/secrets/client_secret.json"
+    },
+    "instagram": {
+      "enabled": false,
+      "api_version": "v23.0"
+    },
+    "tiktok": {
+      "enabled": false,
+      "privacy_level": "SELF_ONLY",
+      "_note": "TikTok app audit before: only SELF_ONLY works. After audit set PUBLIC_TO_EVERYONE"
+    }
+  }
+}

@@ -45,6 +45,18 @@ cmd_finish() {
   if [ -n "$(git -C "$wt" status --porcelain --untracked-files=no)" ]; then
     echo "uncommitted changes in $wt - commit or drop first"; exit 1
   fi
+  # 2026-10-16: a heredoc turned a \n into a real newline inside a string and a syntax error reached main.
+  # Compile every changed .py and parse every changed .json before merging; refuse on failure.
+  local py="$live/.venv/Scripts/python.exe"; [ -x "$py" ] || py=python
+  local changed; changed=$(git -C "$wt" diff --name-only main...HEAD | tr -d '\r')
+  local pys jsons; pys=$(echo "$changed" | grep '\.py$' || true); jsons=$(echo "$changed" | grep '\.json$' || true)
+  if [ -n "$pys" ]; then
+    (cd "$wt" && "$py" -m py_compile $pys) || { echo "syntax error in changed .py files - not merged"; exit 1; }
+  fi
+  if [ -n "$jsons" ]; then
+    (cd "$wt" && "$py" -c "import json,sys; [json.load(open(f, encoding='utf-8')) for f in sys.argv[1:]]" $jsons) \
+      || { echo "invalid json in changed files - not merged"; exit 1; }
+  fi
   local n; n=$(repo_running "$repo" | tr -d '\r' || true)
   if [ "$n" != "0" ]; then echo "a $repo job is running now or the check failed ('$n') - try again later"; exit 1; fi
   git -C "$live" checkout -q main

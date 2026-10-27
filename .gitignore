@@ -28,3 +28,5 @@ zipga-marketing/teaser/_tmp*/
 
 # team repo cloned inside this folder (separate git repo)
 support-yr-makeup/
+# 드라이브 점검 리포트 (개인 경로 목록, 공개 저장소라 금지)
+드라이브점검-*.md

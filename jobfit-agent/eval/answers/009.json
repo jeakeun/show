@@ -1,0 +1,150 @@
+{
+  "posting_id": "009",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "전사 AI 도구(Claude·Gemini 등) 도입·활용 지원, PoC 검증과 활용 사례 발굴·공유",
+      "skills": [
+        "AI 도구 도입",
+        "PoC"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "사내 지식 검색, 문서·행정 자동화, 발전소 진단 알람·조치 자동화 과제 구현",
+      "skills": [
+        "지식 검색",
+        "문서 자동화",
+        "알람 자동화"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "LLM 에이전트·RAG·워크플로 자동화 기능 설계·구현·배포",
+      "skills": [
+        "LLM 에이전트",
+        "RAG",
+        "워크플로 자동화"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "외부 데이터 수집·연동과 파이프라인 구성",
+      "skills": [
+        "데이터 수집",
+        "파이프라인"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "담당",
+      "text": "에이전트 품질 평가·프롬프트 엔지니어링·Tool 정의 개선과 사용자 피드백 루프 운영",
+      "skills": [
+        "에이전트 평가",
+        "프롬프트 엔지니어링",
+        "Tool 정의"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "필수",
+      "text": "Python 실무 역량 + 웹 서비스/API 개발 경험 1년 이상",
+      "skills": [
+        "Python",
+        "API 개발",
+        "경력 1년"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "필수",
+      "text": "LLM API 활용 서비스 구현 경험 (사이드 프로젝트·포트폴리오 인정)",
+      "skills": [
+        "LLM API"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "필수",
+      "text": "새 도구·기술을 빠르게 학습해 적용하고 이해관계자와 협업·조율",
+      "skills": [
+        "학습 능력",
+        "협업"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "필수",
+      "text": "Git 기반 협업, 컨테이너·클라우드 배포 경험",
+      "skills": [
+        "Git",
+        "컨테이너",
+        "클라우드 배포"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "우대",
+      "text": "Vertex AI·Anthropic Claude·OpenAI SDK, LangChain, 벡터DB 경험",
+      "skills": [
+        "Vertex AI",
+        "Claude SDK",
+        "OpenAI SDK",
+        "LangChain",
+        "벡터DB"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "우대",
+      "text": "워크플로 자동화 도구(Airflow·Zapier·Make), FE 기본기(React 등)",
+      "skills": [
+        "Airflow",
+        "Zapier",
+        "Make",
+        "React"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "우대",
+      "text": "AI 서비스로 업무 자동화·효율화를 성사시키고 빠른 PoC를 운영 품질(배포·모니터링·예외 처리)로 마감한 경험",
+      "skills": [
+        "업무 자동화",
+        "모니터링",
+        "예외 처리"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "우대",
+      "text": "협업 툴·릴리즈 프로세스 등 소프트웨어 개발 프로세스 이해",
+      "skills": [
+        "릴리즈 프로세스"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "스킬",
+      "text": "ML",
+      "skills": [
+        "ML"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "스킬: LLM, Python, Git 협업",
+      "reason": "필수 항목(R6·R7·R9)과 중복이라 합침"
+    },
+    {
+      "text": "경력 1~5년 (리멤버 요약 칸)",
+      "reason": "필수 R6의 '1년 이상'과 같은 요구라 합침"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}

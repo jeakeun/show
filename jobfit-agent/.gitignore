@@ -1,0 +1,17 @@
+# 개인 문서 (공개 저장소라 절대 올리지 않음)
+private/
+
+# 비밀
+.env
+.env.*
+secrets/
+*.key
+
+# 파이썬
+.venv/
+__pycache__/
+*.pyc
+
+# 색인·실행 결과 (다시 만들 수 있음)
+data/vectorstore/
+runs/

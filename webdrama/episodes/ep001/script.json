@@ -1,0 +1,265 @@
+{
+  "title": "커피 한 잔에 찍혔다",
+  "summary": "첫 출근날 윤서연(한서연)은 선임 비서 차유나가 몰래 뚜껑을 풀어 둔 커피를 들고 가다 엘리베이터에서 나온 팀장 강도현의 셔츠에 쏟는다. 도현은 계약직이라는 소개에 '실수 한 번이면 끝'이라고 경고하지만, 곧바로 엘리베이터 거울로 유나의 고의를 봤다고 밝히며 유나에게 팀 전체 커피 심부름을 시킨다. 서연은 몰래 엄마와 통화하며 태일 장남과의 맞선을 거부하고 그가 분명 재수 없을 거라 말하는데, 바로 뒤에 그 장남인 도현이 서 있다.",
+  "payoff": "사이다: 서연을 모함하던 유나에게 도현이 '뚜껑 푸는 거 거울로 다 보였다'며 고의를 폭로하고 팀 전체 커피를 다시 사 오게 함",
+  "cliffhanger": "서연이 '태일 장남은 분명 재수 없는 남자일 거야'라고 말하는 순간, 바로 뒤에서 도현이 '누가 재수 없다고요?'라고 묻는다.",
+  "shots": [
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "yuna",
+        "seoyeon"
+      ],
+      "action_ko": "엘리베이터 앞, 유나가 서연에게 커피 캐리어를 떠넘기며 대놓고 무시한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, at the elevator lobby with brushed steel elevator doors. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. The red-blazer woman smirks condescendingly and hands a cardboard carrier with four paper coffee cups to the ivory-blouse woman, who takes it politely. Medium two-shot, slow push-in. Quiet office ambience. The red-blazer woman (sweet high-pitched female voice with a sly sarcastic edge, drawls when mocking) says in Korean: \"계약직은 커피부터 나르는 거야.\"",
+      "dialogue": [
+        {
+          "speaker": "yuna",
+          "line": "계약직은 커피부터 나르는 거야."
+        }
+      ]
+    },
+    {
+      "seconds": 5,
+      "location_id": "office",
+      "character_ids": [
+        "yuna",
+        "seoyeon"
+      ],
+      "action_ko": "서연이 엘리베이터 버튼을 보는 사이, 유나가 몰래 컵 뚜껑 하나를 살짝 풀어 둔다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, at the elevator lobby with brushed steel elevator doors. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. The ivory-blouse woman looks up at the elevator floor display while the red-blazer woman secretly twists the plastic lid of one coffee cup loose with her fingertips and smiles slyly. Close-up on the hands and coffee carrier, then tilt up to the red-blazer woman's sly smile. Soft elevator ding sound, subtle suspense music.",
+      "dialogue": []
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon",
+        "dohyun"
+      ],
+      "action_ko": "엘리베이터 문이 열리고 도현이 나오는 순간, 풀린 뚜껑이 튀며 커피가 그의 흰 셔츠에 쏟아진다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, at the elevator lobby with brushed steel elevator doors opening onto a mirrored elevator interior. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. The elevator doors slide open, the man steps out just as the woman steps forward; one loose coffee lid pops off and a splash of brown coffee lands on his white shirt and vest. She gasps, eyes wide. Medium shot, slight slow motion on the splash. Elevator ding, soft liquid splash, sharp gasp.",
+      "dialogue": []
+    },
+    {
+      "seconds": 5,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon",
+        "dohyun"
+      ],
+      "action_ko": "서연이 새파랗게 질려 허둥지둥 사과한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, at the elevator lobby with brushed steel elevator doors. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. The woman bows her head in panic, pulling a white handkerchief from her pocket and holding it out, flustered. Over-the-shoulder shot from behind the man onto her face, handheld slight shake. She (clear bright young female voice, polite and soft at first but turns crisp and firm when angry) says in Korean: \"죄송합니다! 제가 닦아 드릴게요!\"",
+      "dialogue": [
+        {
+          "speaker": "seoyeon",
+          "line": "죄송합니다! 제가 닦아 드릴게요!"
+        }
+      ]
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "dohyun",
+        "yuna"
+      ],
+      "action_ko": "도현이 얼룩을 차갑게 내려다보고, 유나가 달려와 서연 탓을 한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, at the elevator lobby with brushed steel elevator doors. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. The man silently looks down at the stain with an ice-cold expression; the red-blazer woman hurries to his side with fake worry. Medium two-shot, static. Clicking heels. She (sweet high-pitched female voice with a sly sarcastic edge, drawls when mocking) says in Korean: \"팀장님! 새로 온 계약직이에요. 제가 조심하랬는데…\"",
+      "dialogue": [
+        {
+          "speaker": "yuna",
+          "line": "팀장님! 새로 온 계약직이에요."
+        },
+        {
+          "speaker": "yuna",
+          "line": "제가 조심하랬는데…"
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "dohyun",
+        "seoyeon"
+      ],
+      "action_ko": "도현이 서연을 내려다보며 차갑게 경고한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, at the elevator lobby with brushed steel elevator doors. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. The tall man ignores the offered handkerchief and looks down at the woman with cold, measured eyes. Low-angle medium close-up on the man, slow push-in. Silence then low tense music. He (low deep calm male voice, cold and measured, rarely raises it) says in Korean: \"계약직이라. 실수 한 번이면 끝입니다.\"",
+      "dialogue": [
+        {
+          "speaker": "dohyun",
+          "line": "계약직이라."
+        },
+        {
+          "speaker": "dohyun",
+          "line": "실수 한 번이면 끝입니다."
+        }
+      ]
+    },
+    {
+      "seconds": 5,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon"
+      ],
+      "action_ko": "서연이 손수건을 쥔 채 억울함을 삼키고 단단한 눈빛으로 대답한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. She tightens her grip on the white handkerchief, swallows her frustration, then lifts her chin with steady, determined eyes. Close-up on her face, static. Soft office hum. She (clear bright young female voice, polite and soft at first but turns crisp and firm when angry) says in Korean: \"네. 명심하겠습니다.\"",
+      "dialogue": [
+        {
+          "speaker": "seoyeon",
+          "line": "네. 명심하겠습니다."
+        }
+      ]
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "yuna",
+        "seoyeon"
+      ],
+      "action_ko": "도현이 돌아서자 유나가 서연 귀에 대고 비웃는다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. The red-blazer woman leans toward the ivory-blouse woman's ear with a mocking smirk; the ivory-blouse woman stares straight ahead, jaw set. Medium two-shot, slow lateral dolly. She (sweet high-pitched female voice with a sly sarcastic edge, drawls when mocking) whispers in Korean: \"첫날부터 끝이네, 윤서연 씨.\"",
+      "dialogue": [
+        {
+          "speaker": "yuna",
+          "line": "첫날부터 끝이네, 윤서연 씨."
+        }
+      ]
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "dohyun",
+        "yuna"
+      ],
+      "action_ko": "걸어가던 도현이 멈춰 돌아보며 유나를 부르고, 유나가 얼어붙는다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. The man stops mid-stride, slowly turns his head back; the red-blazer woman's smirk freezes into a stiff smile. Rack focus from the man in the background to the woman's frozen face in the foreground. Footsteps stop, sudden silence. He (low deep calm male voice, cold and measured) says in Korean: \"차 비서님.\" She (sweet high-pitched female voice) answers in Korean: \"네…?\"",
+      "dialogue": [
+        {
+          "speaker": "dohyun",
+          "line": "차 비서님."
+        },
+        {
+          "speaker": "yuna",
+          "line": "네…?"
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "dohyun",
+        "yuna"
+      ],
+      "action_ko": "도현이 유나가 뚜껑을 푸는 걸 엘리베이터 거울로 봤다고 폭로한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage, brushed steel elevator doors with a mirrored interior behind him. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. The man walks back slowly and stops in front of the red-blazer woman, glancing calmly toward the mirrored elevator; her face drains of color. Medium close-up over her shoulder onto his face, slow push-in. Low tense bass note. He (low deep calm male voice, cold and measured) says in Korean: \"뚜껑 푸는 거, 엘리베이터 거울로 다 보였습니다.\"",
+      "dialogue": [
+        {
+          "speaker": "dohyun",
+          "line": "뚜껑 푸는 거,"
+        },
+        {
+          "speaker": "dohyun",
+          "line": "엘리베이터 거울로 다 보였습니다."
+        }
+      ]
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "yuna",
+        "dohyun"
+      ],
+      "action_ko": "도현이 팀 전체 커피를 다시 사 오라 지시하고, 유나가 창백하게 굳는다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean woman, 28 years old but youthful-looking, glamorous and striking, tall slender build, 168cm, sharp heart-shaped face, upturned cat-like eyes with dark winged eyeliner and smoky brown shadow, high nose, red-coral lipstick, flawless skin, voluminous shoulder-length chestnut-brown waves with a deep side part, wearing a fitted bright red blazer over a black silk camisole, black slim trousers, pointed black stiletto heels, gold hoop earrings. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch, slightly out of focus in the foreground. The red-blazer woman stands frozen and pale, mouth slightly open in shock, eyes darting away in humiliation. Close-up on her face, static, the man's shoulder blurred in the foreground. He (low deep calm male voice, cold and measured) says in Korean: \"팀원 전부 커피, 차 비서님이 다시 사 오세요.\"",
+      "dialogue": [
+        {
+          "speaker": "dohyun",
+          "line": "팀원 전부 커피,"
+        },
+        {
+          "speaker": "dohyun",
+          "line": "차 비서님이 다시 사 오세요."
+        }
+      ]
+    },
+    {
+      "seconds": 5,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon"
+      ],
+      "action_ko": "서연이 놀라 도현의 뒷모습을 바라보며 웃음을 꾹 참는다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. Holding the coffee carrier, she blinks in surprise, watching someone walk away off-screen, then fights back a small satisfied smile, eyes sparkling. Medium close-up, gentle slow push-in, warm light on her face. Light playful music begins.",
+      "dialogue": []
+    },
+    {
+      "seconds": 7,
+      "location_id": "teamroom",
+      "character_ids": [
+        "dohyun"
+      ],
+      "action_ko": "팀장실에서 얼룩진 셔츠를 보던 도현이 전화로 맞선 얘기를 듣고 차갑게 거절한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Private executive office enclosed by frosted glass walls, dark walnut desk, black leather chair, neat bookshelves, city view window behind the desk, warm desk lamp, sleek minimalist luxury. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. Standing by the window, he holds a phone to his ear, glances down at the coffee stain on his shirt, and answers coldly. Medium shot, slow orbit around him. Faint city ambience. He (low deep calm male voice, cold and measured) says in Korean: \"한서그룹 막내딸이요? 맞선 안 나갑니다.\"",
+      "dialogue": [
+        {
+          "speaker": "dohyun",
+          "line": "한서그룹 막내딸이요?"
+        },
+        {
+          "speaker": "dohyun",
+          "line": "맞선 안 나갑니다."
+        }
+      ]
+    },
+    {
+      "seconds": 7,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon"
+      ],
+      "action_ko": "자리에 앉은 서연이 몰래 엄마와 통화하며 태일 장남과의 맞선을 거부한다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. Sitting at her white desk, she hunches slightly and covers the phone with her hand, whispering with an annoyed pout, rolling her eyes. Medium close-up, static, empty office aisle behind her. She (clear bright young female voice, crisp and firm) whispers in Korean: \"엄마, 태일 장남? 분명 재수 없는 남자일 거야.\"",
+      "dialogue": [
+        {
+          "speaker": "seoyeon",
+          "line": "엄마, 태일 장남?"
+        },
+        {
+          "speaker": "seoyeon",
+          "line": "분명 재수 없는 남자일 거야."
+        }
+      ]
+    },
+    {
+      "seconds": 6,
+      "location_id": "office",
+      "character_ids": [
+        "seoyeon",
+        "dohyun"
+      ],
+      "action_ko": "서연 바로 뒤에 도현이 서 있고, 서연이 얼어붙은 채 천천히 돌아본다.",
+      "prompt_en": "cinematic Korean drama, vertical 9:16, glossy premium K-drama look, soft film lighting with warm highlights and cool office shadows, shallow depth of field, 35mm lens, clean modern luxury interiors, subtle film grain, luminous flawless skin, flattering cinematic beauty light on faces, consistent character faces, no on-screen text, no logos. Modern high-rise corporate open office, white desks with monitors, glass partitions, large floor-to-ceiling windows showing a city skyline, cool daylight, potted green plants, minimal clean design, no visible signage. Korean woman, 25 years old, beautiful, small V-line oval face, large sparkling double-lidded doe eyes, delicate high nose bridge, rosy-coral lips, soft natural glam makeup, long glossy dark-chestnut hair in a sleek low ponytail with soft see-through bangs and loose face-framing strands, slim elegant figure, 163cm, wearing a fitted ivory silk blouse tucked into a high-waist black pencil skirt, simple black low heels, delicate silver wristwatch, small pearl stud earrings. Korean man, 31 years old, strikingly handsome, tall broad-shouldered athletic build, 185cm, sharp chiseled V-line jaw, high cheekbones, intense deep-set dark eyes with straight thick eyebrows, high straight nose, firm lips, clear smooth skin, thick black hair in a sleek swept-back side part with a few loose strands on the forehead, no facial hair, wearing an impeccably tailored charcoal-gray three-piece suit, crisp white dress shirt with a coffee stain, dark navy silk tie, black leather oxford shoes, luxury black-strap watch. The tall man stands right behind her chair holding a document folder, looking down with one eyebrow slightly raised; she freezes with the phone at her ear, eyes widening, and slowly turns around to look up at him. Medium two-shot from the front, slow push-in to her shocked face. Sudden music stop, then a playful tension sting. He (low deep calm male voice, cold and measured, slight warmth slips through) says in Korean: \"누가 재수 없다고요?\"",
+      "dialogue": [
+        {
+          "speaker": "dohyun",
+          "line": "누가 재수 없다고요?"
+        }
+      ]
+    }
+  ],
+  "caption_ko": "첫 출근날, 하필 팀장님 셔츠에 커피를… ☕\n근데 이 냉정한 팀장님, 생각보다 다 보고 있었다?\n마지막 장면, 서연이 뭐라고 둘러대야 살아남을까요? 댓글로 변명 대신 써 주세요 👇",
+  "hashtags": [
+    "#팀장님제가약혼녀인데요",
+    "#커피쏟은첫출근",
+    "#냉정남팀장",
+    "#신분숨긴재벌딸",
+    "#숏드라마"
+  ]
+}

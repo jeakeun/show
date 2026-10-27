@@ -1,0 +1,47 @@
+{
+  "posting_id": "007",
+  "requirements": [
+    {"id": "R1", "kind": "담당", "text": "Python/Go 기반 AI Serving System 개발", "skills": ["Python", "Go", "AI 서빙"]},
+    {"id": "R2", "kind": "담당", "text": "LLM·딥러닝 모델의 Serving Architecture 설계·고도화", "skills": ["서빙 아키텍처", "LLM"]},
+    {"id": "R3", "kind": "담당", "text": "vLLM 등 LLM Serving Engine으로 추론 시스템 구축", "skills": ["vLLM", "추론 시스템"]},
+    {"id": "R4", "kind": "담당", "text": "Latency·Throughput·GPU Memory를 고려한 추론 성능 최적화", "skills": ["Latency", "Throughput", "GPU 메모리"]},
+    {"id": "R5", "kind": "담당", "text": "다양한 모델을 일관되게 배포·운영하는 Serving Platform 개발, GPU 자원 Scheduling·Runtime 최적화", "skills": ["Serving Platform", "GPU 스케줄링"]},
+    {"id": "R6", "kind": "담당", "text": "모델 배포·버전 관리·모니터링 등 AI Model Lifecycle 플랫폼 개발", "skills": ["MLOps", "모델 버전 관리", "모니터링"]},
+    {"id": "R7", "kind": "담당", "text": "Research 모델을 Production 환경으로 연결하는 엔지니어링", "skills": ["프로덕션화"]},
+    {"id": "R8", "kind": "담당", "text": "여러 제품이 AI 기능을 쉽게 쓰도록 공통 Interface·Runtime 설계", "skills": ["공통 인터페이스", "Runtime 설계"]},
+    {"id": "R9", "kind": "담당", "text": "AI 서비스의 성능·안정성·Observability 개선", "skills": ["관측성", "안정성"]},
+    {"id": "R10", "kind": "담당", "text": "AI Agent 개발·실행·운영을 위한 공통 플랫폼 설계·구축", "skills": ["Agent Platform"]},
+    {"id": "R11", "kind": "담당", "text": "LLM·Tool·Workflow를 연결하는 Agent Runtime 개발", "skills": ["Agent Runtime", "Tool Calling", "Workflow"]},
+    {"id": "R12", "kind": "담당", "text": "Agent 실행 과정의 상태 관리·추적·모니터링 시스템 개발", "skills": ["상태 관리", "추적", "모니터링"]},
+    {"id": "R13", "kind": "담당", "text": "다양한 Agent를 제품에 안정적으로 적용하는 실행 환경·개발 도구 구축", "skills": ["실행 환경", "개발 도구"]},
+    {"id": "R14", "kind": "필수", "text": "Python 능숙, 실제 서비스 수준 시스템 개발 경험", "skills": ["Python"]},
+    {"id": "R15", "kind": "필수", "text": "PyTorch 등으로 모델을 학습하거나 활용한 경험", "skills": ["PyTorch"]},
+    {"id": "R16", "kind": "필수", "text": "LLM 또는 딥러닝 모델의 추론 서비스를 직접 설계·운영한 경험", "skills": ["추론 서비스 운영"]},
+    {"id": "R17", "kind": "필수", "text": "모델 뿐 아니라 실행하는 Software/System 영역까지 관심을 갖고 문제 해결", "skills": ["시스템 관점"]},
+    {"id": "R18", "kind": "우대", "text": "컴퓨터공학·전산학 등 유관 분야 학사 이상", "skills": ["CS 학사"]},
+    {"id": "R19", "kind": "우대", "text": "Kubernetes 등 컨테이너 환경 개발·운영 경험", "skills": ["Kubernetes", "컨테이너"]},
+    {"id": "R20", "kind": "우대", "text": "AI 모델을 실제 서비스에 적용·운영한 경험", "skills": ["AI 서비스 운영"]},
+    {"id": "R21", "kind": "우대", "text": "AI Agent·Tool Calling·Workflow 기반 시스템 개발 경험", "skills": ["AI Agent", "Tool Calling", "Workflow"]},
+    {"id": "R22", "kind": "우대", "text": "모델 서빙 또는 AI Platform/MLOps 시스템 개발 경험", "skills": ["MLOps"]},
+    {"id": "R23", "kind": "우대", "text": "새 AI 기술을 빠르게 검토해 실제 제품에 적용하는 것을 좋아함", "skills": ["기술 검토"]},
+    {"id": "R24", "kind": "우대", "text": "복잡한 시스템을 단순한 구조로 설계하고 가독성·유지보수성 높은 코드 작성", "skills": ["단순한 설계", "코드 품질"]},
+    {"id": "R25", "kind": "스킬", "text": "SQL", "skills": ["SQL"]}
+  ],
+  "excluded": [
+    {"text": "필수: vLLM 등 LLM Serving Framework 사용 경험", "reason": "R3(주요업무)와 같은 요구라 합침"},
+    {"text": "필수: Latency·Throughput·GPU Memory 성능 특성을 이해하고 개선", "reason": "R4(주요업무)와 같은 요구라 합침"},
+    {"text": "우대: Deep Learning 및 LLM에 대한 기본적인 이해", "reason": "필수 R15·R16에 포함되는 수준이라 합침"},
+    {"text": "스킬: Python", "reason": "R14와 중복이라 합침"}
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다",
+  "mentor_reading": {
+    "discussed": "멘토가 공고를 열어 주요업무를 드래그해 보였지만, 그동안 발언은 마무리 정리(거시·미시 읽기, 지표로 재구성)라 이 공고만의 해석은 없음",
+    "video_range": "21:05~23:35",
+    "how_company_makes_money": "(멘토 해석 없음)",
+    "metrics_they_care_about": [],
+    "what_they_really_want": [],
+    "pitch_examples": [],
+    "not_effective_here": [],
+    "uncertain": ["멘토가 이 공고를 마무리 설명의 예시로 띄운 것인지(불확실). 공고 문구상 지연시간·처리량·GPU 메모리가 지표로 적혀 있어 '기술을 파는 쪽' 원칙과 맞지만 멘토 발언은 아님"]
+  }
+}

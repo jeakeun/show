@@ -1,0 +1,10 @@
+secrets/
+logs/
+episodes/*/clips/
+episodes/*/_work/
+series/characters/*.png
+*.mp4
+binges/
+series/characters/후보/
+model_test/
+episodes/*/old_*/

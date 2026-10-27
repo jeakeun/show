@@ -1,0 +1,184 @@
+{
+  "posting_id": "015",
+  "requirements": [
+    {
+      "id": "R1",
+      "kind": "담당",
+      "text": "AX 솔루션 핵심 엔진(NAGE·ECOE·AMAO·K-MCP) 개발 참여",
+      "skills": [
+        "에이전트 엔진"
+      ]
+    },
+    {
+      "id": "R2",
+      "kind": "담당",
+      "text": "고객사 맞춤 AI 에이전트 백엔드: 실행 엔진·워크플로우 오케스트레이션·도구 연동",
+      "skills": [
+        "오케스트레이션",
+        "도구 연동"
+      ]
+    },
+    {
+      "id": "R3",
+      "kind": "담당",
+      "text": "기업 데이터 파이프라인: 비정형 데이터(PDF·한글·스캔본) 파싱·구조화·온톨로지",
+      "skills": [
+        "문서 파싱",
+        "온톨로지"
+      ]
+    },
+    {
+      "id": "R4",
+      "kind": "담당",
+      "text": "K-MCP 기반 국내 시스템(더존·카카오워크·나라장터 등) MCP 어댑터 개발·유지",
+      "skills": [
+        "MCP 어댑터"
+      ]
+    },
+    {
+      "id": "R5",
+      "kind": "담당",
+      "text": "RAG 파이프라인 설계·최적화",
+      "skills": [
+        "RAG"
+      ]
+    },
+    {
+      "id": "R6",
+      "kind": "담당",
+      "text": "외주 개발 파트너와 기술 협업(아키텍처 가이드·코드 리뷰·품질 관리)",
+      "skills": [
+        "코드 리뷰",
+        "외주 관리"
+      ]
+    },
+    {
+      "id": "R7",
+      "kind": "필수",
+      "text": "경력 5년 이상 (공고 머리말)",
+      "skills": [
+        "경력 5년"
+      ]
+    },
+    {
+      "id": "R8",
+      "kind": "필수",
+      "text": "Python 또는 Node.js 백엔드 개발 경험 3년 이상",
+      "skills": [
+        "Python",
+        "Node.js",
+        "백엔드 3년"
+      ]
+    },
+    {
+      "id": "R9",
+      "kind": "필수",
+      "text": "LLM/AI API 활용 개발 경험 (OpenAI·Anthropic·오픈소스)",
+      "skills": [
+        "LLM API"
+      ]
+    },
+    {
+      "id": "R10",
+      "kind": "필수",
+      "text": "REST API 설계·개발",
+      "skills": [
+        "REST API"
+      ]
+    },
+    {
+      "id": "R11",
+      "kind": "필수",
+      "text": "데이터 처리: ETL/ELT·SQL·비정형 데이터",
+      "skills": [
+        "ETL",
+        "SQL"
+      ]
+    },
+    {
+      "id": "R12",
+      "kind": "필수",
+      "text": "클라우드 인프라 운영 경험(AWS 또는 GCP)",
+      "skills": [
+        "AWS",
+        "GCP"
+      ]
+    },
+    {
+      "id": "R13",
+      "kind": "우대",
+      "text": "AI 에이전트 프레임워크 경험(LangChain·LangGraph·CrewAI·AutoGen)",
+      "skills": [
+        "LangChain",
+        "LangGraph",
+        "CrewAI",
+        "AutoGen"
+      ]
+    },
+    {
+      "id": "R14",
+      "kind": "우대",
+      "text": "MCP 개발 경험 또는 이해",
+      "skills": [
+        "MCP"
+      ]
+    },
+    {
+      "id": "R15",
+      "kind": "우대",
+      "text": "Python과 Node.js 모두 활용",
+      "skills": [
+        "Python",
+        "Node.js"
+      ]
+    },
+    {
+      "id": "R16",
+      "kind": "우대",
+      "text": "워크플로우 자동화(n8n·Activepieces)",
+      "skills": [
+        "n8n",
+        "Activepieces"
+      ]
+    },
+    {
+      "id": "R17",
+      "kind": "우대",
+      "text": "RAG 최적화(벡터DB·임베딩·리랭킹·청킹)",
+      "skills": [
+        "벡터DB",
+        "임베딩",
+        "리랭킹",
+        "청킹"
+      ]
+    },
+    {
+      "id": "R18",
+      "kind": "우대",
+      "text": "지식그래프·온톨로지 구축 경험",
+      "skills": [
+        "지식그래프"
+      ]
+    },
+    {
+      "id": "R19",
+      "kind": "우대",
+      "text": "한국 기업 시스템(ERP·그룹웨어·공공 API) 연동 경험",
+      "skills": [
+        "ERP",
+        "공공 API"
+      ]
+    }
+  ],
+  "excluded": [
+    {
+      "text": "이런 분을 환영합니다 3줄 (에이전트를 직접 만들어 봄, 새 프레임워크를 바로 써 봄, 반복 업무 자동화 감각)",
+      "reason": "태도 문구로 우대 항목과 겹쳐 채점에서 제외"
+    },
+    {
+      "text": "경력 표기 충돌: 머리말 5년 이상 vs 본문 백엔드 3년 이상",
+      "reason": "둘 다 원문에 있어 R7·R8로 각각 남김"
+    }
+  ],
+  "evidence": "2-2 단계에서 career/ 문서가 정해지면 항목별 정답 근거를 채운다"
+}
