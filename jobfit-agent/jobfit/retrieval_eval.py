@@ -103,9 +103,11 @@ def compare(variants=VARIANTS, gold: list[dict] | None = None) -> list[tuple[str
     return [(name, run_variant(replace(Config(), **opts), gold)) for name, opts in variants]
 
 
-def report(results: list[tuple[str, dict]]) -> str:
+def report(results: list[tuple[str, dict]], ai_judge: bool = False) -> str:
+    how = ("마지막 줄은 AI 근거 판정가가 판정하고 코드가 근거 번호를 검사했습니다 (공고당 모델 1번 호출)." if ai_judge
+           else "모델 호출 없음, 비용 없음.")
     lines = ["# 근거 검색 채점", "",
-             "정답 요구 항목(사람이 만든 것)으로 검색가와 적합도 계산만 돌렸습니다. 모델 호출 없음, 비용 없음.",
+             f"정답 요구 항목(사람이 만든 것)으로 검색가와 적합도 계산을 돌렸습니다. {how}",
              "정답 근거(eval/evidence.json)는 클로드가 검색 결과를 보기 전에 붙였고, 사람 확인이 필요합니다.", "",
              "| 방식 | 운영 근거 적중 | 학습 근거 적중 | 판정 일치 | 부풀림 (그중 가짜 운영) | 깎임 | 항목당 조각 | 공고당 조각 | 적합도 차이 |",
              "|---|---|---|---|---|---|---|---|---|"]
@@ -117,7 +119,7 @@ def report(results: list[tuple[str, dict]]) -> str:
     lines += ["", f"## 공고별 적합도 ({name})", "", "| 공고 | 정답 판정으로 계산 | 코드 판정 |", "|---|---|---|"]
     lines += [f"| {pid} | {a} | {b} |" for pid, a, b in final["fit"]]
     lines += ["", f"## 판정이 정답과 다른 항목 ({name})", "",
-              "| 공고 | 항목 | 요구 | 정답 | 코드 | 찾은 키워드 | 운영 근거 적중 |", "|---|---|---|---|---|---|---|"]
+              "| 공고 | 항목 | 요구 | 정답 | 판정 | 찾은 키워드 | 운영 근거 적중 | 판정 이유 |", "|---|---|---|---|---|---|---|---|"]
     for r in final["rows"]:
         j, gold = r["judged"], r["gold"]
         if j["status"] == gold["status"]:
@@ -125,8 +127,42 @@ def report(results: list[tuple[str, dict]]) -> str:
         kinds = j.get("matched_kinds") or {}
         found = ", ".join(f"{s}({kinds.get(s, '')})" for s in j["matched"]) or "-"
         ops = ("O" if hit(r["chunks"], gold["운영"]) else "X") if gold["status"] == "운영" else "-"
-        lines.append(f"| {r['posting']} | {r['req']['id']} | {r['req']['text'][:40]} | {gold['status']} | {j['status']} | {found} | {ops} |")
+        why = (j.get("reason") or "-").replace("|", "/")
+        lines.append(f"| {r['posting']} | {r['req']['id']} | {r['req']['text'][:40]} | {gold['status']} | {j['status']} | {found} | {ops} | {why} |")
+    both_ops = [r for r in final["rows"] if "chosen" in r and r["gold"]["status"] == r["judged"]["status"] == "운영"]
+    if both_ops:
+        ok = sum(hit(r["chosen"], r["gold"]["운영"]) for r in both_ops)
+        lines += ["", f"AI가 운영으로 맞힌 {len(both_ops)}개 중 고른 근거가 정답 위치와 겹친 것: {ok}개 "
+                      "(정답 위치를 다 적지 못했을 수 있어 낮게 나올 수 있음)"]
     missed = [r for r in final["rows"] if r["gold"]["status"] == "운영" and not hit(r["chunks"], r["gold"]["운영"])]
     lines += ["", f"## 운영 근거를 못 찾은 항목 ({name})", ""]
     lines += [f"- {r['posting']} {r['req']['id']} {r['req']['text'][:50]} — 정답 근거 {', '.join(r['gold']['운영'])}" for r in missed] or ["- 없음"]
     return "\n".join(lines) + "\n"
+
+
+def judge_inputs(cfg: Config, gold: list[dict]) -> dict:
+    """공고별로 판정가에게 줄 것: 요구 항목, 근거 번호, 후보. 그래프의 ③과 같은 방식으로 만든다."""
+    retriever = Retriever(load_career(cfg), cfg.match_words)
+    by_posting: dict[str, list[dict]] = {}
+    for g in gold:
+        by_posting.setdefault(g["posting"], []).append(g)
+    out = {}
+    for pid, gs in by_posting.items():
+        found = [find_evidence(retriever, cfg, g["req"]) for g in gs]
+        sources, candidates = scoring.number_sources(found)
+        out[pid] = {"gold": gs, "found": found, "sources": sources, "candidates": candidates}
+    return out
+
+
+def run_ai_judge(llm, cfg: Config, gold: list[dict]) -> dict:
+    """정답 항목을 AI 근거 판정가로 판정한다 (모델 호출, 공고당 1번). 판정은 코드가 검사한다."""
+    rows = []
+    for pid, x in judge_inputs(cfg, gold).items():
+        judged = [scoring.judge(f["req"], f["chunks"], cfg.match_words) for f in x["found"]]
+        ai = llm.judge([f["req"] for f in x["found"]], x["candidates"], x["sources"])
+        judged = scoring.apply_judgments(judged, x["candidates"], x["sources"], ai)
+        for g, f, j in zip(x["gold"], x["found"], judged):
+            eids = x["candidates"][g["req"]["id"]]
+            chosen = [c for c, e in zip(f["chunks"], eids) if e in (j.get("evidence") or [])]
+            rows.append({**g, "chunks": f["chunks"], "chosen": chosen, "judged": j})
+    return {"rows": rows, **measure(rows)}

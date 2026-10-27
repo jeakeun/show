@@ -131,3 +131,19 @@ def test_api_key_prefers_jobfit_name(monkeypatch):
     assert api_key() == "b"                      # 메인 PC 예전 .env 도 계속 동작
     monkeypatch.setenv("JOBFIT_API_KEY", "a")
     assert api_key() == "a"                      # 클라우드에서는 이 이름이 우선
+
+
+def test_code_checks_ai_judgments():
+    # AI 판정은 코드가 검사한다: 후보 밖 번호는 버리고, 운영 근거 없이 "운영"이면 낮춘다
+    judged = [{"id": r, "kind": "담당", "text": r, "status": "없음", "matched": [], "missing": []} for r in ("R1", "R2", "R3", "R4")]
+    sources = {"E1": {"kind": "운영"}, "E2": {"kind": "학습"}, "E3": {"kind": "운영"}}
+    cands = {"R1": ["E1", "E2"], "R2": ["E2"], "R3": ["E2"], "R4": ["E1"]}
+    ai = [{"id": "R1", "status": "운영", "evidence": ["E1"], "reason": "a"},
+          {"id": "R2", "status": "운영", "evidence": ["E2"], "reason": "b"},     # 학습 조각만 → 학습으로 낮춤
+          {"id": "R3", "status": "운영", "evidence": ["E3"], "reason": "c"}]     # 후보 밖 번호 → 없음
+    got = {j["id"]: j for j in scoring.apply_judgments(judged, cands, sources, ai)}
+    assert got["R1"]["status"] == "운영" and not got["R1"]["lowered"]
+    assert got["R2"]["status"] == "학습" and got["R2"]["lowered"]
+    assert got["R3"]["status"] == "없음" and got["R3"]["evidence"] == []
+    assert got["R4"]["basis"] == "키워드" and got["R4"]["status"] == "없음"   # 판정 없으면 키워드 판정
+    assert "학습 (코드가 낮춤)" in scoring.fit_table(list(got.values()))

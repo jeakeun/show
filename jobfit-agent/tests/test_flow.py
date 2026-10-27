@@ -90,3 +90,13 @@ def test_human_revision_then_discard(tmp_path):
     state = app.get_state(config).values
     assert state["decision"] == "폐기" and "output_path" not in state
     assert list(Path(tmp_path).rglob("*.md")) == []
+
+
+def test_ai_judgment_sets_fit_score(tmp_path):
+    llm = FakeLLM(judgments=[[{"id": "R1", "status": "운영", "evidence": ["E999"], "reason": "없는 번호"}]])
+    app, config = make(tmp_path, llm)
+    start(app, config)
+    state = app.get_state(config).values
+    assert [c["role"] for c in llm.calls][:2] == ["analyzer", "judge"]     # 분석 → (검색) → 판정 → 작성
+    r1 = state["judged"][0]
+    assert r1["basis"] == "AI" and r1["status"] == "없음" and r1["lowered"]  # 지어낸 번호로는 운영이 안 됨

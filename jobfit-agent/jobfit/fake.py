@@ -6,9 +6,11 @@ import re
 
 
 class FakeLLM:
-    def __init__(self, drafts: list[str] | None = None, verdicts: list[list[dict]] | None = None):
+    def __init__(self, drafts: list[str] | None = None, verdicts: list[list[dict]] | None = None,
+                 judgments: list[list[dict]] | None = None):
         self.drafts = list(drafts or [])       # 정해진 초안을 차례로 돌려줌 (없으면 근거로 자동 생성)
         self.verdicts = list(verdicts or [])   # 정해진 검증 결과를 차례로 돌려줌 (없으면 문제 없음)
+        self.judgments = list(judgments or [])  # 정해진 근거 판정을 차례로 돌려줌 (없으면 판정 안 함)
         self.calls: list[dict] = []
 
     def analyze(self, posting: str) -> dict:
@@ -46,6 +48,11 @@ class FakeLLM:
         lines += ["", "## 이력서 강조"] + [f"- {sources[e]['section']} [{e}]." for e in list(sources)[:3]]
         lines += ["", "## 보강할 증거", "- 이 회사 지표로 말할 숫자가 부족함"]
         return "\n".join(lines)
+
+    def judge(self, requirements: list[dict], candidates: dict, sources: dict) -> list[dict]:
+        """정해진 판정이 있으면 그것을, 없으면 아무 판정도 하지 않는다 (→ 코드가 키워드 판정을 그대로 씀)."""
+        self.calls.append({"role": "judge"})
+        return self.judgments.pop(0) if self.judgments else []
 
     def verify(self, draft: str, sources: dict, company: dict | None = None) -> list[dict]:
         self.calls.append({"role": "verifier"})

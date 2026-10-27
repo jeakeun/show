@@ -43,6 +43,48 @@ def judge(requirement: dict, chunks: list[dict], match_words: bool = True) -> di
     }
 
 
+def number_sources(found: list[dict], order: dict | None = None):
+    """검색 결과 조각에 근거 번호(E1, E2 …)를 붙인다. 돌려주는 것: (번호→조각, 요구 항목→후보 번호 목록)."""
+    order = order or {}
+    sources, chunk_to_eid, candidates = {}, {}, {}
+    for item in sorted(found, key=lambda f: order.get(f["req"]["id"], 0)):
+        for c in item["chunks"]:
+            if c["id"] not in chunk_to_eid:
+                eid = f"E{len(sources) + 1}"
+                chunk_to_eid[c["id"]] = eid
+                sources[eid] = c
+        candidates[item["req"]["id"]] = [chunk_to_eid[c["id"]] for c in item["chunks"]]
+    return sources, candidates
+
+
+def apply_judgments(judged: list[dict], candidates: dict, sources: dict, ai: list[dict]) -> list[dict]:
+    """AI 근거 판정을 코드가 검사해 받아들인다 (2-3). AI는 해석, 코드는 검사 (ADR-04와 같은 원칙).
+    - 근거 번호는 그 항목의 검색 후보 안에 있는 것만 인정한다.
+    - "운영"인데 운영 조각 번호가 없으면 학습(근거가 있으면) 또는 없음으로 낮춘다. "학습"인데 번호가 없으면 없음.
+    - AI가 판정하지 않은 항목은 키워드 판정을 그대로 쓴다.
+    """
+    by_id = {a.get("id"): a for a in ai}
+    out = []
+    for j in judged:
+        j = {**j, "keyword_status": j["status"]}
+        a = by_id.get(j["id"])
+        if not a:
+            out.append({**j, "basis": "키워드"})
+            continue
+        allowed = set(candidates.get(j["id"]) or [])
+        ev = [e for e in a.get("evidence") or [] if e in allowed]
+        kinds = {sources[e]["kind"] for e in ev}
+        said = a.get("status") if a.get("status") in CREDIT else "없음"
+        status = said
+        if status == "운영" and "운영" not in kinds:
+            status = "학습" if ev else "없음"
+        if status == "학습" and not ev:
+            status = "없음"
+        out.append({**j, "status": status, "evidence": ev if status != "없음" else [], "reason": a.get("reason", ""),
+                    "basis": "AI", "lowered": status != said})
+    return out
+
+
 def overall(judged: list[dict]) -> int:
     """가중 평균 적합도 (0~100). 담당·필수는 2배 가중."""
     total = sum(WEIGHT.get(j["kind"], 1) for j in judged)
@@ -53,11 +95,14 @@ def overall(judged: list[dict]) -> int:
 
 
 def fit_table(judged: list[dict]) -> str:
-    rows = ["| 항목 | 구분 | 요구 | 근거 | 찾은 키워드 | 못 찾은 키워드 |", "|---|---|---|---|---|---|"]
+    rows = ["| 항목 | 구분 | 요구 | 근거 | 근거 번호 | 찾은 키워드 | 못 찾은 키워드 | 판정 이유 |",
+            "|---|---|---|---|---|---|---|---|"]
     for j in judged:
         # 키워드마다 어느 종류 문서에서 찾았는지 붙인다. "LLM(운영), LangChain(학습)" — 작성자가 학습을 운영처럼 쓰지 않게
         kinds = j.get("matched_kinds") or {}
         found = ", ".join(f"{s}({kinds[s]})" if s in kinds else s for s in j["matched"])
-        rows.append(f"| {j['id']} | {j['kind']} | {j['text']} | {j['status']} | "
-                    f"{found or '-'} | {', '.join(j['missing']) or '-'} |")
+        status = j["status"] + (" (코드가 낮춤)" if j.get("lowered") else "")
+        reason = (j.get("reason") or "").replace("|", "/") or ("키워드 판정" if j.get("basis") != "AI" else "-")
+        rows.append(f"| {j['id']} | {j['kind']} | {j['text']} | {status} | {', '.join(j.get('evidence') or []) or '-'} | "
+                    f"{found or '-'} | {', '.join(j['missing']) or '-'} | {reason} |")
     return "\n".join(rows)

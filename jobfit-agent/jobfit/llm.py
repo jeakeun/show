@@ -92,6 +92,13 @@ class ClaudeLLM:
         return self._json("analyzer", self.cfg.analyzer, prompts.ANALYZER,
                           f"<공고>\n{posting}\n</공고>", prompts.ANALYZE_SCHEMA)
 
+    def judge(self, requirements: list[dict], candidates: dict, sources: dict) -> list[dict]:
+        """요구 항목마다 운영/학습/없음과 근거 번호를 고른다. 코드가 뒤에서 근거 번호를 검사한다 (scoring.apply_judgments)."""
+        data = self._json("judge", self.cfg.judge, prompts.JUDGE,
+                          f"{prompts.evidence_block(sources)}\n\n<요구 항목>\n{prompts.judge_items(requirements, candidates)}\n</요구 항목>",
+                          prompts.JUDGE_SCHEMA)
+        return data["judgments"]
+
     def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None,
               previous: str = "") -> str:
         user = (f"<공고>\n{posting}\n</공고>\n\n<회사 읽기 (AI 추정)>\n{prompts.company_block(company or {})}\n</회사 읽기>"

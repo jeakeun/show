@@ -143,6 +143,59 @@ VERIFY_SCHEMA = {
 }
 
 
+# 근거 판정가 (2-3, 2026-10-27). 키워드 글자 맞추기는 "Python" 하나로 AI 서빙 경험을 운영으로 치고,
+# "주도성"·"1인 런칭" 같은 말은 문서에 글자 그대로 없어 근거를 찾아와도 없음으로 쳤다 (정답 117개 중 29개 틀림).
+JUDGE = """요구 항목마다 검색해 온 근거 조각을 읽고, 지원자가 그 요구를 어떤 경험으로 뒷받침할 수 있는지 판정한다.
+이 판정으로 적합도 점수를 계산하고 작성자가 경험을 어떤 종류로 쓸지 정한다. 부풀리면 지원서에 없는 경력이 들어가고, 깎으면 있는 경력이 빠진다.
+
+판정:
+- 운영: 종류가 "운영"인 조각이 요구의 핵심을 직접 보여준다.
+- 학습: 요구의 핵심을 보여주는 조각이 "학습" 종류뿐이다.
+- 없음: 요구의 핵심을 보여주는 조각이 없다.
+
+핵심 가리기:
+- 요구에서 빼면 다른 일이 되는 부분이 핵심이다. 예: "Python/Go 기반 AI 서빙 시스템 개발"의 핵심은 AI 서빙이다. 파이썬으로 다른 자동화를 운영한 조각만 있으면 없음이다.
+- 기술 여러 개를 나열한 스킬 줄은 그중 하나라도 보여주면 근거로 본다.
+- 행동을 묻는 요구(예: "문제를 주도적으로 발견하고 해결")는 조각에 그 행동이 실제로 나오면 근거로 본다. 같은 낱말이 없어도 된다.
+- 연차·학위·전공처럼 문서로 확인할 수 없는 요구는 없음이다.
+- "아직 안 했다", "계획", "개발 중", "확인 필요"라고 쓰인 내용은 그 일을 했다는 근거가 아니다.
+
+근거 번호:
+- evidence에는 판정을 뒷받침하는 조각 번호를 그 요구 항목의 후보 안에서만 고른다. 운영이면 운영 조각을 하나 이상 넣는다. 없음이면 비운다.
+- reason에는 무엇이 핵심이고 어느 조각이 그것을 보여주는지(또는 왜 없는지) 한 문장으로 쓴다."""
+
+JUDGE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "judgments": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {"type": "string"},
+                    "status": {"type": "string", "enum": ["운영", "학습", "없음"]},
+                    "evidence": {"type": "array", "items": {"type": "string"}},
+                    "reason": {"type": "string"},
+                },
+                "required": ["id", "status", "evidence", "reason"],
+                "additionalProperties": False,
+            },
+        }
+    },
+    "required": ["judgments"],
+    "additionalProperties": False,
+}
+
+
+def judge_items(requirements: list[dict], candidates: dict) -> str:
+    """판정가에게 줄 요구 항목 목록. 항목마다 고를 수 있는 근거 번호(후보)를 붙인다."""
+    lines = []
+    for r in requirements:
+        cands = ", ".join(candidates.get(r["id"]) or []) or "없음"
+        lines.append(f"- {r['id']} ({r['kind']}) {r['text']} — 키워드: {', '.join(r.get('skills') or []) or '-'} — 후보: {cands}")
+    return "\n".join(lines)
+
+
 def evidence_block(sources: dict) -> str:
     """근거 목록을 지시문에 넣을 글로 만든다. 순서가 늘 같아야 프롬프트 캐시가 맞는다."""
     parts = []

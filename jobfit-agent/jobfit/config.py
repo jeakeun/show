@@ -53,6 +53,7 @@ class Config:
     analyzer: Role = Role("claude-opus-5-5", "low", 16000)
     writer: Role = Role("claude-opus-5-5", "high", 64000)
     verifier: Role = Role("claude-opus-5-5", "medium", 16000)
+    judge: Role = Role("claude-opus-5-5", "low", 16000)   # 근거 판정가 (2-3). 공고당 1번
 
     sources: tuple = DEFAULT_SOURCES
     source_root: Path = SHOW_ROOT
@@ -65,6 +66,7 @@ class Config:
     clean_sources: bool = True  # 근거가 아닌 부분 빼기
     match_words: bool = True    # 영어는 단어 통째로 + 동의어 사전
     per_kind: int = 2           # 운영·학습 문서에서 각각 최소 몇 개씩 가져올지 (0이면 상위 k개만)
+    ai_judge: bool = True       # 근거 판정을 AI가 하고 코드가 검사 (2-3). 끄면 키워드 판정만
 
     top_k: int = 3              # 요구 항목마다 가져올 근거 조각 수 (종류 상관없이 점수 순)
     max_requirements: int = 15  # 요구 항목이 너무 많으면 자름 (병렬 호출 수 상한)

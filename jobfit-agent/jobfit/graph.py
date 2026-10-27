@@ -63,16 +63,16 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
         return {"found": [find_evidence(retriever, cfg, task["req"])]}
 
     # ③ 적합도 계산: 코드가 한다 (J-04). 근거 번호(E1, E2 …)도 여기서 붙인다
+    #    판정(운영/학습/없음)은 AI 근거 판정가가 하고 코드가 근거 번호를 검사한다 (2-3, J-17). 점수 계산은 코드
     def score(state: State) -> dict:
-        sources, chunk_to_eid, judged = {}, {}, []
-        order = {r["id"]: i for i, r in enumerate(state.get("requirements") or [])}
-        for item in sorted(state.get("found") or [], key=lambda f: order.get(f["req"]["id"], 0)):
-            for c in item["chunks"]:
-                if c["id"] not in chunk_to_eid:
-                    eid = f"E{len(sources) + 1}"
-                    chunk_to_eid[c["id"]] = eid
-                    sources[eid] = c
-            judged.append(scoring.judge(item["req"], item["chunks"], cfg.match_words))
+        reqs = state.get("requirements") or []
+        order = {r["id"]: i for i, r in enumerate(reqs)}
+        found = sorted(state.get("found") or [], key=lambda f: order.get(f["req"]["id"], 0))
+        sources, candidates = scoring.number_sources(found, order)
+        judged = [scoring.judge(item["req"], item["chunks"], cfg.match_words) for item in found]
+        if cfg.ai_judge and judged:
+            ai = llm.judge([item["req"] for item in found], candidates, sources)
+            judged = scoring.apply_judgments(judged, candidates, sources, ai)
         return {"sources": sources, "judged": judged, "fit_score": scoring.overall(judged)}
 
     # ④ 작성자: 한 명만 쓴다 (J-05)
