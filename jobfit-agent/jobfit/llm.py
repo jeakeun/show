@@ -34,7 +34,8 @@ class ClaudeLLM:
         cost = (u.input_tokens * price["input"] + u.output_tokens * price["output"]
                 + cache_read * price["cache_read"] + cache_write * price["cache_write"]) / 1_000_000
         self.calls.append({"role": role_name, "model": resp.model, "input": u.input_tokens,
-                           "output": u.output_tokens, "cache_read": cache_read, "cost_usd": round(cost, 4)})
+                           "output": u.output_tokens, "cache_read": cache_read, "cache_write": cache_write,
+                           "cost_usd": round(cost, 4)})
 
     @staticmethod
     def _check(resp) -> None:
@@ -115,7 +116,8 @@ class ClaudeLLM:
     def cost_summary(self) -> str:
         if not self.calls:
             return "모델 호출 없음"
-        lines = [f"- {c['role']}: 입력 {c['input']:,} · 출력 {c['output']:,} · 캐시 읽기 {c['cache_read']:,} 토큰 · 약 US${c['cost_usd']}"
+        lines = [f"- {c['role']}: 입력 {c['input']:,} · 출력 {c['output']:,} · 캐시 읽기 {c['cache_read']:,}"
+                 f" · 캐시 쓰기 {c.get('cache_write', 0):,} 토큰 · 약 US${c['cost_usd']}"
                  for c in self.calls]
         total = sum(c["cost_usd"] for c in self.calls)
         return "\n".join(lines + [f"- 합계: 약 US${total:.4f} (단가표 기준 추정, 실제 청구는 콘솔 확인)"])

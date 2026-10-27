@@ -67,7 +67,7 @@ def main() -> int:
             out_dir.mkdir(parents=True, exist_ok=True)
             (out_dir / f"{p.stem}.md").write_text(report(r), encoding="utf-8")
 
-    text = summarize(results, label)
+    text = summarize(results, label) + "\n\n## 호출별 비용\n" + llm.cost_summary()
     if not args.dry_run and results:
         (out_dir / "summary.md").write_text(text, encoding="utf-8")
         print(f"저장: {out_dir}")
