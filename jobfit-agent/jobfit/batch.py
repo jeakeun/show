@@ -48,7 +48,7 @@ def report_one(r: dict) -> str:
         f"적합도 {r['fit_score']}점 · 근거 운영 {r['status'].get('운영', 0)} / 학습 {r['status'].get('학습', 0)} / 없음 {r['status'].get('없음', 0)}"
         f" · 작성 {r['writes']}회 · 비용 약 US${r['cost']}",
         "## 회사 읽기 (AI 추정)\n" + prompts.company_block(r["company"]),
-        "## 요구 항목별 근거 (코드 판정)\n" + scoring.fit_table(r["judged"]),
+        "## 요구 항목별 근거 (AI 판정, 코드가 근거 번호 검사)\n" + scoring.fit_table(r["judged"]),
         "## 초안 (사람 확정 직전, 승인 안 함)\n" + (r["draft"] or "(없음)"),
         "## 남은 검증 의견\n" + issues,
     ])
@@ -63,7 +63,7 @@ def summary(results: list[dict], label: str) -> str:
         f"# 지원서 변경 테스트 요약 ({datetime.now():%Y-%m-%d %H:%M}, {label})",
         "| 공고 | 회사 유형 (확신도) | 적합도 | 근거 운영/학습/없음 | 작성 횟수 | 남은 지적 | 비용(US$) |\n|---|---|---|---|---|---|---|\n" + "\n".join(rows),
         f"합계 비용 약 US${total} (단가표 기준 추정)",
-        "읽는 법: 적합도와 근거 판정은 코드, 회사 읽기와 초안은 AI. 안 맞는 공고에서 적합도가 낮고 초안이 부풀리지 않으면 정상이다.",
+        "읽는 법: 근거 판정은 AI가 하고 코드가 근거 번호를 검사, 적합도 계산은 코드, 회사 읽기와 초안은 AI. 안 맞는 공고에서 적합도가 낮고 초안이 부풀리지 않으면 정상이다.",
     ])
 
 
