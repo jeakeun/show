@@ -36,6 +36,18 @@ def test_citation_after_period_belongs_to_previous_sentence():
     assert citations.check("운영했습니다. [E1]", {"E1"}) == []
 
 
+def test_citation_list_in_one_bracket():
+    # 기준선 첫 실행에서 [E33, E34] 를 번호 없음으로 잘못 잡았다 (59개 중 11개)
+    assert citations.check("운영했습니다 [E1, E2]. 만들었습니다. [E1,E2]", {"E1", "E2"}) == []
+    issues = citations.check("운영했습니다 [E1, E7].", {"E1"})
+    assert [(i["problem"], i["detail"]) for i in issues] == [("없는 근거 번호", "E7")]
+
+
+def test_writer_and_baseline_share_citation_rule():
+    from jobfit import prompts
+    assert prompts.CITE_RULE in prompts.WRITER and prompts.CITE_RULE in prompts.BASELINE
+
+
 def test_numbered_items_are_not_split_at_the_number():
     # 처음 만든 검사기는 "5. 제목"의 "5."를 문장으로 잘라 근거 없음으로 잘못 판정했다 (테스트가 잡은 버그)
     draft = "1. 직접 짠 것 vs LangGraph 경험 [E1].\n2) ADR-07. 사람 승인 기준 [E2]."

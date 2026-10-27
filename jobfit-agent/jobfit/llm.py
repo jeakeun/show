@@ -92,11 +92,15 @@ class ClaudeLLM:
         return self._json("analyzer", self.cfg.analyzer, prompts.ANALYZER,
                           f"<공고>\n{posting}\n</공고>", prompts.ANALYZE_SCHEMA)
 
-    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None) -> str:
+    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None,
+              previous: str = "") -> str:
         user = (f"<공고>\n{posting}\n</공고>\n\n<회사 읽기 (AI 추정)>\n{prompts.company_block(company or {})}\n</회사 읽기>"
                 f"\n\n<적합도 표 (코드가 계산)>\n{fit_table}\n</적합도 표>")
+        # 다시 쓸 때는 이전 초안을 함께 준다. 처음엔 지적 목록만 줘서 매번 새로 썼고, 새 초안에 새 문제가 생겨 고쳐지지 않았다.
+        if previous:
+            user += f"\n\n<이전 초안>\n{previous}\n</이전 초안>"
         if feedback:
-            user += f"\n\n<검증 의견: 이 문제들을 고쳐서 다시 쓸 것>\n{feedback}\n</검증 의견>"
+            user += f"\n\n<검증 의견: 이전 초안을 이 의견대로 고칠 것. 지적되지 않은 문장은 그대로 둔다>\n{feedback}\n</검증 의견>"
         return self._long_text("writer", self.cfg.writer,
                                self._cached_system(prompts.WRITER, prompts.evidence_block(sources)), user)
 

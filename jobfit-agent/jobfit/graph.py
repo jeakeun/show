@@ -74,8 +74,10 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
 
     # ④ 작성자: 한 명만 쓴다 (J-05)
     def write(state: State) -> dict:
+        feedback = state.get("feedback", "")
         draft = llm.write(state["posting"], scoring.fit_table(state.get("judged") or []),
-                          state.get("sources") or {}, state.get("feedback", ""), state.get("company"))
+                          state.get("sources") or {}, feedback, state.get("company"),
+                          previous=state.get("draft", "") if feedback else "")   # 다시 쓰기·사람 수정은 이전 초안을 고친다
         return {"draft": draft, "attempts": state.get("attempts", 0) + 1}
 
     # ⑤ 검증가: 코드 검사 먼저, 통과하면 AI 검사. 지적만 하고 고치지 않는다 (J-06)

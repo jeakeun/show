@@ -34,8 +34,9 @@ class FakeLLM:
                    "weak_metrics": [], "basis": [], "confidence": "낮음"}
         return {"requirements": reqs, "company": company}
 
-    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None) -> str:
-        self.calls.append({"role": "writer", "feedback": bool(feedback), "company": company})
+    def write(self, posting: str, fit_table: str, sources: dict, feedback: str = "", company: dict | None = None,
+              previous: str = "") -> str:
+        self.calls.append({"role": "writer", "feedback": bool(feedback), "company": company, "previous": previous})
         if self.drafts:
             return self.drafts.pop(0)
         lines = ["## 자기소개서"]

@@ -57,6 +57,7 @@ def test_missing_citation_triggers_rewrite(tmp_path):
     state = app.get_state(config).values
     writes = [c for c in llm.calls if c["role"] == "writer"]
     assert len(writes) == 2 and writes[1]["feedback"]   # 두 번째 쓰기는 검증 의견을 받음
+    assert writes[0]["previous"] == "" and writes[1]["previous"] == bad   # 처음부터 새로 쓰지 않고 이전 초안을 고침
     assert state["issues"] == []
 
 
@@ -81,8 +82,10 @@ def test_human_revision_then_discard(tmp_path):
     llm = FakeLLM()
     app, config = make(tmp_path, llm)
     start(app, config)
+    shown = app.get_state(config).values["draft"]
     result = app.invoke(Command(resume="RAG 경험을 더 강조해줘"), config)   # 수정 요청 → 다시 쓰고 다시 멈춤
     assert "__interrupt__" in result
+    assert [c for c in llm.calls if c["role"] == "writer"][-1]["previous"] == shown   # 사람이 본 초안을 고침
     app.invoke(Command(resume="폐기"), config)
     state = app.get_state(config).values
     assert state["decision"] == "폐기" and "output_path" not in state

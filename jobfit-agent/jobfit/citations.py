@@ -1,10 +1,11 @@
 """근거 번호 검사 (코드). AI 검증 전에, 싸고 확실한 검사부터 한다 (설계 결정 J-06 1차)."""
 import re
 
-CITE = re.compile(r"\[(E\d+)\]")
+# [E3], [E3][E5], [E3, E5] 를 모두 근거 번호로 본다. 처음엔 [E3] 만 알아봐서 [E33, E34] 를 "번호 없음"으로 잘못 잡았다.
+CITE = re.compile(r"\[(E\d+(?:\s*,\s*E\d+)*)\]")
 # 문장 끝: 한글·닫는 괄호 바로 뒤의 마침표만 본다. "5. 제목", "ADR-07." 같은 숫자 뒤 마침표에서 자르지 않기 위해서다.
 SENTENCE_END = re.compile(r"(?<=[가-힣)\]][.!?])\s+")
-ONLY_CITES = re.compile(r"^(\[E\d+\]\s*,?\s*)+[.!?]?$")
+ONLY_CITES = re.compile(r"^(\[E\d+(?:\s*,\s*E\d+)*\]\s*,?\s*)+[.!?]?$")
 LIST_MARK = re.compile(r"^(?:[-*•]|\d+[.)])\s+")
 NO_CITE_SECTIONS = ("보강할 증거",)
 
@@ -33,13 +34,18 @@ def sentences(draft: str) -> list[str]:
     return out
 
 
+def cited_ids(sentence: str) -> list[str]:
+    return [e for group in CITE.findall(sentence) for e in re.split(r"\s*,\s*", group)]
+
+
 def check(draft: str, known_ids) -> list[dict]:
     known = set(known_ids)
     issues = []
     for s in sentences(draft):
-        ids = CITE.findall(s)
+        ids = cited_ids(s)
         if not ids:
-            issues.append({"sentence": s, "problem": "근거 번호 없음", "detail": "모든 문장에 [E번호]를 달아야 함"})
+            issues.append({"sentence": s, "problem": "근거 번호 없음",
+                           "detail": "이 문장 끝 마침표 앞에 근거 번호를 달 것. 달 근거가 없으면 문장을 지울 것"})
             continue
         unknown = sorted(set(ids) - known)
         if unknown:
