@@ -22,6 +22,7 @@ def main() -> int:
     ap.add_argument("--ai-judge", action="store_true", help="키워드 판정 대신 AI 근거 판정가로 판정 (2-3)")
     ap.add_argument("--estimate", action="store_true", help="--ai-judge 비용만 추정하고 끝냄")
     ap.add_argument("--dry-run", action="store_true", help="--ai-judge 를 가짜 판정가로")
+    ap.add_argument("--max-usd", type=float, default=1.5, help="--ai-judge 비용 상한 (다음 공고 1개 비용까지 미리 빼고 확인)")
     args = ap.parse_args()
     if args.ai_judge:
         return ai_judge(args)
@@ -37,6 +38,8 @@ def main() -> int:
 def ai_judge(args) -> int:
     from jobfit import prompts
     cfg, gold = Config(), load_gold()
+    from run import load_env
+    load_env(ROOT / ".env")   # 키는 화면에 출력하지 않는다
     if args.estimate:
         from jobfit.llm import ClaudeLLM
         client = ClaudeLLM(cfg).client
@@ -63,7 +66,7 @@ def ai_judge(args) -> int:
         llm = ClaudeLLM(cfg)
     results = compare([VARIANTS[0], VARIANTS[-1]], gold)
     results[-1] = ("키워드 판정 (2-2 검색)", results[-1][1])
-    results.append(("AI 근거 판정가 + 코드 검사" + (" (가짜)" if args.dry_run else ""), run_ai_judge(llm, cfg, gold)))
+    results.append(("AI 근거 판정가 + 코드 검사" + (" (가짜)" if args.dry_run else ""), run_ai_judge(llm, cfg, gold, args.max_usd)))
     text = report(results, ai_judge=True) + "\n## 호출별 비용\n" + llm.cost_summary() + "\n"
     print(text)
     if not args.no_save and not args.dry_run:

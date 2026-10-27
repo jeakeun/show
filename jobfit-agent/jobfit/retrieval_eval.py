@@ -154,10 +154,15 @@ def judge_inputs(cfg: Config, gold: list[dict]) -> dict:
     return out
 
 
-def run_ai_judge(llm, cfg: Config, gold: list[dict]) -> dict:
-    """정답 항목을 AI 근거 판정가로 판정한다 (모델 호출, 공고당 1번). 판정은 코드가 검사한다."""
+def run_ai_judge(llm, cfg: Config, gold: list[dict], max_usd: float | None = None, per_call_usd: float = 0.25) -> dict:
+    """정답 항목을 AI 근거 판정가로 판정한다 (모델 호출, 공고당 1번). 판정은 코드가 검사한다.
+    max_usd: 다음 호출 하나(최대 per_call_usd)까지 더해도 상한을 넘지 않을 때만 다음 공고를 판정한다."""
     rows = []
     for pid, x in judge_inputs(cfg, gold).items():
+        spent = sum(c.get("cost_usd", 0) for c in getattr(llm, "calls", []))
+        if max_usd is not None and spent + per_call_usd > max_usd:
+            print(f"비용 상한 US${max_usd}: 지금까지 US${spent:.2f} → {pid} 부터 멈춤")
+            break
         judged = [scoring.judge(f["req"], f["chunks"], cfg.match_words) for f in x["found"]]
         ai = llm.judge([f["req"] for f in x["found"]], x["candidates"], x["sources"])
         judged = scoring.apply_judgments(judged, x["candidates"], x["sources"], ai)
