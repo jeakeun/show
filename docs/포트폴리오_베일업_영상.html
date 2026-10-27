@@ -192,7 +192,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:20px;
 
 <section>
   <h2>숫자<span>2026.10.21 기준</span></h2>
-  <p class="rail-note">아래 숫자는 1분호기심 채널을 무인으로 운영하며 쌓인 실측값입니다.</p>
+  <p class="rail-note">영상 14편은 nudy, 쇼츠 164편과 조회수는 1분호기심, 5채널 발행은 집가에서 나온 수치입니다.</p>
   <div class="nums">
     <div class="num"><div class="v">14편</div><div class="k">nudy 마케팅 영상 · ComfyUI</div></div>
     <div class="num"><div class="v">164편</div><div class="k">유튜브 쇼츠 · 무인 제작·발행</div></div>
@@ -211,17 +211,18 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:20px;
       <span class="tag">팀 프로젝트</span>
       <span class="tag live">진행 중</span>
     </div>
-    <p class="pj-s">촬영한 얼굴에 가상으로 메이크업을 입혀 보여주는 서비스. 촬영 화면과 메이크업 적용, 이미지 생성 서버 구성, 서비스 마케팅을 맡았습니다.</p>
+    <p class="pj-s">촬영한 얼굴에 가상으로 메이크업을 입혀 보여주는 서비스. 서비스 마케팅을 단독으로 맡아 영상 14편을 제작·발행했고, 촬영 화면과 메이크업 적용, 이미지 생성 서버 구성도 함께 담당했습니다.</p>
     <dl class="meta">
       <dt>기간</dt><dd>2026.09 – 진행 중</dd>
-      <dt>담당</dt><dd>촬영 화면 · 메이크업 적용 · 생성 서버 · 마케팅(단독)</dd>
-      <dt>기술</dt><dd>MediaPipe, FLUX, ComfyUI, RTX 3060 서버</dd>
+      <dt>담당</dt><dd>마케팅 영상 제작(단독) · 촬영 화면 · 메이크업 적용 · 생성 서버</dd>
+      <dt>기술</dt><dd>MediaPipe(얼굴 인식·촬영), FLUX(메이크업 적용), ComfyUI(마케팅 영상), Gemini API(모델 이미지), RTX 3060 서버</dd>
     </dl>
     <ul class="did">
       <li>첫 화면 촬영 기능 — MediaPipe로 얼굴을 인식해 촬영 화면을 구성하고, 촬영한 이미지를 다음 단계로 넘기는 흐름 구현</li>
-      <li>가상 메이크업 적용 — 촬영한 얼굴에 화장을 입혀 결과를 보여주는 기능 개발</li>
+      <li>가상 메이크업 적용 — FLUX 모델로 촬영한 얼굴에 화장을 입혀 결과를 보여주는 기능 개발</li>
       <li>이미지 생성 서버 구성 — FLUX를 팀의 RTX 3060 서버에 올려 외부 생성 API 없이 동작</li>
-      <li>서비스 마케팅 단독 담당 — 인스타그램 · 쓰레드 · 유튜브 3개 채널을 직접 개설하고 운영</li>
+      <li>마케팅 영상 14편 기획·제작 — 같은 인물과 공간을 각도·조명만 바꿔 가며 ComfyUI로 생성해 편 사이 연결이 끊기지 않게 구성</li>
+      <li>영상 완성과 발행 — 장면 합성과 호흡 편집, 자막·문구를 붙여 마무리하고 인스타그램 · 쓰레드 · 유튜브 3개 채널을 직접 개설해 발행</li>
       <li>매일 시장 조사를 수집해 대시보드와 인사이트로 정리, 콘텐츠 · 채널 운영 판단에 활용</li>
     </ul>
     <div class="fix">
@@ -252,9 +253,9 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:20px;
       <li>실행 · 발행 실패 시 휴대폰 푸시 알림을 연동해, 무인 운영 중 생긴 장애를 즉시 인지</li>
     </ul>
     <div class="fix">
-      <div class="ft">회고가 “조회수 76% 급락”으로 오진 — 정상 전략을 폐기할 뻔함</div>
+      <div class="ft">회고가 “조회수 −76% 급락”으로 오진 — 정상 전략을 폐기할 뻔함</div>
       <div class="fl"><b>원인</b>통계 수집이 API 기본 페이지네이션(최근 50편)에 걸려 잘린 표본으로 합계를 산출</div>
-      <div class="fl"><b>해결</b>전체 페이지네이션으로 교체 + 지표를 합계 대신 일별 데이터 · 중앙값 · 표본 수 병기로 변경 → 실제 추세는 44% 회복이었음을 확인해 폐기 철회</div>
+      <div class="fl"><b>해결</b>전체 페이지네이션으로 교체 + 지표를 합계 대신 일별 데이터 · 중앙값 · 표본 수 병기로 변경 → 실제 추세는 +44% 회복이었음을 확인해 폐기 철회</div>
     </div>
     <div class="fix">
       <div class="ft">무인 실행만 실패(오류 9009), 때때로 이틀 전 옛 코드가 실행됨</div>
@@ -277,7 +278,7 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:20px;
       <dt>서비스</dt><dd><a href="https://zip-ga-frontend.vercel.app/">zip-ga-frontend.vercel.app</a></dd>
     </dl>
     <ul class="did">
-      <li>영상 정규화 → 전사 → 9:16 클립 → 채널별 문구 생성 → 유입 링크 → 발행 큐를 6단계 파이프라인으로 모듈화</li>
+      <li>영상 정규화 → 음성 전사 → 9:16 클립 → 채널별 문구 생성 → 유입 링크 → 발행 큐를 6단계 파이프라인으로 모듈화</li>
       <li>유튜브 · 인스타그램 · 쓰레드 · 네이버블로그 · 티스토리 5채널 원클릭 업로더 구현 — API 미연결 채널은 보조 모드로 자동 강등해 전체 중단 방지</li>
       <li>ComfyUI를 헤드리스로 자동 기동, 로컬 GPU로 영상 · BGM 생성 → 외부 생성 API 비용 0원</li>
       <li>플랫폼 제재 예방 규칙(금지 표현 · 장면)을 정의해 기획 · 프롬프트 · 해시태그 일괄 교체 → 발행 실패 · 제재 0건</li>
@@ -290,10 +291,10 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:20px;
       <span class="tag">팀 프로젝트</span>
       <span class="tag">2026.04 – 05</span>
     </div>
-    <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고, 웹캠으로 운동 자세를 실시간 분석해 피드백하는 웹 서비스. AI 기능 개발과 프론트–백엔드 연동을 맡았습니다.</p>
+    <p class="pj-s">신체 정보와 목표를 입력하면 AI가 하루 식단을 구성하고, 웹캠으로 운동 자세를 실시간 분석해 피드백하는 웹 서비스. 화면(UI) 제작과 AI 기능 개발, 프론트–백엔드 연동을 맡았습니다.</p>
     <dl class="meta">
       <dt>기간</dt><dd>2026.04.17 – 2026.05.31</dd>
-      <dt>담당</dt><dd>AI 기능 개발 · 프론트–백엔드 연동</dd>
+      <dt>담당</dt><dd>화면(UI) 제작 · AI 기능 개발 · 프론트–백엔드 연동</dd>
       <dt>기술</dt><dd>Java, Spring Boot, React, Axios, MediaPipe, KNN</dd>
       <dt>저장소</dt><dd><a href="https://github.com/jeakeun/project">github.com/jeakeun/project</a></dd>
     </dl>
@@ -313,16 +314,18 @@ footer{margin-top:52px;border-top:1px solid var(--line);padding-top:20px;
 <section>
   <h2>기술 스택</h2>
   <div class="sk">
+    <div class="c">영상 제작</div><div class="t">ComfyUI, FFmpeg, edge-tts, 9:16 규격 변환
+      <em>장면 생성과 합성, 크롭·음량 정규화, 내레이션·단어 단위 자막, 채널별 규격 자동 완성 — 마케팅 영상 14편과 유튜브 쇼츠 164편 제작</em></div>
     <div class="c">LLM · 에이전트</div><div class="v">Claude Code (헤드리스 CLI), 프롬프트 설계, 규칙 엔진
       <em>수집·생성·검수·발행·회고 역할 분리, 생성 → 검수 2단 구조, 정규식 사후검사, 사람 승인 게이트</em></div>
-    <div class="c">AI · Vision</div><div class="v">KNN, MediaPipe, FLUX / ComfyUI, edge-tts
-      <em>추천 알고리즘 설계·개선, 웹캠 관절 좌표 추출, 로컬 GPU 생성 및 VRAM 최적화</em></div>
+    <div class="c">AI · Vision</div><div class="v">FLUX / ComfyUI, MediaPipe, KNN
+      <em>로컬 GPU 생성 및 VRAM 최적화, 웹캠 관절 좌표 추출, 추천 알고리즘 설계·개선</em></div>
     <div class="c">Backend</div><div class="v">Java, Spring Boot, Python 3.12, SQL, RESTful API
       <em>엔드포인트 설계·연동, 사용자 데이터 수집·가공 로직</em></div>
     <div class="c">Frontend</div><div class="v">React, JavaScript, Axios
       <em>프론트–백엔드 API 연동, 실시간 영상 처리 시 상태 관리 최적화</em></div>
-    <div class="c">API 연동</div><div class="v">YouTube Data v3, Meta Graph, Threads, Naver Blog, Upbit
-      <em>업로드·재생목록·통계 조회, 릴스 resumable upload, 시세 수집</em></div>
+    <div class="c">API 연동</div><div class="v">YouTube Data v3, Meta Graph, Threads, Naver Blog
+      <em>영상 업로드·재생목록·썸네일·통계 조회, 릴스 resumable upload</em></div>
     <div class="c">인프라 · 도구</div><div class="v">Windows 작업 스케줄러, PowerShell, FFmpeg, Git / GitHub, Unity / C#
       <em>다중 잡 무인 운영과 실패 알림, 9:16 크롭·합성·음량 정규화, 저장소 6개 운영</em></div>
   </div>
