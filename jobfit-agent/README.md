@@ -76,7 +76,10 @@ python run.py eval/postings/001.md                # 실제 실행 (.env 에 ANTH
 python run.py eval/postings/001.md --baseline     # 에이전트 1개짜리 기준선
 python eval_analyzer.py                           # 공고 분석가 채점 (평가셋 공고 전체)
 python batch_run.py --only 008,009 --max-usd 5    # 지원서 변경 테스트 (비용 상한)
+python batch_run.py --dir private/jobs-2026-10-28/postings --only A001,A002   # 평가셋 밖 공고 폴더 (결과는 그 폴더 옆 results/)
 ```
+
+평가셋이 아닌 실제 지원 후보 공고는 `private/jobs-날짜/` 에 둡니다. 학력·경력 조건으로 고른 목록이라 개인정보가 드러나서 깃에 올리지 않습니다. 그 폴더의 `README.md` 가 공고 목록과 순위입니다.
 
 ## 쓰는 기술
 

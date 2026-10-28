@@ -4,6 +4,7 @@
   python batch_run.py --only 008,009,010         # 고른 공고만 실제 모델로
   python batch_run.py                            # 평가셋 공고 전체를 실제 모델로
   python batch_run.py --max-usd 3                # 비용 상한 (기본 5달러, 넘으면 멈춤)
+  python batch_run.py --dir private/jobs-2026-10-28/postings --only 101,102   # 다른 폴더의 공고 (결과도 그 폴더 옆에)
 
 결과는 eval/results/batch-날짜/ 에 공고별 파일과 요약으로 남는다. 승인·지원 이력 등록은 하지 않는다.
 """
@@ -24,6 +25,8 @@ def main() -> int:
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--only", default="", help="쉼표로 구분한 공고 번호 (예: 008,009)")
     ap.add_argument("--max-usd", type=float, default=5.0)
+    ap.add_argument("--dir", default="eval/postings",
+                    help="공고 폴더 (기본 eval/postings). 예: private/jobs-2026-10-28/postings")
     args = ap.parse_args()
 
     cfg = Config()
@@ -40,9 +43,12 @@ def main() -> int:
         llm, label = ClaudeLLM(cfg), f"작성자 {cfg.writer.model} · 생각 강도 {cfg.writer.effort}"
 
     wanted = {x.strip() for x in args.only.split(",") if x.strip()}
-    postings = [p for p in sorted((ROOT / "eval" / "postings").glob("*.md")) if not wanted or p.stem in wanted]
+    src_dir = ROOT / args.dir
+    postings = [p for p in sorted(src_dir.glob("*.md")) if not wanted or p.stem in wanted]
     retriever = Retriever(load_chunks(cfg.sources, cfg.source_root, cfg.chunk_size, cfg.chunk_overlap))
-    out_dir = ROOT / "eval" / "results" / f"batch-{datetime.now():%Y%m%d-%H%M}"
+    # results stay next to their postings' tree: eval/ → eval/results, private/... → private/.../results (not in git)
+    res_root = ROOT / "eval" / "results" if args.dir == "eval/postings" else src_dir.parent / "results"
+    out_dir = res_root / f"batch-{datetime.now():%Y%m%d-%H%M}"
 
     results, spent = [], 0.0
     for p in postings:
