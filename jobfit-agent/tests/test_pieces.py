@@ -1,5 +1,5 @@
-"""부품별 테스트: 문서 자르기, 검색, 근거 번호 검사, 적합도 계산."""
-from jobfit import citations, scoring
+"""부품별 테스트: 문서 자르기, 검색, 근거 번호 검사, 문체 검사, 적합도 계산."""
+from jobfit import citations, scoring, style
 from jobfit.career import Retriever, ko_tokens, load_chunks
 from jobfit.config import Config
 
@@ -65,3 +65,26 @@ def test_keyword_search_misses_korean_spelling():
     j = scoring.judge({"id": "R", "kind": "스킬", "text": "Python", "skills": ["Python"]},
                       [{"kind": "운영", "text": "파이썬 3.12 설치"}])
     assert j["status"] == "없음"
+
+
+def test_style_check_catches_ai_tone_and_spacing():
+    # 2026-11-02 지원서 49세트 검수에서 실제로 나온 문장들 (근거 검증은 통과했던 것)
+    draft = ("## 자기소개서\n"
+             "공고의 '데이터로 일하는 팀'이라는 문장을 보고 지원을 결심했습니다 [E1].\n"
+             "로그 수집부터 리포트까지 — 전 과정을 혼자 만들었습니다 [E2].\n"
+             "입사하면 팀의 자동화에 기여하겠습니다 [E1].\n"
+             "새 도구도 빨리 배울수 있습니다 [E2].\n"
+             "## 보강할 증거\n- 열정을 보여줄 숫자 — 메모라 검사 안 함")
+    probs = [(i["problem"], i["sentence"][:6]) for i in style.check(draft)]
+    assert ("AI 말투", "공고의 '데") in probs
+    assert ("AI 말투", "로그 수집부") in probs
+    assert ("AI 말투", "입사하면 팀") in probs
+    assert ("맞춤법", "새 도구도 ") in probs
+    assert not any("메모" in s for _, s in probs)
+
+
+def test_style_check_passes_plain_writing_and_flags_overuse():
+    plain = "## 자기소개서\n쇼츠 179편을 매일 자동으로 발행했습니다 [E1]. 실패하면 폰으로 알림이 옵니다 [E2]."
+    assert style.check(plain) == []
+    many = "## 자기소개서\n" + " ".join(f"{n}번째 도구를 직접 만들었습니다 [E1]." for n in range(4))
+    assert any("'직접' 4번" in i["sentence"] for i in style.check(many))

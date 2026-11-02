@@ -1,7 +1,7 @@
 """에이전트 흐름 (LangGraph).
 
 공고 → [공고 분석가] → [근거 검색가 × 요구 항목 수, 병렬] → [적합도 계산(코드)]
-     → [작성자 1명] → [검증가] ─ 문제 있음, 상한 전 → 작성자로
+     → [작성자 1명] → [검증가: 근거·문체] ─ 문제 있음, 상한 전 → 작성자로
                                └ 통과 또는 상한 → [사람 확정] ─ 승인 → [저장]
                                                              ├ 수정 요청 → 작성자로
                                                              └ 폐기 → 끝
@@ -14,7 +14,7 @@ from typing import Annotated, TypedDict
 from langgraph.graph import END, START, StateGraph
 from langgraph.types import Send, interrupt
 
-from . import citations, prompts, scoring
+from . import citations, prompts, scoring, style
 from .career import Retriever
 from .config import Config
 
@@ -78,9 +78,9 @@ def build(llm, retriever: Retriever, cfg: Config, checkpointer=None):
                           state.get("sources") or {}, state.get("feedback", ""), state.get("company"))
         return {"draft": draft, "attempts": state.get("attempts", 0) + 1}
 
-    # ⑤ 검증가: 코드 검사 먼저, 통과하면 AI 검사. 지적만 하고 고치지 않는다 (J-06)
+    # ⑤ 검증가: 코드 검사(근거 번호 + 문체) 먼저, 통과하면 AI 검사(근거 + 오타·AI 말투). 지적만 하고 고치지 않는다 (J-06)
     def verify(state: State) -> dict:
-        issues = citations.check(state["draft"], (state.get("sources") or {}).keys())
+        issues = citations.check(state["draft"], (state.get("sources") or {}).keys()) + style.check(state["draft"])
         if not issues:
             issues = llm.verify(state["draft"], state.get("sources") or {}, state.get("company"))
         feedback = "\n".join(f"- [{i['problem']}] {i['sentence']} → {i['detail']}" for i in issues)
