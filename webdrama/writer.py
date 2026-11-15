@@ -51,6 +51,7 @@ EPISODE_SCHEMA = _obj({
         "character_ids": _arr(STR),
         "action_ko": STR,
         "prompt_en": STR,
+        "continuity": STR,
         "dialogue": _arr(_obj({"speaker": STR, "line": STR})),
     })),
     "caption_ko": STR,
@@ -142,6 +143,10 @@ def make_episode(bible: dict, n: int, previous: list[dict]) -> dict:
 - prompt_en: {model} 에 그대로 넣을 영어 프롬프트. 순서: 화풍 → 장소 모습 → 인물 외모(look_en+outfit_en 그대로 반복) → 동작·표정 → 카메라(샷 크기·움직임) → 소리.
   대사가 있으면 인물의 voice_en 을 괄호로 붙여 'She (clear bright young female voice) says in Korean: "(한국어 대사)"' 처럼 영어 문장 안에 한국어 대사를 따옴표로 넣는다.
   화면에 글자·자막을 넣으라고 하지 않는다. 안전 필터 규칙(신체 폭력·입술 클로즈업·몸매 강조 금지)을 지킨다.
+- continuity: 이 장면이 끝날 때의 소품·의상·얼룩·손에 든 것의 상태를 한국어 한 줄로 (예: "도현 왼쪽 가슴에 커피 얼룩, 서연 왼손 캐리어·오른손 손수건").
+  장면마다 영상이 따로 만들어지므로, 앞 장면에서 생긴 상태(얼룩·든 물건·옷)는 뒤 장면 prompt_en 에도 같은 영어 표현으로 다시 적는다.
+  반전·폭로의 근거(누가 무엇을 봤다/들었다)는 그보다 앞 장면 화면에 실제로 보이게 심어 둔다. 닫힌 문·벽 너머처럼 물리적으로 볼 수 없는 근거는 쓰지 않는다.
+  옷에 묻는 얼룩은 겉옷(조끼·재킷)에 가려지지 않는 위치로 정하고 그 위치를 계속 같게 쓴다.
 - dialogue: 그 장면의 한국어 대사 (자막용). 장면당 0~2줄, 한 줄 25자 이내. 대사가 장면 길이에 비해 너무 길면 안 된다.
 - summary: 다음 화 작가가 읽을 이번 화 줄거리 2~3문장.
 - payoff: 이번 화의 보상 종류(사이다/설렘/웃음)와 그 순간을 한 줄로. 예: "사이다: 서연이 메일 수정 기록을 띄워 유나의 모함을 뒤집음".

@@ -77,6 +77,7 @@ def episode_sheet(bible: dict, n: int, ep: dict, folder: Path) -> Path:
         shots.append(f"""<div class="box"><div class="shot"><div class="no">{i}</div><div>
 <label><input type="checkbox" id="s{i}" onchange="mark(this)"> <b>{s['seconds']}초</b> · {html.escape(s['action_ko'])}</label>
 {_ref_html(s['character_ids'], names, folder)}
+{f'<p class="mut">이어짐: {html.escape(s["continuity"])}</p>' if s.get("continuity") else ''}
 {f'<p>{lines}</p>' if lines else ''}
 <textarea id="p{i}" readonly>{html.escape(s['prompt_en'])}</textarea>
 <button onclick="cp('p{i}',this)">프롬프트 복사</button></div></div></div>""")
