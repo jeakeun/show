@@ -5,10 +5,12 @@ metadata:
   node_type: memory
   type: project
   originSessionId: da745ac0-da03-46ea-836a-d20d63dd7a74
-  modified: 2026-08-21T09:31:18.221Z
+  modified: 2026-11-01T19:07:56.010Z
 ---
 
 # 코인 모의투자 봇 (2026-08-21 구축)
+
+**⛔ 2026-11-02 영구 중단 — 사용자 지시("코인봇이랑 누디는 절대 다시 실행할 수 없게 만들어")** — 작업 스케줄러 4개(CoinBotCycle·CoinBotExitCheck·CoinBotReport·CoinBotWeekly) **삭제**(XML 백업: `D:\disabled-automation-backup-2026-11-02\`), `run_*_hidden.vbs` → `.disabled` 이름 변경, `STOP.txt` 생성, README에 운영 종료 기록(커밋 a93cf2b). 코드·매매 기록은 보관. **어떤 이유로도 다시 실행·재등록·재실행 제안 금지** — 사용자가 직접 명시적으로 되살려 달라고 할 때만. 11/1 주간 회고(구독 주간 한도 실패)도 재실행하지 않음. 아래 내용은 과거 기록.
 
 - 위치: **`D:\coin-bot`** (OneDrive 밖, 표준 라이브러리만 사용 — pip 설치 불필요, `py -3 -m src.trade_cycle`)
 - **모의투자 전용**: 가상 자금 1,000만 원, 업비트 공개 API(인증 불필요) 시세. 사용자 결정:
@@ -45,3 +47,6 @@ metadata:
   손실의 78%는 매수 15분 내 -6~-10% 붕괴 10건이라 점검 주기로 못 막음. 회고 제안1 적용: `config.json` `min_price_krw: 120` +
   trade_cycle.py 진입 루프에서 현재가 < 120원이면 건너뜀(보유분 청산 무관). **2주 시험, 9/28 회고에서 재평가**(120원 이상 그룹은 3주 연속 플러스였음).
   제안2(일일 리포트 07:10→23:50, 3주째 재제안)는 아직 미결정.
+- **2026-09-28 사용자 선택(9/27 회고 제안)**: min_price_krw 120→0, trend_exit_enabled=false(추세이탈 청산 2주 중단), 과열익절 후 30·60분 가격 data/overheat_followup.csv(overheat_watch.json 대기열),
+  손절 코인 24h 재매수 금지는 10/11 회고 뒤 적용 예정. 판정 기준은 config change_log_2026_09_28 에 기록. 주간 회고 프롬프트는 "🙋 주인이 고를 것" A/B/C/D 형식.
+- 2026-10-21 10/18 주간회고 "다 추천으로": 추세이탈 청산 다시 켬(trend_exit_enabled=true, 9/28~10/20 중단), 매수 이유에 '24시간 등락 ±x.x%' 기록(매매 무변화), 11/1 회고 판정 기준 = 10/18 이후 2주 누적 마이너스면 진입 방식 재설계 시작. 11/1까지 다른 매매 규칙 변경 금지(효과 구분). 8주 누적 -4.75%, 4주 연속 손실.

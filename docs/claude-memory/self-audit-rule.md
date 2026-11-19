@@ -59,3 +59,6 @@ coin-bot 리포트 vs trades.csv 대조/손절 초과/격리 파일, ai-daily �
 뉴스·코인 주간회고·자가감사·논문검토 등 헤드리스 작업 전부 영향. 원인은 구독 로그인 세션 만료 — 내가 대신 로그인 불가.
 조치: 사용자에게 `claude login` 안내, Monitor로 복구 감시 후 jobs/news 자동 재실행. 후속 과제: run-daily.ps1·run_weekly.ps1·run-audit.ps1
 시작부에 인증 사전 점검(`claude -p ok`) → 실패 시 "로그인 필요" 푸시로 원인을 바로 알리기.
+
+- 2026-11-19 Codex 전체 검토(4묶음, 결과 D:/wt/codex-review/result_*.md, 41건). 바로 고친 것: 30분 정리 정규식 고장(규칙3 한 번도 안 돌았음, 백업 .bak-20261119), yt-auto 중복 업로드 방지(uploaded_id.txt), 뿅뿅마을 중복 방지·채널ID 확인·state/토큰 원자 저장(daily.py.bak-20261119), 프롬프트 승인 즉시 커밋. 남은 후보: 저녁 준비/본실행 겹침, 숨김 실행 중 OAuth 브라우저 대기, ffmpeg 무제한 대기, AI데일리 claude 쓰기 권한·잠금, 자가감사 원본 자동복원.
+- 2026-11-19 남은 5건도 수정: (1) yt-auto 저녁 사전생성 15분 넘으면 트리 종료·본실행 뒤 늦은 사전생성 무시 (2) 숨김 실행 로그인 만료 시 브라우저 안 띄우고 폰 알림+실패, 재로그인은 터미널 auth_youtube.py(YT_AUTH_INTERACTIVE=1) — 윈도우는 NUL 도 isatty True 라 콘솔 판별 불가 (3) 영상 조립 40분·정지배경 30분 제한 (4) AI데일리 claude 는 Edit(//d/ai-daily/<리포트폴더>/**) 만, Bash 금지 (Write(path) 규칙은 무시됨, Edit 규칙이 모든 쓰기 담당) (5) 자가감사는 백업·원복 없앰, 쓰기 reports 폴더만, secrets·topic.txt·.claude 읽기 금지 (run-audit.ps1.bak-20261119). guard_backup 폴더(옛 사본, coin-bot config 포함)는 안 지움.
