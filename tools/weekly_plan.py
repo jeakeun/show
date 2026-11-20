@@ -23,10 +23,22 @@ def md(d):
     return f"{d.month}/{d.day}({DOW[d.weekday()]})"
 
 
-def jload(p):
+PROBLEMS = []  # 읽기 실패 기록 (Codex 검토: '실험 없음'과 '파일을 못 읽음'을 구분해 계획 맨 아래에 표시)
+
+
+def jload(p, optional=False):
+    p = Path(p)
+    if not p.exists():
+        if not optional:
+            PROBLEMS.append(f"{p} 없음")
+        return {}
     try:
-        return json.loads(Path(p).read_text(encoding="utf-8"))
-    except Exception:
+        v = json.loads(p.read_text(encoding="utf-8"))
+        if not isinstance(v, dict):
+            raise ValueError("형식이 dict 가 아님")
+        return v
+    except Exception as e:
+        PROBLEMS.append(f"{p} 읽기 실패({type(e).__name__})")
         return {}
 
 
@@ -41,7 +53,13 @@ ANSWERED = OUT / "answered.json"  # {"회고날짜": {"결정번호": "고른 �
 
 def answered_decisions(report_day):
     """설정 메모의 결정 번호는 회고 번호와 다를 때가 있어 추측하지 않고 기록 파일만 믿는다."""
-    return {int(k): v for k, v in jload(ANSWERED).get(report_day.isoformat(), {}).items()}
+    out = {}
+    for k, v in (jload(ANSWERED, optional=True).get(report_day.isoformat()) or {}).items():
+        try:
+            out[int(k)] = v
+        except ValueError:
+            PROBLEMS.append(f"answered.json 번호 형식 오류: {k}")
+    return out
 
 
 def yt_part(mon, days):
@@ -50,12 +68,13 @@ def yt_part(mon, days):
              "- 매일 아침 7시·저녁 6시 쇼츠 자동 업로드"]
     st = cfg.get("style_test", {})
     if st.get("enabled"):
-        start, arms = date.fromisoformat(st["start"]), st.get("arms", [])
+        # 운영 코드(src/pipeline.py)와 같은 기본값: 시작일 2026-11-17, 시험군 sentence→sentence_sfx→control
+        start = date.fromisoformat(st.get("start") or "2026-11-17")
+        arms = st.get("arms") or ["sentence", "sentence_sfx", "control"]
         name = {"control": "기존", "sentence": "문장 자막", "sentence_sfx": "문장 자막+효과음"}
-        if arms:
-            row = " / ".join(f"{d.month}/{d.day} {name.get(arms[(d - start).days % len(arms)], '?')}"
-                             for d in days if d >= start)
-            lines.append(f"- 자막·소리 시험(날짜마다 교대): {row}")
+        row = " / ".join(f"{d.month}/{d.day} {name.get(arms[(d - start).days % len(arms)], '?')}"
+                         for d in days if d >= start)
+        lines.append(f"- 자막·소리 시험(쇼츠, 날짜마다 교대, 대화형 제외): {row}")
     story = cfg.get("story_test", {})
     if story.get("enabled"):
         hits = [f"{md(d)} {story['dates'][d.isoformat()]}" for d in days if d.isoformat() in story.get("dates", {})]
@@ -69,11 +88,18 @@ def yt_part(mon, days):
         lines.append(f"- 그림 엔진 시험: {cfg['image_test']['dates']}")
     lines.append(f"- 주간 회고: {md(days[-1])} 밤 11시 50분")
 
-    reps = sorted((YT / "reports").glob("*-주간리포트.md"))
+    reps = []  # 계획 주 시작(월요일) 전날까지의 회고 중 최신 (과거 주를 --date 로 볼 때 미래 회고를 끌어오지 않게)
+    for r in (YT / "reports").glob("*-주간리포트.md"):
+        try:
+            rd = date.fromisoformat(r.name[:10])
+        except ValueError:
+            PROBLEMS.append(f"회고 파일 이름 날짜 형식 오류: {r.name}")
+            continue
+        if rd < mon:
+            reps.append((rd, r))
     if not reps:
-        return lines + ["", "(회고 보고서 없음)"]
-    rep = reps[-1]
-    rday = date.fromisoformat(rep.name[:10])
+        return lines + ["", "(이 주 이전 회고 보고서 없음)"]
+    rday, rep = max(reps)
     text = rep.read_text(encoding="utf-8")
     strat = section(text, "다음 기간 전략")
     if strat:
@@ -100,7 +126,10 @@ def yt_part(mon, days):
                 dflt = re.search(r"안 정하면:\s*(.+)", item)
                 todo.append(f"- {n}. {title}" + (f" (추천 {rec.group(1)})" if rec else "")
                             + (f"\n  - 안 정하면: {dflt.group(1).strip()}" if dflt else ""))
-        lines += ["", "**아직 답 안 한 결정** (유튜브 세션에 \"결정 N번 A\"처럼 답하면 됨)"] + (todo or ["- 없음"])
+        if not todo and not did:  # 제목은 있는데 항목을 못 읽음 → '없음'이라고 하지 않는다
+            PROBLEMS.append(f"{rep.name} '결정 필요' 항목 형식을 못 읽음 - 원본 확인")
+        lines += ["", "**아직 답 안 한 결정** (유튜브 세션에 \"결정 N번 A\"처럼 답하면 됨)"] + (
+            todo or ["- 없음" if did else "- (읽지 못함 - 회고 원본 확인)"])
         if did:
             lines.append(f"- (답한 것: {', '.join(did)})")
     return lines
@@ -151,22 +180,34 @@ def main():
         try:
             lines += part()
         except Exception as e:  # 한 채널 자료가 깨져도 나머지는 만든다
-            lines += [f"(이 부분 만들다 오류: {e})"]
+            lines += [f"(이 부분 만들다 오류: {type(e).__name__}: {e})"]
         lines.append("")
+    if PROBLEMS:
+        lines += ["## ⚠️ 자료 확인 필요", ""] + [f"- {x}" for x in PROBLEMS] + [""]
     text = "\n".join(lines)
     OUT.mkdir(parents=True, exist_ok=True)
     p = OUT / f"{mon.isoformat()}.md"
-    p.write_text(text, encoding="utf-8")
-    print(text)
+    tmp = p.with_suffix(".tmp")  # 임시 파일 → 교체 (쓰다 꺼져도 잘린 계획이 안 남게)
+    tmp.write_text(text, encoding="utf-8")
+    tmp.replace(p)
+    try:
+        print(text)
+    except Exception:  # pythonw 는 출력 창이 없음
+        pass
     if "--no-push" not in args:
+        body = re.sub(r"\*\*|^> .*\n|^# .*\n", "", text, flags=re.M)
+        raw = body.encode("utf-8")
+        if len(raw) > 3800:  # 알림 길이 한도 → 잘렸다고 표시하고 파일 위치 안내
+            body = raw[:3600].decode("utf-8", "ignore") + f"\n\n(길어서 잘림 - 전체: {p})"
         try:
             sys.path.insert(0, str(NOTIFY))
             from push import push
-            body = re.sub(r"\*\*|^> .*\n|^# .*\n", "", text, flags=re.M)
-            body = body.encode("utf-8")[:3800].decode("utf-8", "ignore")
             push("Weekly plan", body)
-        except Exception:
-            pass
+            status = "알림 보냄"
+        except Exception as e:
+            status = f"알림 실패 {type(e).__name__}"
+        with (OUT / "send.log").open("a", encoding="utf-8") as f:
+            f.write(f"{datetime.now():%Y-%m-%d %H:%M} {p.name} {status}\n")
 
 
 if __name__ == "__main__":
