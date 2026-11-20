@@ -10,7 +10,6 @@
 - [자동재생 페이지 열지 않기](no-autoplay-browser.md) — 유튜브·쇼츠 등은 브라우저로 열지 말고 API로만 확인 (소리 사고 2026-09-04)
 - [자가 감사 원칙](self-audit-rule.md) — 문제 스스로 발견 시 학습+보고서 작성 (상시 지시)
 - [깃 저장소 4개](git-repos.md) — 프로필 README 11/9 재정리(기본 브랜치 master), show만 PUBLIC(2026-09-05)·나머지 비공개, 프로필 리드미·핀 정리 완료, 메모리 동기화 시 비밀정보 제거 필수, OAuth 시크릿 재발급 미완
-- [API 요금 확인 경로](api-billing.md) — 구글 클라우드 결제(제미나이 누적 ₩13,219, 9/7), 앤트로픽 콘솔은 로그인 필요
 - [역할 구조·승인 게이트·hub](roles-and-hub.md) — 분석은 제안만, "플레이북 적용해"=src.approve, ai-daily 가드·streaks, D:\hub\hub.sqlite
 - [market-compass 마케팅 에이전트](market-compass.md) — D:\market-compass, 비공개 깃허브, Notion, 2주안 0~2일차 완료(2026-09-07)·다음 3일차 Guard R07~R12+engine 48/48, 일차마다 학습노트 필수
 - [C드라이브 게임 폴더 D 이동·정션 링크](c-drive-junctions.md) — 게임 7개 401GB를 D로, C 경로는 링크만 남음 (2026-09-07)
@@ -29,12 +28,9 @@
 - [헤드리스 지시문 잘림·한도 재실행](headless-prompt-quotes.md) — PS 5.1 큰따옴표로 AI데일리 지시문 13~25%만 전달되던 것 수정, 구독 한도 시 1회 자동 재실행 (2026-11-02)
 - [안 쓰면 바로 종료](close-when-idle.md) — 자동화 끝나면 종료·창 없이 실행·30분마다 남은 프로그램 정리, 게임용 PC 자원 확보 (2026-11-02), 도깨비의세계 안 켜지면 구글 플레이 게임즈 서비스 켜고 바로가기 실행
 - [게임 튕김 = 인텔 13세대 불안정](pc-cpu-instability.md) — i7-13700F, BIOS H.60·마이크로코드 0x11F 미패치, 최신 7E01vHH로 업데이트 필요 (2026-11-05)
-- [조코딩 해커톤](jocoding-hackathon.md) — 06번 Masil 해외 실험, C:\axwar, 2026-11-15 제출 완료(폼 7문항 재작성·zip 교체)
 - [비추천 공고는 안 만든다](no-paid-work-for-unfit-jobs.md) — 유료 jobfit 돌리기 전에 필수 조건 먼저 무료로 걸러서 결격이면 제외 (2026-11-14 지적)
-- [지원서 67곳 일괄 제작](job-applications-2026-11.md) — 2026-11-14 남구로역 60분 안, jobs-2026-11-13 폴더, Codex 검토는 원문 대조 후 반영, 11/14 47곳 제출(지원기록_2026-11-14.md) 다음 회차 때 제외
 - [공백 쓰기 전 전 프로젝트 확인](check-all-projects-before-gap.md) — "경험 없음" 쓰기 전 냠냠플래닛 등 grep, FastAPI·Docker는 냠냠플래닛에서 함 (2026-11-14)
 - [외부 도구 설치](installed-oss-tools.md) — 2026-11-16 마케팅 스킬 6개·save/resume-session·kordoc·watch·코덱스 imagegen, 전부 검토 후 설치
-- [채용공고 점검 규칙](job-search-rules.md) — 1·2차 지원사 제외, 남구로 60분, 안산·수원 제외, 뷰티·모르는 툴 필수 보류, 그림 공고는 img_fetch.py로 직접 읽기 (2026-11-16)
 - [키즈 만화 보리와 뭉치](kids-toon.md) — D:\kids-toon, 캐릭터 만화 시험 1화(11/18), 키즈 채널 "뿅뿅마을" = 옛 영어채널 1-Minute Wonder 전환(11/18, token_wonder), TTS에 지시문 붙이면 읽어버림, 11/19 회고 v2(48시간 실측·실험 장부·숫자는 코드) 월 02:20, 벤치마킹 9채널, 캐릭터 A4·B4 추가, AI 유아영상 단속 주의, 11/19 그리기 전 안전 규칙·배경 고정·Claude 그림 확인, B 대본 구독 Opus
 - [Code Mode 켬](claude-code-mode.md) — 2026-11-18 토큰 절약 실험 기능 settings env, 자동화 실패 시 먼저 의심·되돌리기
 - [생활 상식 틀리지 않기](everyday-fact-accuracy.md) — 전화번호 3·4·4자리처럼 사소한 사실도 대본·그림·코드 장면에서 정확히 (2026-11-19 지적)
@@ -42,4 +38,4 @@
 - [세션 나누는 기준](session-map.md) — 유튜브 그룹 / 취업·인턴 그룹(취업·서류, 인턴 업무), 한 세션 = 한 목적 (2026-11-20)
 - [모든 화면 문구 한글](korean-all-messages.md) — 중간 안내·명령 설명까지 한국어, 영어는 코드·파일명만 (2026-11-19 지시)
 
-> 공개 저장소 사본: api-billing·job-applications-2026-11·job-search-rules·jocoding-hackathon 4개는 계정·지원 기록이 있어 메인 PC에만 둠. 노션 주소는 가림.
+> 공개 저장소 사본: 허용 목록에 있는 메모리만 올림(계정·지원 기록·점검 결과 등은 메인 PC에만). 노션 주소·회사 정보는 가림.
