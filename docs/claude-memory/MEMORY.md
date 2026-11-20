@@ -38,6 +38,7 @@
 - [키즈 만화 보리와 뭉치](kids-toon.md) — D:\kids-toon, 캐릭터 만화 시험 1화(11/18), 키즈 채널 "뿅뿅마을" = 옛 영어채널 1-Minute Wonder 전환(11/18, token_wonder), TTS에 지시문 붙이면 읽어버림, 11/19 회고 v2(48시간 실측·실험 장부·숫자는 코드) 월 02:20, 벤치마킹 9채널, 캐릭터 A4·B4 추가, AI 유아영상 단속 주의, 11/19 그리기 전 안전 규칙·배경 고정·Claude 그림 확인, B 대본 구독 Opus
 - [Code Mode 켬](claude-code-mode.md) — 2026-11-18 토큰 절약 실험 기능 settings env, 자동화 실패 시 먼저 의심·되돌리기
 - [생활 상식 틀리지 않기](everyday-fact-accuracy.md) — 전화번호 3·4·4자리처럼 사소한 사실도 대본·그림·코드 장면에서 정확히 (2026-11-19 지적)
+- [세션 나누는 기준](session-map.md) — 유튜브 그룹 / 취업·인턴 그룹(취업·서류, 인턴 업무), 한 세션 = 한 목적 (2026-11-20)
 - [모든 화면 문구 한글](korean-all-messages.md) — 중간 안내·명령 설명까지 한국어, 영어는 코드·파일명만 (2026-11-19 지시)
 
 > 공개 저장소 사본: api-billing·job-applications-2026-11·job-search-rules·jocoding-hackathon 4개는 계정·지원 기록이 있어 메인 PC에만 둠. 노션 주소는 가림.
