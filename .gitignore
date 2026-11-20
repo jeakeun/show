@@ -30,3 +30,5 @@ zipga-marketing/teaser/_tmp*/
 support-yr-makeup/
 # 드라이브 점검 리포트 (개인 경로 목록, 공개 저장소라 금지)
 드라이브점검-*.md
+
+tools/memory_sync.log
