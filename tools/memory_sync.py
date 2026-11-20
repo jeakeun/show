@@ -20,6 +20,18 @@ SKIP = {"api-billing.md", "job-applications-2026-11.md", "job-search-rules.md", 
 NOTE = ("\n\n> 공개 저장소 사본: api-billing·job-applications-2026-11·job-search-rules·jocoding-hackathon "
         "4개는 계정·지원 기록이 있어 메인 PC에만 둠. 노션 주소는 가림.\n")
 NOTION = re.compile(r"https?://([\w.-]*\.)?notion\.(so|site|com)/\S+")
+# 공개하면 안 되는 이름·주소 가림 목록. 이 PC에만 있는 파일(깃에 안 올라감).
+# 한 줄에 "정규식<TAB>바꿀 말". 파일이 없으면 동기화를 멈춘다(가림 없이 올라가는 사고 방지).
+REDACT_FILE = Path.home() / ".claude" / "memory_sync_redact.tsv"
+
+
+def load_redactions():
+    rules = []
+    for line in REDACT_FILE.read_text(encoding="utf-8").splitlines():
+        if line.strip() and not line.startswith("#") and "\t" in line:
+            pat, rep = line.split("\t", 1)
+            rules.append((re.compile(pat), rep))
+    return rules
 # 비밀값·개인정보로 보이는 것 (발견 시 중단)
 DANGER = [
     re.compile(r"sk-(ant-)?[A-Za-z0-9_-]{20,}"),
@@ -57,12 +69,15 @@ def git(*args):
 
 
 def build():
+    rules = load_redactions()
     out = {}
     for f in sorted(SRC.glob("*.md")):
         if f.name in SKIP:
             continue
         t = f.read_bytes().decode("utf-8").replace("\r\n", "\n")
         t = NOTION.sub("(노션 주소 비공개)", t)
+        for pat, rep in rules:
+            t = pat.sub(rep, t)
         if f.name == "MEMORY.md":
             t = t.rstrip("\n") + NOTE
         out[f.name] = t
@@ -70,7 +85,12 @@ def build():
 
 
 def main(dry=False):
-    files = build()
+    try:
+        files = build()
+    except FileNotFoundError:
+        log("중단: 가림 목록 파일 없음 " + str(REDACT_FILE))
+        alert("가림 목록 파일이 없어 메모리 동기화 중단")
+        return 1
     if "MEMORY.md" not in files:
         log("중단: 메모리 폴더를 못 찾음")
         alert("메모리 폴더를 못 찾아 동기화 중단")
