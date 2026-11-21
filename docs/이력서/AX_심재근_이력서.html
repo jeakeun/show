@@ -141,35 +141,36 @@
   <ul>
     <li>AI 자동화 에이전트를 직접 설계·운영 — 수집 · 생성 · 검수 · 발행 · 회고를 각각의 에이전트로 나누고,
       LLM에는 문구만 맡기고 판단 기준은 코드로 고정하는 구조</li>
-    <li>유튜브 콘텐츠 자동화를 1인으로 구축·운영 — 매일 2편 무인 발행, 누적 164편(쇼츠 158), 총 조회 111,501회.
+    <li>LangGraph 멀티 에이전트 2개를 실제 데이터로 돌리고 같은 기준으로 채점 — 지원서 에이전트는 실제 공고 67건에 실행,
+      근거 판정 정답 일치 62% → 89%. 유튜브 회고 그래프는 근거 없는 주장 47 → 26</li>
+    <li>유튜브 콘텐츠 자동화를 1인으로 구축·운영 — 매일 2편 무인 발행, 누적 232편(쇼츠 221), 총 조회 153,477회(2026.11.21 기준).
       주간 회고 에이전트가 직전 전략을 스스로 채점해 전략 파일을 갱신</li>
-    <li>마케팅 발행 에이전트 구축 — 5개 채널 원클릭 발행, 정보통신망법·플랫폼 정책 검사를 규칙 엔진으로 내장해
-      제재 0건, 발송 전 사람 승인 2단 게이트로 오발송 차단</li>
+    <li>마케팅 발행 자동화 구축 — 5개 채널 업로더(API 미연결 채널은 문구 복사 보조 모드),
+      플랫폼 제재 예방 규칙을 기획·프롬프트에 일괄 적용해 발행 실패·제재 0건</li>
     <li>얼굴 인식 기반 촬영과 가상 메이크업 기능 구현, FLUX를 RTX 3060 서버에 올려 VRAM 제약을 해결</li>
-    <li>KNN 식단 추천 알고리즘을 칼로리 단일 기준에서 카테고리·섭취량 분배를 더한 구조로 재설계,
-      MediaPipe 실시간 자세 분석 구현</li>
-    <li>통계 수집 코드의 페이지네이션 누락을 추적해 지표 오진(-76%)을 바로잡고 전략 폐기를 철회</li>
+    <li>FastAPI AI 서버를 React·Spring Boot·MySQL과 연결하고 GitHub Actions로 Docker 이미지를 빌드해 AWS EC2에 자동 배포,
+      KNN 식단 추천을 카테고리·섭취량 분배 구조로 재설계</li>
   </ul>
 </section>
 
 <section>
   <h2>기술 스택<span class="en">Tech Stack</span></h2>
   <div class="sk">
-    <div class="c">Backend</div><div class="t">Java, Spring Boot, RESTful API</div>
-    <div class="d">RESTful 엔드포인트 설계·연동, 사용자 데이터 수집·가공 로직 구현</div>
+    <div class="c">Backend</div><div class="t">Java, Spring Boot, FastAPI, RESTful API, MySQL</div>
+    <div class="d">RESTful 엔드포인트 설계·연동, AI 기능을 FastAPI 서버로 분리해 Spring Boot에서 호출</div>
   </div>
   <div class="sk">
     <div class="c">Frontend</div><div class="t">React, JavaScript, Axios</div>
     <div class="d">프론트-백엔드 API 연동, 실시간 영상 처리 시 상태 관리 최적화</div>
   </div>
   <div class="sk">
-    <div class="c">AI · Vision</div><div class="t">KNN, MediaPipe, FLUX / ComfyUI, edge-tts</div>
+    <div class="c">AI · Vision</div><div class="t">KNN, MediaPipe, OpenCV, FLUX / ComfyUI, Gemini TTS</div>
     <div class="d">추천 알고리즘 설계·개선, 웹캠 관절 좌표 추출, 로컬 GPU 영상·이미지 생성 및 VRAM 최적화</div>
   </div>
   <div class="sk">
-    <div class="c">LLM · 에이전트</div><div class="t">Claude Code (헤드리스 CLI), 프롬프트 설계, 규칙 엔진</div>
-    <div class="d">수집·생성·검수·발행·회고 역할 분리, 생성 → 검수 2단 구조, 정규식 사후검사,
-      LLM 권한 제한과 사람 승인 게이트 설계</div>
+    <div class="c">LLM · 에이전트</div><div class="t">LangGraph, Claude API, Claude Code (헤드리스 CLI), BM25 검색(RAG), 규칙 엔진</div>
+    <div class="d">수집·생성·검수·발행·회고 역할 분리, 병렬 분석가·검증 되돌림·사람 승인 게이트,
+      근거 번호 강제와 정답셋 채점, 호출별 비용 기록</div>
   </div>
   <div class="sk">
     <div class="c">Language</div><div class="t">Python 3.12, Java, JavaScript, SQL, C#</div>
@@ -180,8 +181,8 @@
     <div class="d">업로드·재생목록·통계 조회, 릴스 resumable upload, 시세 수집</div>
   </div>
   <div class="sk">
-    <div class="c">인프라 · 도구</div><div class="t">Windows 작업 스케줄러, PowerShell, batch, FFmpeg, Git / GitHub</div>
-    <div class="d">다중 잡 무인 운영 및 실패 알림, 9:16 크롭·합성·음량 정규화, 저장소 6개 운영</div>
+    <div class="c">인프라 · 도구</div><div class="t">Docker, GitHub Actions, AWS EC2, Windows 작업 스케줄러, PowerShell, FFmpeg, Git</div>
+    <div class="d">자동 배포, 다중 잡 무인 운영 및 실패 알림, 9:16 크롭·합성·음량 정규화</div>
   </div>
 </section>
 
@@ -227,7 +228,7 @@
       사람 개입 없이 매일 2편을 발행하는 파이프라인</p>
     <div class="meta">
       <div class="r"><span class="k">기간</span><span>2026.08 ~ 운영 중</span></div>
-      <div class="r"><span class="k">기술</span><span>Python, Claude Code, YouTube Data API v3, FFmpeg, edge-tts</span></div>
+      <div class="r"><span class="k">기술</span><span>Python, Claude Code, LangGraph, YouTube Data API v3, FFmpeg, Gemini TTS</span></div>
       <div class="r"><span class="k">담당</span><span>1인 · 기획 · 개발 · 운영 전담</span></div>
       <div class="r"><span class="k">채널</span><span><a href="https://www.youtube.com/channel/UCQVL7FSlbK2p6AWxx9EfdUA">youtube.com/@1분호기심</a></span></div>
     </div>
@@ -238,6 +239,8 @@
         의료 표현·모호 제목 정규식 검사로 정책 위반 발행 0건 유지</li>
       <li>주간 회고 에이전트가 직전 전략을 채점해 전략 파일을 갱신하고,
         성과 없는 롱폼 전략은 ROI 0으로 판정해 중단</li>
+      <li>회고를 LangGraph 그래프(분석가 3명 병렬 · 팩트체커 되돌림)로 다시 만들어 지난 회고 3회와 같은 심사 기준으로 비교,
+        근거 없는 주장 47 → 26</li>
       <li>실행·발행 실패 시 휴대폰 푸시 알림 연동으로 무인 운영 중 장애를 즉시 인지</li>
     </ul>
     <div class="lbl">문제 해결</div>
@@ -259,9 +262,9 @@
       <span class="pj-n">03 · 팀(6인)</span>
       <span class="pj-tw"><img class="pj-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIUAAABUCAIAAAAj2mPhAAA0XUlEQVR42u19d3xcxbX/OTNz2/ZdrbpkSe4NY1yIbQyht4QSCAQCIQnpgTRIIA9SIATyUmnplOSFFAIkgWDTA5gWio0x7pKbLFm9rLbfMnN+f1yVtSyZkpfyfh/uX7a0e+/cOf17vmeERATvXP8xF3tnC/5XLiJS/xv3wXfs4x37+P/qUgAEsK3g/bQ7DQD/oHq/I49/TBgEDAABfteXXauF0p4kBHpHHv8294LgEN0zkN/mUTFfeDHr+uJ525d4Z0/fTvQGAACP4Mdd6a2OGgSUti0d5y5XzxIcG9ZjgtHbEsw79vE20ykEYABVgtkKlOsiKUbKE+KJiPlcxiZ4m17rnfzqH736XHltZ6bDkSjEUQFxWtRoMt6+13nHPv6hyyVIavy0sBauLputwecrAk2GWNWfu7EzLYnorSu7+P/FfwAAKDX8+ogjbh6BMfznPVcgEMAhIQOGnA/EAwBIBK9kbIcxBcAR36o8/s/7KyIiBYzjwUWF+M9dRq8jy3Xux3BXEUdgiEqN7S7i8BrwoEv5vy0PJWlUEj0dduuOzM7tg91tTldHXipvSkP06FNr5i+N+VL5B0VC5Et/WMCM4du7oZQEAIxNLJj/C/IgoBJf5OsaY+gLo7ezsOoPXS8929vROgBKU5KkJCWBMeJCCG68+z3xz18zBzkgvq0dJJCKcBK/pxT5Py/Nbv0fEsGubbnWHWm76IUiWmWNVVkXiMa1UmXCA4T6nygPPw4SAQLgJHrkeUoI9vzjHTdf01zI8sxQJp8vck2ZFobDeigSyKa9TNoOBDiq8LITA1+7cQkpwLeYvpR+RSlI9Tt93cXUgI0ItQ2hminWOBsdFcaah7vuu621fU/ed1mMIYGrGVBVE5gyM3TIkuSSlcnyKhMASBGWSPo/Qh6lAjgwEhTzsqez2L4n39mWyWW9aMyYe1jZjHmhLesHr/jIq65TLBbt6bMT85bEZs6NN8wIlVcHwlEt1e/88nubn1zVGo5qKKPX/Gz+0qOSUhLnb9ZG/J21i3LNQ90vPtXZuiM30FfwPABiCEBAhy6tuOCSpjkLo6Mi8b/y61u2/+n2HtfNZjIZAsWYUIoQgHOh65qmaUIYmqFOeF/NRZ+bHgwLIhrVuX+TPAiUnwwScTFeadODbvue3J6WzM5tmd3Nma72fDZFQJqUDhAJYSDDpcdYrbsyrc2253kfv3zOuR+fyvn4h6SH7ItOeCKXVoYILzoq8q2fLhqnyxOGBwBAAAJgDDet67v12h1de51cLlssFj3PZciRIRCzLG6YIc7pC9fNPO70el+fGIMXn+z97uU7Ck6f69Gx76letKJcM0RPR6F9d2ZPS6pjbzbV70kPrIDgLNQ02/jO7UsjcW00zP9L5UEEaiJfPDToduwt7Ng8tG1Tau+O9L69Bc/mSjLPVY5j27btuUVkZFmGoenFoss1ZVlRBV4qNXjMKQ3X/3K5IlKS/OwFARCBiBjHT77/wW3rKBgwo0n2m8eO1Q3uB3b/pWlEJxifILa0bBn6yodeLhY8u2CHo6yi3poyNTKlKVZebfV12w/dvaenZ0jTmakFf/LnlfXTgkQgPfWp05/p6nCz2dwXvnnoWRc1jbvnYJ+9uyW95uGOVXe3MC44hA5dFvrur5aNxiHxL5MEETGGvrtwbLVvT6F5U2rHlmzLllTb7oxna6SY47iObRftolIeFywYNBJVZk19oK4xNG12pHFGNBrXW1syv/zBlv5e27SQlFh+XDUpUmrYEY3uNQICoaPSnuKKWDqt0ik3nmSkgPFhhRiRAQKA9GCw3x4acKWkeFKUV1m3XLPJttF27Q98cvbZH21MVpqlIjv2vdWfO3dNPud4UvvtT7b/148WIULz5nRPp8pls7Pmxc+6qElKRQQIww6JcYwnjXiyfNHy8ulzwv995dpwJL9lnbH2ub4lK5NKAWP/Enn4y0HEfXvyf3+qb+trgzu3ZQZ6HJJCemTbtmMXPekJDcIRs25qoLYx3jA9PGNuZMr0SHVdIBTRSu82fW60ekrwi+e/ID3iTDNMjgxxxMrHrB0BEIiUVB5CmIGuG5xzBO7nNtDXXexsy7fuzLbuTLe35rrbC6neAoKlFJHI1TcFd2xJp1OFk86c+un/mu2/hZS+PYFSVD81tOTdsVV3d0Si6b+vyQwNzI8m9O2vpxCZ63oz5g8n2ZxjKa6oFClJjOGp5zb8/rbtnW0FNHJrHt27ZGUSiABQ/AtCBSLmMu5vbmp9/IF26QnHtotF27YdYBQKahV1gakzqqbODk+fF22aGamstQyTj4urNJLsEgAizj0sWj6luG8nAPJh3K7E6WLJ/5RSjAlkXJHa+vpgIUstm1O7W4a62grdXTmOFpImPem4Rbtou44DkAdEIbiTdxFJKTru9DpS5HlKaIwx9G+OEojAxcGim4mzcvL0ro5cNKHvah5SUgHwuqbAxOUeIheAgLm8zDsDAAGlVEdrGgDwH/BX5G/Mm8gXCRBzQ96VH127bydmCwUlZTSmT58bmTYvNvOQ2Ix5kdqGQCAo9q/yFJHvcRAQEAFLgjACADFuOIoMHAdIEMBoO2i4ImAIGiJKR1576VrOAspDxyk6jut5HqEtOAUsEUtYFdXRyvpAVW1A09nmdYMvP9tlWMwwjEBIIEPGxyAY/xGI4LoukQdMIOPFggcA7bvTijwheH1TCMbh7ThsxIoIGe5uGdi9q6MqMQMVRy7eNn5Fw47gTRdWiHDzN7fs28myue6mWYkLL50xd2G0vNrcv2RVw9UGoh/tJ8kxcDgFQtANQQBEaj8ewQGr8gWLDN0CpFNZwiHL0uOJcLIqUtsYaJgWaZgeqm0IVtZa0bhe+sUff3vD3b/coel8NG2jUov3l+0RIFPK80bS9L4e1/M8TYfKmsB4kGY4cfJrVXj2yR1OUdO45koqrzSGCxH+1vwVASDIHNAAiPpSJZwkfwfGcOtrqbXPZArF1JRp8R/89nD/tWkkHQIERCxNt+iN+kAEwBAIPFIKwRz+Ak4kOwApHQLK5wLVdZFFR0yZOjs8fXasrjEUT+rjEip/Sf4DuGAfu2zuk6v3dnfmTItPrBgAnqcYIBAggmlx16HMkOe6TrzMSFYExlCzEaxmNI22C+qx1ZvDwQgQalyft6hi9MXFWxEGUHY99t8ErA/4qVBzycHl4Wvy06v3KXILjjzrIw3RuO7YUmiIiJPVAXjQDE1J4oIpRd0deaGFpT0CS9GkYEc+B8edXXHFdw+LxLTStUk5DIezYYMvWRKRFdDC5fnOduUHM5xokU7RA0QAclwnGNY623OuDaQoUW5EExoR4RjaTAhI4GfhbMPa9pat/ZXR2a7nmYazdGW5D4i9pf4HAiB23gKqB4YkDD0C3iAAO4hC+w9o3ZlTioTQymtMIuDiLaFIqBRJqfy7cc40nTOGv/nFy6270sFggEgd9GakPBaNWl+89tBITPNc5XlKSqWUf0PgHDlHZCPau7+NSiwA84Tgk93dcSRjDAAZIhfYva/AUHOlSlaZjKFSBKU4yIjPAIDHH93qFYWu6SC1OYdFK2sCfln2VuyDFCAjcybKHgWKGZIKOzC89CAm4j/Ak6gIPLfo2B7iG7cxSz+CCJwPa0xfT7Z19+CeHUMvP7931f3rIsEKIEZ+ZnHgXYcXRU4Bp80pS1YZUiouJlsnjrVNaDRdQyklMhAam8BsEQHAdRQiU0pxwcuS1qvPDQIyKb3K2uBkKR9nONjrPvPEzmg4SVJyYRx/el1pmi7eKI9SgDhqRlh1MbS+CJAHLqC4A8JLh1EnIAAfgeLjwDguCBGkUvmMRzT+zZQiIhrd9NK38N3d46u3rnmiuXVXtnV3X39v2ilKXTPi8UpLlEvyRlK9AzQC/V0mz1NCxxGfMbHmjCEU+xUv4LlSaEI3+GRO1XU9BMYYIPCnH963aX2f59lAMGVqsPRFRoWhiDhjL7+wp3VnuqFyhuuqSMxedmzlsM98I3n4KScfSSkYgAKtkoJnMO0P4BIUW8Z5s3FvS0AIGAxoSIyB3t/jIoKUChD9CpFzNoruHQjb+HDQur/v/enNLzbVl2vCSkbrWRwFNzkEiRSOPndyk5Z+t+HgoWn0eYillu04UhOo6WyyKCelD/uD5xV/+F+bXa+ITDGGNVOC45IrHE1FFPzt0W0CLE1ojMQRx5eHI3opqsYmb74g2Psg9xvIvAiAQBIAARRWXqi8JhAaFVsBFCAHICi2QP8N0Ht3qYr7O1wzJcRQs0zx5Ko215G6wTlnQnDOmZS0d/fg46u3ZoaKo65s9C0YIim67OvHXfbFMzWnNqxVh80qHROoLFIKRyRBJfkVHgDQelJKT+5XuhD5eYGUajSk79dBJEJEKZVddLkAxkbQl/3loRQNDRZc1+UaSVfm8llEIgVmgCerrNHFYMmOMMb27c2/+NyuaDjhuBIZnHxW0zhnKyYpqQHcXtj7JQgVwGXgfggS7x/2SEzHyksg/TVGPeB0gV4DgKr7V8x6DTJrILoS9LpS19A4M+jJDsOkls1Dl3/8iQ9cPEtJtWVjx47tA7t3DOxo7giFrEde/GypDg27FgQCMEzx9RvfdeiS8jtv2t7dkQtHBOcolc+4wVInM+b89wfMB3sLpHwoUzGGzN9gNg7OGfuuvwDPk66tAoYYjh/jDAkAAK75wamWFSxLBgb6ijdfu37rhgFNY+GonqwwR+vtUvfLGD6/ZkdvZ3FKVYRcrJmqzT2szHcDB5UHKUBO6WcwlIV+HbgEfhd0d0HFpYAcSGLoUCicB7gReNSPEoxHoMiUG2I8PKoWftqyaEWZ0LfZNg+F2UtP9T3xyEZFedsu6iIcjUTcdPjSbx4bChtSqtEqpBQBIUUEdPoFU1ccX/PrW7c8cm9bLuMFwxzQ50CBXw4SjaWXQESAvm/Udb5vl/PwX3adevZU/5fZjN3Vkd67Z7B9T3rH9p7WXT033HJm7ZQYkRqBvP1YLR1bRmNCCDauzhr91NIVjf5PquuDX7jm0M+c/TfpYTwZiMT0EQhjv/TEycMTD282RURjXHHjhDMaGINxLRkxSWJEaM2BIR3CBUpLGjBYdDV1ZbDqy4AaAEH5BaPFNQCANQviL7GuJcCjo4tHBkpSotw4/ozKx+4dkjCYiEbDKqiUjUzqeiCbUu86vvycD80b63r6m7q/60VA6alkpfnlby8644PT7rl9x+MP7CaAYNBQSvnZ8H7+ZCRhUlI5rmcY+reveOqJx9bF49GW5o62PT0DfYV8TkqpSFE8HmN+NkHDWJu/fLvoFQuuUSX8rAwPyP18WGHkeZAo13hgKNcXjpdpnLPR/JXGsn+2szm1YV1HNFTvOJ5h0LHvrR+tCg7urxgAQWAuVP8Q0vej/TRaAEMSoy+pjutY1VeBWyOdTPItn2InQqaIFSccGPdI0cWXz9q6/sXW7QGX0hx1wQzGpZP3Ygnzyu8v5BpIScNVyf7VxFgs4aiUIoIZc6NX/2jxaR9s+M6X1/V1O4ioJuzfjO0FR3RNzVx9X4uUSteErnNTT0STQS5QOqKhqTyRDA5vKo7FznS6kM+7hiUQx1pEtP8jRnQIGENSJMmWMpCsMkYh7VLYhiM+/0xLepASNQHliIUr4uVV5qgilm795GWANQ0qL4em2yBwnrLKoVhgyU2QedYP7FCS3iAPYvR8EMlxeQxjiIjBkPjOnUsXHBHUuQ7gAnquI6WEa249vK4xLD3F9ne1pRnemH4h8zkMrqMWLEl+5qr5hUKRQE44BjMCFSkGnHNdsEBj9aypdTPrKmdVxOdEgw2miBss4Tl6ebVpGHxUnUeXkRosFPNK08SkOA6NUXj8HfcRBL/4GKckCJgfor89utnSIwQkNHHqOQ0w0XACmzzZVaRcIBe0Kii7gDXdRtVfg/yZED4cAErrjJHPy4mLPQQiiCaM79x++Mnvb9BEGFF4rvjmjw9ffETS89QYSoFjue8ocwnHIjwBAjJgHJSi8hr0WK/nuVJJovEPJqWkpHzOy6ZtzhkAKgkkuZIECjjpREikpAvzDisfLoP2r4C6O1Keg5ZljjG4JoZwxmp1z5WMs/Jqa0KoYsvGnq0be2KRuHSwrJKWHlkJAJzjfnc5qH1wZBrgCObDTAwdCfGLgMdLc0cplecp6RERnzDD97UGAP70q51P/HVv0c3kc+7Xb1l09Ck10lOloWykp4SMMc4ZYygllcZ2pNG6BLdv6s7lbE0L2UVEBOkDIXJYkFxwzvGhB17v6x0SgkgBMpMxTTdYRZVYvCKeKIsAaZpOi5aXj3OTvnB3tPQpEtowE5dgIqahrzeeq4hosD9fyCrT0MvKzXGkNyICBWue3G7nDVO3ODNWnlItBA6XRqVWNlH8IAAE5UD2aZIeGrWglYFWCaCNjAINTzgoqVhJQVdKRhq3aMbwdz/Zdu9t3Zlsngvtup8vOeqkas9VXAznH6NJut92vfYrDxcL8spvHR9LmH7Y8P3eSHEAALT6z9tMPaob2tMP7/3AxVMNc78XyWWdhx/YdvN/PxUJhxQRgJgxL/y1Hy5lDOJJQ0q66KTHbdudPjcxd2GZv8LRWO0/aOf2Xo0busYnQ7FxhM7lA/L33LXB8xgPyljCODAOpvrl82t2hK2450nG7BNOnwIAzE862tIsZEDM8JV8Enn03AnaQ5hyQAE4SoXLmLYcqi4FHBUGMc4yafuZJ3Zteq29qjp+/ClzahuD49hEvoSeeaT73tt6c/nBYNi47ufLFr6rzPNG0CQae18plRD8rl+u+83PXxVCvPpi2xevPvqU983xZa+AEEFK0jT+zBO7nn1yR3WySefOxnWpL3x09WnnzvRcb8+uvt0tqT27+nc2d/V12tW1lSG9BkkxxmfMC1bXW36Yvf1H2wpZzXEyp5830zC49BRj4LeUffCmkHe3b+kNmiG/+JgQZ5FS9fZke7vyba2Dj67a8NiqHWXRBsPSE0mTFJU4WWKImzZ07dzWVxGbAUqfuyjUNCOiFDGB5Cl6qFPNDrF31x60X0tFHx4GnYEQzMsC6xtzzhIYx0ce3Hz9Vx9zHaO6LtDdsf2un+249MsnnHlR2RjuQIAI+Zz86fWbHVdaAf2G2981f3FZsegJgf6nRrXS85TQ+N8ebrnuq6sqK2sjgZqBnvbLPvHAn+/e9OkvLV+8rG7EEUN/b+76qx41jaBgASllLBpZ81Dvw/dvrqhlVTXhadNrVh4z7dT3zdq+IfvCYxlAkMSF4Eef3OhXhV2d+Qfv3lMouE3TIyeeWUNEjA0bhe9/OMfmrd37WrOWVSvEhB6YGGPte1Pnv+eO1EDWthUCJssqDRH2HHRsQIbk27UCSUpn2nNrtkvH1IRGUpxydiMAgAK5oQe2pTHjwpY0lQdwVgz4BPaBAAAVF0MqAhECox70GtDqgMdgbMXsvt+tv+7KZ+ctivzXtctnNQaat/Zc+rlnf3NrWzCon3B2WClAJM8jhvDKs72FjJ7NDlz4mdnzF5cBgGmKUcBqGNn2lND4qy+1Xf7JP0XDsZBRpqRTFq2LRspfeGrHs09tOuX0wy742JKmGYm23YPXXLlq187O+oo5QIJxNTSUWXFUw2eves/MeQnT2u91brpm3T13toQjoXi5WrCkzGcA/egbr7q2l82mL7r0yFBEH61DqQRGe+7pnXaerAAXGk4APBMCQD5n5zMYC9WxKAg0GBjIHCfPf/HDVz5/9eJwKBqKAAjgwJs3ph9dvSUeS7iujETdFcdW+Svxsq7otaVX4DKi/t4NtUGM6JPIg0eg7OIJgzPn7ImHtl93xdPLjym/9Y6TNXuf7Ns9f2nlGScmbr/j+T/9yjzy1BmmxQFQ0xAAujsKwFxdd1p27vnBdXuaN/cbpnbSabPee/Yh/utLqYTGN2/ouvSie6WDYas6M6iklER509LqK2YVvcLjf219bNXGRJmVTknXg+qyWUgmMOk5UDsl9t3bj4gmDJ+9QArAd2uCve+iaX/5fbMi2d/DX3iyc+UJ1b/9acu29e5QKr/i2PoTzqyXcnzA45y5rnx89ZZQIEoKdWMMIhvFyRQQANq2B8ACeqUiD30PRdI02YP3dK+6//aqGj1ZnqhtqAiG6IVnX+/tcmsTNUiho09NBsOaUoRA4shaiht8rZL1NjuqBgU7KL5LcjRyEQEi8+Penl393/jCYwsWV/7w1mVa/3bPAdLCONDPCj0ggm5Bly4HC/p78y3b+l59ue2RP7ds39NHPNO+WlZWRWfPqU8PFS/98B+f+dvWG24+WxHpunj91Y4Pv+936QGaPW1+WYWomRKsbwprGry8pn/75lQwZNVVTis6qVw2FTC5qccEBJGREDyXzi85sj6aMBxHaoIhIvKRPjxDM4CkDZBnct3c9GqfFdT/8PO9hWKmLBm88oaliAikELCEjEKcsfWvtG/d2FdbMSPd741LE/aLH54kRUQOKQWIglMhHzDM7HvP6G6c5QrDzmTszRt2rf7LkOskptTUuy6LxODcj88iNVIqKsKGiNzUxlY2osb9kDO5PEoqDBwD7ujqzz8AmvzOzUcEcUjainMk7rG+/mfXO8nYVJeGrr/6oS2bdzU39xk8XlERmTJVP+Y9C+Yfmpw53aqvCzNLA/QeuKvi05/828mnLTj2lNmPrd526Yd/19RY9Z2bTl6wpLqi2hQjDNKLPicvu/DZLa/1mwFh6TFLj0spXdcrOq7nKUCVy3rBoO4nYIDjKzdNcEQllXRk+ulH8g//aY/jgvToGzcvqaqzpFSMHVAxIdz967WoArqwADL6AWD7GBjleKQYMgZKcSaHMsbKlW2XXN419ZBKUDq4/cAlIO9ujd7+07rVD8SDQc+2i3taUpXVVaT8LBUhrLNzmpCPtbzebH/Qx+j//IdNG9Zmr/3ewrqKQa83zw1DEfGhth/duv2ZV9yyYMtQbk9KVUybXf3es+ctXJicMS0STSBwD2wbijakhrxum3F2xnvKfzq/5sUX9vX12Vd+5v75C+t+++BF0bg1hgsReJ4yLbH8pNjzT7XFIVws5AHQMFg0plXWhRqmRxpmhBumh+csiCMCH59nj+VEBJyIBnuUlG46VbjmxyuXrKwshS9xLNVmm1/vfHTVlmSiUUkCwOH8ivbLsPwYUyi4UhICCkGZjHnaaVuvuvpVhkl7y2ZD9HguMMYJeGW0+uobZDSa/c2dyUhIffeKjb9+uCwc00YTUeSsNIF7U/IgAmSYy9k3f/up5cfUnX1Wvexu5ZqpFHFd/eEvA6s3BT97ycwFixvnz483NQS0MIFnQyEPuW7V6SjCkfEVIs1knJyd2z2Zvu8Pa2WBB4zoF644ORq3HNsTGsexURdGBNEExKvyixdPa5gRmjor1jQjXF1vxcqM/SgpRBM0CH2oDkkqV6AmlbSL8LUbV5z6/gbPVZOx3H/8/Wc8W5ixMIFCHG5GTdiid4oeETCmcln9kEN7v/rlpyEtnFyzES/s3Nlw/U0nVZQXv33Vai/bC7mBSy+t2NG84uWXq40sv+/OnRdfPnv/5jq8Kf7VaM/A357779k4MOh9/JPTgQogLADgIMnBky5893lfCKHpgutAPgvpPjkgaZjZTMA0YAIROHrAFXeGoKvzpjv27unMJYPRSLiKh62G6VEiEhor6QkB4wgIJ5w675gTZ4cj5riMU3o+ZZHGSsUDgEifoAWglJSuQ9+4acUJZ9aOlT6lUI9UQvDHVzc/vmprbeWM4RIVSdf5gZ1F/3G2IxlyRHAVffj8VwVzlSK9Ah55ZPmPbl6RydO6ddFI6PCrLn/CTpmi2HXxh15f+3J10R185P78BZfMMEw+4ciWOAi1EBn6ne1i0ctl7D/c+cqCJZF3HaapVIpxPtxdB0wYGRga8no9IImMMS5AGACIDBgj4BK8NGQy+d5i857iK68PPP73zLrtmfJQdVhvBAApPQBCRKUIccx0/YLACmgAGimSaoS+juBzkw/Sgx1h7QEiEKN81v3KDUtPOLN2GBTYP4UlRZyzwf7c9V9bHQrEDB5WyvM33fDJVzRBRWgXXQR0Hb1uSmrhnA7KaZmC9oufH37vAwssoxAwVdCE+/6yoGlK8fwL1tKQPrNxV2X1nt6u+uwQ292cnr0gPg4DPpg8lFKMMSXVk4/seuiBzWtf2JXLu7atffWbM4EXlZIcERAJGQAoVyIA1wSg8BWb6wQqC5nsUFdu5578hi1Dr27ObN4t9/U6rmNErMopsemCBxV5qEDK0iY3jttTGmYYQqmH8SsXv/M6jk430gYf3kHOuOuKuqbQqe9vHOXAjwvOikggu/bK1Xt3DzbVLlBKji5lwua5n/66RQlAtgtV5YOhgANCPvPYIb+/d0lFIuVJIMkJIR4p/OinhyfL0ie8e7spZSKR6uqaKpjY15qdvSA+YaNATBK62eYNXd/9xjMtW3sDwjr2pNnRcnHXHa8vXhADR+Fw52MEbEcqIfVyGOpe+9K+J//evb4ZO/tkR2/W8yIhKxk2zcayUNAqM1g0WxjIF/PIODJFijlFNRktfrjTREBA/gihT1xDNsZk2I8LUQrkgQ+Co2mYB07q+dbhe6qf3fjsg/dtqqtqAMmASQTmm6yf6WEJu3BUZXI5F3yuPBQBHS9vnHzapm27yv50/+xQsOC4wAUBqJCV3rmr7PijAVEH9COAymXtydySONBNMY5rX2z99AW/j1pVJ644YWp9/Yevs1q2d931q1eSoSy4BjI2wh8YtuQxgyYFmhWurlqy3CgW2l7b5jRVvisenKIx3ZPKcyVTOgEztbARst2iZhddUHaxoCZoMYzsn5/5IGBpn7m3O9vRPrRxfXs0bp129gKl1ERRBAGYYeDenYMbXup719GVXgmi7E+NCMH/cvfrN377b+VlSQ1jCIQkfCokInKfDDeOAYlARLbtAChN4FA67nkmQ2K8mLdtBY5pyWhUptM8lbY+/YmXPnbxi3LAcoE6erjGXETDCuhvSh5+W2YoVfzyZ++LmPEzjnyfqcUiSVsp1bUvK7guNG1k77GEeTeWKyBJMoOzFkVmidpjj4qmcxvXrM0mA0HpgiY4iVxtgzZ1TnD+0upFRyz+6sde2rM9D2AX8u6EvJthgj5H25YdbaldO3p3bO/Z1dK/a2dve2t/Nl3s2pc/58LFp529QEqaAGtCIJIIhAxuvf6VhctO1nQ+OvyqFAjBH7j39au+8Kd4LBHU6wE8Ih6IQiwe6m63GfP8xt84RZFScS76e23BLENXrW3JHXtDsxq7oQhdnWVdXfFjjt762U+2XnzxEVLxirICFRnTvI0bzD17AzUJkEpV1wcmS9vEeOMQ7J7/We9kAmcefXowGOvsSLMYMmaEQgZ5vOBgXAjwvJIuNWGpT/cnxRxCxcAMmpZesFOAcOoHo7MXRuqmmpW1+ug6BCdFihQ4tjqQLeiTEvr7ct/4ygO7tg/09eTTQ1m76CIIgQFdC5lmeVXCq0rWHvhuJe10klIGgub2zQPfuuLR6295DwBKT3LBGcPf3vHKDVc9GgxYAb0CQGpcYyx01ffnPvZAW2/HIBH0ddnI0HMkI5/3zRhDXRe9PdknHtoSCFYSuMWcdt+Dh3ztyi6ZgY+evzkR8048viUayMSTSo9lZzZ2kM2YJX91XwOjICo0Il7TzOgo32NSedDIaOXDD2yor6ypStZ09g7li14xxwEonrQAed+AV1Orlc6AjLCDaGwryXMH+vr67Zdf7HrwudSU6pWaaZz1sarRIQ8piRRwAeGILrijCOyCHEcrGcbtEF3b+9tfW+y8ZlmBSGBqtCKUSOhVtcFpsxNTZ8frpwYbp4V9kHwiLiohQ2TMkzJRFv7r3TsIHrjimpNiCTM1WLjlO0/9+pfPJOKJiNXESGNcMYyc84mqZUfVPLmqnYEIBa0//7Z5+bGJhmllo3csFNzmLT3fv+bJvp5CTRl3XRkNw4MPz1l86J5TTttz+JJthx++DTxNunjHjb/3FCuLZCCOd/9u6uPP1DdUhEAZi1ckgyFtsslSMS5rT6fstvb+w5pmD6bcfN7RBHcK5DpUXRMNBrXNmwcWLJ6iMg4XWIL80H6+hkF/V+rHv2+756HBeGhKWXD+ocvAtLjnkRAoXck1LkkhMt0SpIiICgVvMqq7YYkjj5tVUzGlcXq4YXqscUa0ssYKhrXJSZ9j1EjPI891GUlAIT2srZyx+t69f3/uJ03T4627Uu178tUVTTpLgGKMS4HRU89LfvRzc5WiQ5dUPftQngvVsTd30Zl/POqk+kjEGBq0O9oH29q621sHURlVyelAFqACpICmrrphYVd/8UNndAodgSHXKJpIgwYyz+68rfZ7P5tWHa/haCGHcz464yBkSTFuyi+VKkipSPLMkIsEXAPHpqE+mazRps2KPbum9fyLpiDiBAx8fw+AkHjV3Jk3fKd2RuWLN/7WM0x+8jlxxpAhPNaXW8v0T4cwriEAhCO672iKBTkZHTsaC/zij+ey/Qf5fRyXRnqdB0ZyIiBFQ4OFQl5GTR0VIySp7OpkzdBgz0tP9WoGViZrDZYAJCTJMfye8ysvueoQnw21/JiKn9zwmmNTMGAVCuLuOzY5XoozoWuWqQdjVr2hBzhogJKjoZSHzIvq8f/+0WGrHqs44+Ts/JnZgJnLZvmWneUPPBpb+5pZFYuYeoBU8LQLq2bNjyspGZ+Y6SrGlZ2axojIcT3GiRxAAfm06tjtlVVrx50886ZvteQ7UoFIkDzp4y/++CgiEI40uRlK4oIZi2aXOdRtF+3dW505C4MA0Gp7vbqQOFyaBsPIkCFSLu1OPggKCExKRUQIiGykKOSTkBIBSJH0FDfEy8/vzmdkMqx5rsuQk0RJTixcnYhUSSUVIZIrJTOMyAc/0/TBT0/3CxSlKFFufuTzc/7nxm5XDlimOa1ujlQOACBwBA0ZJ2W7rmdqZed+usIK4q9/uM+jocaqxt0tsW9vzAvdZlrOdZhnB4OmOa0mwsFUrjV3if6pr8xXihjnB2YuE+e7sbgVtPS8XRjGdBW5NjWvcxccYR1/yozvfSv42KN7z/zwfJlSfLTgH+FH+wqrlGJeIdM58NM/9+nC1DCo6X7ZBR+pjmQ9GdeY5xFjEAwLfz6zkPVGuUN0wOyBj/NPxk33qww1TJ1HLhhy1Dlr3T3wi5ufi0aSflv6qFPKPQ/Wr3EdN+ORBECGnDGrsoZ/9ur5y46uUCMwuN8VPvfiGb1d9kN3u56blUAMLSJSykNUTHEholrAPe9TtRd+ZgYAkBR33rTNLcpEMFIeDbnS80iKABcMJXHlctRCR55a9pXrFwqBiEj5FgCFgVkH9oLFOB9sBbSahmhH8958fYExICIzwPZuVbm0rKiKnHDq9B/f9sppJ1dgKAlS+pl4SfZLkhijwktPNF9xS1tvv5xdfUqkvHj4MQn/PTXEuC5GfVE4bvjshFzWg5HCslQkNBEvfeRwDX+0CZlfmoz81nVlR/vQs0+23HbrM33dxZrEVCVdzsyjT5my8vjax+/f98RfW3e1DDHGauqCK4+vOens+lBEKyVtIiJjRESXXDV/8Yqu++/a2bJlKJeTHJimaeEYr58aW7SsZuWJFdX1AX9e4rxPzJi3OHbXT5pff3mQPM7IM5AzEEiKqFA31TrvE7P8Ni0povxG7P0moEPJ6zF4KOx/rMp+/kp6igs8fHnjb15/tW+ou7aiVklPaNjfIV972jnidOuSLx1xwn1b//iHfR/8pOFCWJAcjp0jxARGngLzsBPnH/3s4CPPRxORGe//lB5N6P6w+zhuQDRmICEgDA0WxrosE6FRauSotTFC9BiO5HXsG9qzc6BlW/fWjft2NPd3tKX6+wYi4Vh5tEkpiaQlKnHxikoAOOHM2hPOrM1nPQAIhERJvTkBYqgULTu6atnRVemUm8u4yNC0eDiijSJgI1JEJemQReXfu6N8787cay917WoZLORQF1g9JTRrQXzB0jI/CiAoZFy5fRghUABy8ECm3X7+ykfkTztr8R//5/XW7h3xYLllcs+VjMFzfy4c+m6tcXry85ctv+YHTx0+D6YfVuPyBHKOo/QFAkJUxAwrNb1a5OwiMKXpmn8mxTC4UhKrY2WGVK7QRMfevOcpPxaM8jP9gOFDI7zERrIZu6M9vbO5b/vm7m2bu3bt6O7pzmTTjnQ9IfSgFTLNaENNlc5iDDUgTxPRz1410wqIYVYq0qgkpKd8olcpMDWyDPBnzhAwEtNKZw+lRz47eVSKjPtgKEyZFpwybdrkPQsOQBh9N/X3A2oYORqAxjELxTgaHRHMmldxyGFVG9fu3L23trqyIh4LWSHIZ+HFB53jLxQXfWzF449sPudLm++9EabPzYOmA2PATeA6oALpgJ177amen/xlXzw8Vxc8HEVEIJxAAcurLQmOrrO2XcVH/9T+ng9MmXBypr8v196a2tnct3VzZ8u27r27B3q6MvmsAyQ0IUzDCFjJSLmpcYMzkwFTgBxRkVIeGEbsgkuqjzqpZtQIiHBs5IMxRQBquIAcdRujCja+ywKICL59jEsjhmt+SQTAOab67ddfzKT6XcPCylpj7uKIP2elFDDGIPn+yWaExp8n48MJ615s/cT5v08Gmmpjh+gmBgMBZDCUss/6RHLp0WXdHZmvX/373c1tJx0VOrRBTq0yI9GAR3xwML+7s7C+WT31asbUyufWntU0j75+a9OBVOnRQ10+csqTnXuKyKjgpM7/bP3p719oWqK/L9vemtq1s79la/eulr597QOD/XmnKAFQ1w1TD5hGwNCCgpsMOAJHZKgkIZBSRIwxTXADGFQ1iI99afbyYyqlN9KMGx5lO1jLx3NAugCozCADALtAA/swUUuGhQCwe5NXzIiyOq+iXpQ63xKWE7Vszm9dn2+cHm+aLZSEDS9kt27qOuyI+KIV8ZGGo0SfHIpvJI9R4uEN//XQX+5uqY5NDYlGqWxAkBKA8KLLpqw8sZwRXHH5Xase+HskVmXqAU2AK3OOqxgEDRavLZteVTY/WeVe9v1kskofR5IrQYHYb25p/sPPOpFnbdfp6N8RiQvTEkODmXxBSU8hkqlblmkZesDQLM5MJO5jWghERFJKBMGQM+DIGaAXCFP99OicQxKLV1QcsjQ2IWCuJOQzlBmgbIqG+mWqT+bTUMyqXEY6DipXgWICzWM/hA1z+Z3XpCkXDVdnPnhl+JVH7VceNCQ5ynPP/5pRUS/Gpax9XW42ReWVejC+fzOxABtfLrRs650xL3LYighjbLLzAyfA25ExKdWXrz1x966Bl59/vTpWjAdmMOC6pojw9zd3tDZnIdS36fXOudOWVScWAghSAkDpms65AehW15vLj9OPfV/CMDkQ4EQn3THOiODMixofum9fqlc3NGqoml2wc262EDGjiZDBEBE4YxqiAFJIioApJYEQmUAUDIFpdjSu1TcFps2OTZsbr58arJkSDEf3eynPhUw/DfZQf6cc6FKDXWpo0CtmlHQFQw2AkfKVkhMIQGDIPOXFLW3XxmLNdMz3BQHAbvcAIDNIqEAqMM0gKTnSNANEyGdl6zY3XmY2zoTX13WvumfPkSfWHHFcHRHtbs688lzvsqPLT5xbu/6Z/D2/aHvfxXWGPvEY9cTnX/leK5ctXvW5+59/up2DFgtOiZhliDJjp9u7d+Ts9JzpS8/+wOKTz41nh2RfNymlDEMLhrG8hpdXi2FoayLLGDeAu3HdwNc/ub6YdwGLghuITJEkkgCgiElPInKGGmMckQidiiqjflqkYXp4+pxo48xIZa1lBdg4AfR3yr59aqCDuna7fV0yPah0EWTAiMiHMIczBcThI4DAleQInZkB1IJoGiIS1488h8eSbPNLdtd2Y9pSt3GO5ti0YY1XzPKaGWraIWP+Skla90xq0bI4tyQAfusLrzzyp7ZPfHneR784BwB+dVPzj6/d9LEvz/zs1fMB4LVnVf9Q93HvrZ6Q7jzpeWSjW3nvb9f99vbnO9scpUCBwxgLh83lRzZe+LGVcxcmJ6UnSeLsjY858WG17ZsGf/atbbu2FaQiIImIAJwxTuQSs5PVVuPU6NQ5kcYZofpp4Zr6gGGycU5/sEf1tqnuPbKr1RvoVplBEsxCYkoppRT6p7ohKHKR21aEB6M8HIdoEmMVIhxDKwSBCNMt1E0U2ls4ed03jt4up2MHzl/GCEAIXsi7tk3bNvZfd9lzp39g5scvO6SzLV9VF+AcPQc79qjnnt5zwaemvrX+OTKfBgfnXLj4rPMWbd7QvaO5q1i0GxrL5xxSnUhaI/0SHD2GefiIL5/gWNpeVaMz4Qd6LVSKZs2P33TPsvV/H1z/Yk93Z4YBj5cFq+sDdU3BmilWWYVZytscoXfQYLfq3qPatsuuNhrsdgRaCFxKICKBjBECSImFcBlPVIhkLSVrWaLaiCbNQKT0RJ1JfAYhICEijbTKGPMroZExpBKVSKecfW2qrimYqORKghXgVoAJgVNnxesaw5yzusaQY6t0nwQC5XJdO/iz34QKH+jQDpx9ezNnPJSWIaNztD5v8+DHaBBBdlD1d1DnbtW+U/Z3ufkUY2QqqfxhLYYMEDxVDMWhrJpVN4qqRp6oYZEyJrQJOQKjPXoaGVbz1estnNTrf7htT279c7m5hwYeX7Xz9HPnhCIiEEVNxxH/qbIpRZJJj7hG2SH+/Jqd531i+luzj1IVphHywGiu/YaS8B+W7qOHbnPNMC05Qa+dicgmPphlQjaU9Cg7RKkeGuiknr2ye68a6HLBMxCEUiSJAzEUwBiTrFBRy2unispGVtEYSlSOV3+lhsHn0ny3pMzH0n+8jTN6DYMDKOR4xy1r4wnjvWfPHuh0Q1FuhsEpQmZACcF6u/NCYFmFKb2DmcCb4sONYNpvYaXDjnWfzLTpna7bts0NxdzqJlY9jZfV8FCMCZ10Y5j95zno2LKYp0IWh3rlUJ8c6qeBTjXYLREszjQAlJ7rScEZ6AKRIaBXWSdqpsvambyqMRKOH2CIBL7DQfjnHuEOALrO+7oLwUDFd39xUjRi+a+fGVR6gBWzStdZx76hyz+8ZtHyqq//cBmRQsb+IXm8jYsxIIKm+WL6uwubn9advNefx6EebcdarsB1VZZz4Bx8TrOUZDtSMJOjAOCISKQ85VfIkoAhMAAZLlMV9ay6UdVM52U14VAMx/lVP3oNn6L8xidk/C9cvjFpOgIqADrquLq7b29Z90LPBZ+enUm7SjIi0DS2d1emvy89d+EcIuAcpAf/ankMWxWHYz5gNc7z1j7G9rU4GjIppVQKSfNcqfyRWSLPcwXXSSrgEhEYMQLGmadZEK/A8npV2QBVjVaiCjVjnAyGp3pKGHL/hssMcEJyHcjnIFlp3XtHy5kXTOWMkSJEyGe9RYdX3/HAaRWVEc+D7n0yFBJvP57/g9do1Er1qPYW1d7sDPaobIqcApEinxnMEYVOmoVWmEUTLFbO45UsVonRJDODeKAjGpXBf8LlFwbPPd7dtds6/Cijss7Y+np/oiygaTxazp0C2QW/2aPZtrdtvfPqK53nfao2MTz2+S+Xx3C+u//2kQLXISVRKYXIGAfNgMmc6mhWhv+pfzzGb8c9/0TXjo2FGbOrGmcK00KnqMJJLh1wbSUEtu92N6wdCkblUaeWxcvMf5t97NfKozdA9EjR8Nwz/kcLYLJraNB5+amBtpbsnAV11VOwol4DoJ59cvO63MBAasXxyWlzw3DQP37x7zm/vfTQ7tJxjf8QF/S23YCvQIN99ktP9+/amqutjwmBPT2Z+UsjS49MjI7YH+Q13/l7Xv/LjgvIJ11AOuV077M1jdU2Wj7M/GYqzXfk8c+VyrjO4xsnpe/I458olbfuhN+Rx3/W9c7fH3xHHu9c78jj/8r1/wAZW7Up7FKDJAAAAABJRU5ErkJggg==" alt=""><span class="pj-t">집가(ZipGa): 앱 출시 마케팅 자동화</span></span>
     </div>
-    <p class="pj-s">팀 서비스의 마케팅 산출물 생산과 5개 채널 발행을 원클릭으로 자동화</p>
+    <p class="pj-s">팀 서비스의 마케팅 산출물 생산을 자동화하고, 5개 채널 발행을 업로더 하나로 묶음</p>
     <div class="meta">
-      <div class="r"><span class="k">기간</span><span>2026.08 ~ 운영 중</span></div>
+      <div class="r"><span class="k">기간</span><span>2026.08 ~ 2026.11</span></div>
       <div class="r"><span class="k">기술</span><span>Python, ComfyUI, FFmpeg, YouTube·Meta Graph·Threads API</span></div>
       <div class="r"><span class="k">담당</span><span>마케팅 자동화 단독 담당</span></div>
       <div class="r"><span class="k">서비스</span><span><a href="https://zip-ga-frontend.vercel.app/">zip-ga-frontend.vercel.app</a></span></div>
@@ -279,21 +282,25 @@
   <div class="pj">
     <div class="pj-h">
       <span class="pj-n">04 · 개인</span>
-      <span class="pj-t">market-compass: 규제 준수 내장형 마케팅 메시지 에이전트</span>
+      <span class="pj-t">jobfit-agent: 근거 기반 지원서 작성 멀티 에이전트</span>
     </div>
-    <p class="pj-s">"지난달 안 온 단골에게 뭐 좀 보내줘"라고 말하면 대상 선정·문구 생성·규제 검사·사람 승인을 거쳐
-      발송까지 가는 카카오 마케팅 메시지 에이전트</p>
+    <p class="pj-s">공고의 요구 항목마다 경력 근거를 찾아, 모든 문장에 근거 번호를 단 지원서 초안을 쓰고 검증하는 에이전트</p>
     <div class="meta">
-      <div class="r"><span class="k">기간</span><span>2026.09 ~ 개발 중</span></div>
-      <div class="r"><span class="k">기술</span><span>Python, LLM 에이전트 설계, 규칙 엔진</span></div>
-      <div class="r"><span class="k">담당</span><span>1인 · 기획 · 개발</span></div>
-      <div class="r"><span class="k">구조</span><span>Radar(대상) · Guard(규제) · Dispatch(발송)</span></div>
+      <div class="r"><span class="k">기간</span><span>2026.10 ~ 운영 중</span></div>
+      <div class="r"><span class="k">기술</span><span>Python, LangGraph, Claude API, BM25</span></div>
+      <div class="r"><span class="k">담당</span><span>1인 · 기획 · 개발 · 평가</span></div>
     </div>
     <div class="lbl">담당 업무</div>
     <ul>
-      <li>정보통신망법·카카오 정책 위반을 코드로 검사하는 규칙 엔진(R01~R12) 설계, "자동"보다 "제재에 걸리지 않는 것"을 우선으로 둠</li>
-      <li>발송 경로를 한 곳으로 모으고 사람 승인 두 번을 거치도록 설계해, 잘못된 메시지가 승인 없이 나가지 않도록 차단</li>
+      <li>공고 분석 → 근거 검색(요구 항목마다 병렬) → 적합도(코드 계산) → 작성 → 검증(최대 2회 되돌림) → 사람 확정, 실제 공고 67건에 실행</li>
+      <li>근거 번호가 없거나 틀린 문장은 코드가 걸러 지어낸 경력을 차단, 정답 117항목 평가 도구로 방식별 비교·호출별 비용 상한</li>
     </ul>
+    <div class="lbl">문제 해결</div>
+    <div class="fix">
+      <div class="ft">[운영한 경험이 "학습"으로 판정돼 적합도가 낮게 나옴]</div>
+      <div class="fl"><b>원인</b> 기술 이름을 직접 다룬 학습 노트가 검색 상위를 차지하고, 공고와 운영 문서의 용어가 다름(LLM ↔ 클로드)</div>
+      <div class="fl"><b>해결</b> 동의어 맞추기 + 문서 종류별 검색 → 운영 근거 적중 32% → 70%, 판정은 AI·근거 번호 검사는 코드 → 일치 75% → 89%</div>
+    </div
   </div>
 
   <div class="pj">
@@ -305,15 +312,15 @@
       웹캠으로 운동 자세를 실시간 분석해 피드백하는 웹 서비스</p>
     <div class="meta">
       <div class="r"><span class="k">기간</span><span>2026.04.17 – 2026.05.31 (약 1.5개월)</span></div>
-      <div class="r"><span class="k">기술</span><span>Java, Spring Boot, React, Axios, MediaPipe, KNN</span></div>
-      <div class="r"><span class="k">담당</span><span>AI 기능 개발 · 프론트-백엔드 연동</span></div>
+      <div class="r"><span class="k">기술</span><span>Java, Spring Boot, FastAPI, React, MySQL, MediaPipe, KNN, Docker, AWS EC2</span></div>
+      <div class="r"><span class="k">담당</span><span>AI 기능 개발 · 프론트-백엔드 연동 · 배포</span></div>
       <div class="r"><span class="k">저장소</span><span><a href="https://github.com/jeakeun/project">github.com/jeakeun/project</a></span></div>
     </div>
     <div class="lbl">담당 업무</div>
     <ul>
-      <li>Axios로 RESTful API 엔드포인트 3개를 설계·연동해 프론트-백엔드 통신 구조 구축</li>
-      <li>신체 정보·목표 데이터를 수집·가공해 추천 알고리즘에 전달, 5가지 맞춤 식단 제공</li>
-      <li>MediaPipe로 웹캠 관절 좌표를 실시간 추출해 자세를 분석하고 백엔드로 동기화</li>
+      <li>AI 식단 추천·하루 분석·눈바디(MediaPipe 자세 분석)를 FastAPI AI 서버로 만들고 React·Spring Boot와 연결</li>
+      <li>GitHub Actions로 세 서비스의 Docker 이미지를 빌드해 AWS EC2에 자동 배포, 로컬·서버 설정은 환경변수로 분리</li>
+      <li>종료 후 음식 사진 분류 모델을 한국 음식 150종 + "음식 아님"으로 다시 학습해 정답률 35% → 91%</li>
     </ul>
     <div class="lbl">문제 해결</div>
     <div class="fix">
