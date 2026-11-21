@@ -34,3 +34,5 @@ metadata:
 
 
 **2026-11-09 프로필 README 전면 재정리 (사용자 "내가 만든거 기준으로")**: jeakeun/jeakeun 기본 브랜치는 **master**(main 아님). 맨 위 「한눈에 보기」 표(개인/팀·상태)로 정리. 사실 근거는 show/docs/포트폴리오.html(사용자 검수본)만 사용, 숫자는 유튜브 API로 측정. 1단2조 팀 프로젝트(nudy·집가)는 2026-11 종료, 코인 봇 종료로 표시. 지금 핀 4개 = show·ZipGa_Backend·ZipGa_Frontend·YH-KIKI/YummyPlanet.
+
+- 2026-11-21: 뿅뿅마을 D:\kids-toon 을 비공개 저장소 jeakeun/kids-toon 으로 추가(영상·로그·.bak·토큰 제외). 기록 파일은 DataBackupNightly(05:40)가 매일 커밋. [[safety-check-2026-11-21]]

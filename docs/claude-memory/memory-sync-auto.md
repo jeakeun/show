@@ -7,7 +7,7 @@ metadata:
 
 2026-11-21 사용자 요청으로 "메모리 동기화"를 매일 밤 자동화.
 - 예약 작업 `MemorySyncNightly` 매일 23:50, pythonw로 창 없이 `show/tools/memory_sync.py` 실행. 기록은 `show/tools/memory_sync.log`(깃 제외).
-- 개인 파일 4개(api-billing·job-applications-2026-11·job-search-rules·jocoding-hackathon) 제외, 노션 주소 가림, docs/claude-memory만 커밋(다른 수정 파일은 안 건드림), 바뀐 게 없으면 아무것도 안 함.
+- **허용 목록 방식(11/21 Codex 검토 후):** ~/.claude/memory_sync_allow.txt 에 있는 파일만 공개. 새 메모리는 자동 보류 + 폰 알림 → 사용자가 "메모리 공개 보류 확인"이라 하면 목록 보여 주고 승인받아 추가. MEMORY.md 목차에서 비공개 파일 줄은 지움. 가림 규칙 ~/.claude/memory_sync_redact.tsv(없거나 형식 오류면 중단). --dry 는 아무것도 안 바꿈, 푸시 거절 시 자동 rebase 없이 중단, 다른 staged 파일 섞이면 중단. 11/21 보류: safety-check-2026-11-21·weekly-plan·idea-crosspost-shorts(+개인 4개).
 - API 키·주민번호·휴대폰 번호·개인 이메일 형태가 보이면 올리지 않고 D:\notify 폰 알림.
 - 새로 공개하면 안 되는 메모리 파일이 생기면 memory_sync.py의 SKIP 목록에 추가. 가릴 이름·주소(인턴 회사 등)는 스크립트가 아니라 이 PC에만 있는 ~/.claude/memory_sync_redact.tsv(정규식<TAB>바꿀 말)에 추가 — 스크립트도 공개 저장소에 올라가므로. 이 파일이 없으면 동기화 중단.
 
