@@ -31,7 +31,7 @@
 - [비추천 공고는 안 만든다](no-paid-work-for-unfit-jobs.md) — 유료 jobfit 돌리기 전에 필수 조건 먼저 무료로 걸러서 결격이면 제외 (2026-11-14 지적)
 - [공백 쓰기 전 전 프로젝트 확인](check-all-projects-before-gap.md) — "경험 없음" 쓰기 전 냠냠플래닛 등 grep, FastAPI·Docker는 냠냠플래닛에서 함 (2026-11-14)
 - [외부 도구 설치](installed-oss-tools.md) — 2026-11-16 마케팅 스킬 6개·save/resume-session·kordoc·watch·코덱스 imagegen, 전부 검토 후 설치
-- [키즈 만화 보리와 뭉치](kids-toon.md) — D:\kids-toon, 캐릭터 만화 시험 1화(11/18), 키즈 채널 "뿅뿅마을" = 옛 영어채널 1-Minute Wonder 전환(11/18, token_wonder), TTS에 지시문 붙이면 읽어버림, 11/19 회고 v2(48시간 실측·실험 장부·숫자는 코드) 월 02:20, 벤치마킹 9채널, 캐릭터 A4·B4 추가, AI 유아영상 단속 주의, 11/19 그리기 전 안전 규칙·배경 고정·Claude 그림 확인, B 대본 구독 Opus
+- [키즈 만화 보리와 뭉치](kids-toon.md) — D:\kids-toon, 캐릭터 만화 시험 1화(11/18), 키즈 채널 "뿅뿅마을" = 옛 영어채널 1-Minute Wonder 전환(11/18, token_wonder), TTS에 지시문 붙이면 읽어버림, 11/19 회고 v2(48시간 실측·실험 장부·숫자는 코드) 월 02:20, 벤치마킹 9채널, 캐릭터 A4·B4 추가, AI 유아영상 단속 주의, 11/19 그리기 전 안전 규칙·배경 고정·Claude 그림 확인, B 대본 구독 Opus, **11/24 새 채널 @ppyongmaeul로 이전(옛 채널 쇼츠피드 0%), 옛 채널 12/8 삭제 여부 재확인**
 - [Code Mode 켬](claude-code-mode.md) — 2026-11-18 토큰 절약 실험 기능 settings env, 자동화 실패 시 먼저 의심·되돌리기
 - [생활 상식 틀리지 않기](everyday-fact-accuracy.md) — 전화번호 3·4·4자리처럼 사소한 사실도 대본·그림·코드 장면에서 정확히 (2026-11-19 지적)
 - [메모리 자동 동기화](memory-sync-auto.md) — 매일 23:50 MemorySyncNightly, 비밀값 의심 시 중단·폰 알림 (2026-11-21)
