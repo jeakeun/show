@@ -13,8 +13,11 @@
 ZERO=0000000000000000000000000000000000000000
 blocked=0
 files=""
+REFS=$(cat)   # keep git's ref list so the repo's own pre-push hook can get it too
+REMOTE_NAME=$1; REMOTE_URL=$2   # saved: "set --" below reuses the positional parameters
 
 while IFS=' ' read -r lref lsha rref rsha; do
+  [ -z "$lsha" ] && continue
   [ "$lsha" = "$ZERO" ] && continue          # branch delete: nothing to scan
   if [ "$rsha" != "$ZERO" ] && git cat-file -e "$rsha^{commit}" 2>/dev/null; then
     range="$rsha..$lsha"
@@ -37,7 +40,9 @@ while IFS=' ' read -r lref lsha rref rsha; do
   # shellcheck disable=SC2086  (range is intentionally word-split)
   files="$files
 $(git -c core.quotepath=off log --format= --name-only --diff-filter=ACMR $range </dev/null 2>/dev/null)"
-done
+done <<EOF
+$REFS
+EOF
 
 if [ "$blocked" -eq 1 ]; then
   echo "" >&2
@@ -50,8 +55,9 @@ if [ "$blocked" -eq 1 ]; then
 fi
 
 # ---- semgrep (warning only; any failure here just lets the push continue) ----
-if [ -x "$SG" ] && [ -f "$SG_RULES" ]; then
-  list=$(mktemp 2>/dev/null) || exit 0
+list=""
+[ -x "$SG" ] && [ -f "$SG_RULES" ] && list=$(mktemp 2>/dev/null)
+if [ -n "$list" ]; then
   printf '%s\n' "$files" | sort -u | grep -E '\.(py|js|jsx|ts|tsx|java|go|php|rb|sh)$' |
     while IFS= read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done > "$list"
   n=$(grep -c . "$list")
@@ -81,4 +87,7 @@ if [ -x "$SG" ] && [ -f "$SG_RULES" ]; then
   fi
   rm -f "$list"
 fi
-exit 0
+
+# Repo's own pre-push hook (if any) gets the same ref list; its exit code decides the push.
+printf '%s\n' "$REFS" | run_local_hook pre-push "$REMOTE_NAME" "$REMOTE_URL"
+exit $?

@@ -25,4 +25,7 @@ if [ "$rc" -eq 3 ]; then
 elif [ "$rc" -ne 0 ]; then
   echo "[pre-commit] WARNING: gitleaks error or timeout (code $rc) - secret scan skipped" >&2
 fi
-exit 0
+# Repo's own pre-commit (e.g. code-reviewer AI review) runs only after the secret check passed,
+# so a secret is never sent to an AI. Its exit code decides the commit.
+run_local_hook pre-commit "$@"
+exit $?
