@@ -1,0 +1,28 @@
+#!/bin/sh
+# Shared pre-commit hook (all repos on the main PC point here via core.hooksPath).
+# Blocks a commit when gitleaks finds a secret in the staged changes.
+# - Secret found      -> commit blocked (exit 1) + phone push.
+# - gitleaks missing / tool error / timeout -> warning only, commit allowed (automation must not stop).
+# False positive: add the Fingerprint line printed below to .gitleaksignore in that repo.
+# Emergency bypass (you take the risk; pre-push still checks again): git commit --no-verify
+
+. "$(dirname "$0")/_common.sh"
+
+if [ -z "$GL" ]; then
+  echo "[pre-commit] WARNING: gitleaks not found - secret scan skipped" >&2
+  exit 0
+fi
+
+timeout 120 "$GL" git --pre-commit --staged --redact --verbose --no-banner --log-level warn --exit-code 3 </dev/null >&2
+rc=$?
+if [ "$rc" -eq 3 ]; then
+  echo "" >&2
+  echo "[pre-commit] BLOCKED: gitleaks found a secret in staged changes ($REPO)." >&2
+  echo "  - Remove the secret (move it to .env / secrets/ that is gitignored), then commit again." >&2
+  echo "  - If it is a false positive, add its Fingerprint line to .gitleaksignore." >&2
+  notify_phone "Commit blocked: $REPO" "gitleaks found a secret in a commit to $REPO. Nothing was committed."
+  exit 1
+elif [ "$rc" -ne 0 ]; then
+  echo "[pre-commit] WARNING: gitleaks error or timeout (code $rc) - secret scan skipped" >&2
+fi
+exit 0

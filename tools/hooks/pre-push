@@ -1,0 +1,84 @@
+#!/bin/sh
+# Shared pre-push hook (all repos on the main PC point here via core.hooksPath).
+# 1) gitleaks on every commit being pushed -> BLOCKS the push if a secret is found
+#    (second line of defense for commits made with --no-verify or before the hook existed).
+# 2) semgrep on code files changed by those commits -> WARNING ONLY, never blocks
+#    (false positives must not stop the daily automation). Report saved under SG_LOGDIR.
+#    Data-only pushes (no code files) skip semgrep instantly.
+# Known limits: merge-commit resolutions are not diffed by gitleaks; semgrep reads the
+# current working-tree copy of each changed file, not the pushed snapshot.
+
+. "$(dirname "$0")/_common.sh"
+
+ZERO=0000000000000000000000000000000000000000
+blocked=0
+files=""
+
+while IFS=' ' read -r lref lsha rref rsha; do
+  [ "$lsha" = "$ZERO" ] && continue          # branch delete: nothing to scan
+  if [ "$rsha" != "$ZERO" ] && git cat-file -e "$rsha^{commit}" 2>/dev/null; then
+    range="$rsha..$lsha"
+  else
+    range="$lsha --not --remotes"            # new branch, or remote tip unknown locally
+  fi
+
+  if [ -n "$GL" ]; then
+    timeout 180 "$GL" git --log-opts="$range" --redact --verbose --no-banner --log-level warn --exit-code 3 </dev/null >&2
+    rc=$?
+    if [ "$rc" -eq 3 ]; then
+      blocked=1
+    elif [ "$rc" -ne 0 ]; then
+      echo "[pre-push] WARNING: gitleaks error or timeout (code $rc) - secret scan skipped" >&2
+    fi
+  else
+    echo "[pre-push] WARNING: gitleaks not found - secret scan skipped" >&2
+  fi
+
+  # shellcheck disable=SC2086  (range is intentionally word-split)
+  files="$files
+$(git -c core.quotepath=off log --format= --name-only --diff-filter=ACMR $range </dev/null 2>/dev/null)"
+done
+
+if [ "$blocked" -eq 1 ]; then
+  echo "" >&2
+  echo "[pre-push] BLOCKED: gitleaks found a secret in commits being pushed ($REPO)." >&2
+  echo "  - The secret is already in a local commit. Remove it and rewrite that commit" >&2
+  echo "    (ask Claude for help), and rotate the key if it was ever pushed before." >&2
+  echo "  - If it is a false positive, add its Fingerprint line to .gitleaksignore." >&2
+  notify_phone "Push blocked: $REPO" "gitleaks found a secret in commits being pushed from $REPO. Nothing was pushed."
+  exit 1
+fi
+
+# ---- semgrep (warning only; any failure here just lets the push continue) ----
+if [ -x "$SG" ] && [ -f "$SG_RULES" ]; then
+  list=$(mktemp 2>/dev/null) || exit 0
+  printf '%s\n' "$files" | sort -u | grep -E '\.(py|js|jsx|ts|tsx|java|go|php|rb|sh)$' |
+    while IFS= read -r f; do [ -f "$f" ] && printf '%s\n' "$f"; done > "$list"
+  n=$(grep -c . "$list")
+  if [ "$n" -gt 200 ]; then
+    echo "[pre-push] semgrep: $n code files changed - too many for a push check, skipped (run it by hand)" >&2
+    n=0
+  fi
+  if [ "$n" -gt 0 ] && mkdir -p "$SG_LOGDIR" 2>/dev/null; then
+    log="$SG_LOGDIR/$(date +%Y%m%d-%H%M%S)-$$-$REPO"
+    echo "[pre-push] semgrep: checking $n changed code file(s) (warning only)..." >&2
+    # Build the argument list safely (file names may contain spaces or Korean).
+    set --
+    while IFS= read -r f; do set -- "$@" "$f"; done < "$list"
+    PYTHONUTF8=1 timeout 300 "$SG" scan --metrics=off --disable-version-check --quiet --timeout 20 \
+      --config "$SG_RULES" --text --output "$log.txt" --json-output "$log.json" -- "$@" </dev/null >/dev/null 2>&1
+    src=$?
+    hits=$(grep -o '"check_id"' "$log.json" 2>/dev/null | wc -l | tr -d ' ')
+    if [ ! -s "$log.json" ]; then
+      echo "[pre-push] semgrep: WARNING - scan failed or timed out (code $src), push continues" >&2
+      rm -f "$log.txt" "$log.json"
+    elif [ "${hits:-0}" -gt 0 ]; then
+      echo "[pre-push] semgrep: $hits possible issue(s) - push continues. Report: $log.txt" >&2
+    else
+      echo "[pre-push] semgrep: no issues" >&2
+      rm -f "$log.txt" "$log.json"
+    fi
+  fi
+  rm -f "$list"
+fi
+exit 0

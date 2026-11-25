@@ -1,6 +1,6 @@
 # show — 자동화 프로젝트 작업공간
 
-> 마지막 갱신: 2026-11-21 (매일 05:40 기록 자동 백업 `DataBackupNightly` → tools/data_backup.py: yt-auto data·reports / ai-daily 채용·뉴스논문 / kids-toon data·retro·실험·상태를 각 비공개 저장소 main 에 커밋, main 아니거나 다른 staged 파일 있으면 멈추고 폰 알림 · 뿅뿅마을 D:\kids-toon 을 비공개 저장소 kids-toon 으로 시작 · 메모리 동기화는 허용 목록 파일만 공개(새 메모리는 보류+알림) · 주간 계획 읽기 실패 표시) (같은 날: 월요일 08:00 "이번 주 계획" 한 장 `WeeklyPlanMonday` → tools/weekly_plan.py: 1분호기심·뿅뿅마을·숏드라마의 이번 주 일정·시험 합격선·안 답한 회고 결정을 회고·설정에서 모아 D:\hub\weekly_plan 저장+폰 알림, AI 호출 없음) (같은 날: 메모리 사본 매일 밤 23:50 자동 동기화 `MemorySyncNightly` → tools/memory_sync.py) (이전 2026-11-09: 1단2조 팀 프로젝트 종료로 집가 마케팅 종료 표시, 깃허브 프로필 README 재정리) (이전 2026-11-02: 안 쓰면 바로 종료: 유튜브 대시보드 서버 자동 시작 제거·20분 무응답 시 종료, 예약 작업 창 없이 실행·시간 제한, 30분마다 남은 프로그램 정리 `AutoCleanupLeftovers` · jobfit-agent 검증가에 오타·AI 말투 검사 · nudy 팀 프로젝트 종료 반영) (이전 2026-11-02 코인 모의투자 봇 중단)
+> 마지막 갱신: 2026-11-25 (비밀값·위험 코드 자동 검사 훅: 메인 PC 저장소 8개가 tools/hooks 를 공용으로 사용 — 커밋 때 gitleaks 가 비밀값 발견 시 차단+폰 알림, 푸시 때 gitleaks 재검사(차단)+semgrep 코드 검사(경고만, 데이터만 바뀐 푸시는 건너뜀), 연결·해제 `bash tools/hooks/install.sh`) (이전 2026-11-21: 매일 05:40 기록 자동 백업 `DataBackupNightly` → tools/data_backup.py: yt-auto data·reports / ai-daily 채용·뉴스논문 / kids-toon data·retro·실험·상태를 각 비공개 저장소 main 에 커밋, main 아니거나 다른 staged 파일 있으면 멈추고 폰 알림 · 뿅뿅마을 D:\kids-toon 을 비공개 저장소 kids-toon 으로 시작 · 메모리 동기화는 허용 목록 파일만 공개(새 메모리는 보류+알림) · 주간 계획 읽기 실패 표시) (같은 날: 월요일 08:00 "이번 주 계획" 한 장 `WeeklyPlanMonday` → tools/weekly_plan.py: 1분호기심·뿅뿅마을·숏드라마의 이번 주 일정·시험 합격선·안 답한 회고 결정을 회고·설정에서 모아 D:\hub\weekly_plan 저장+폰 알림, AI 호출 없음) (같은 날: 메모리 사본 매일 밤 23:50 자동 동기화 `MemorySyncNightly` → tools/memory_sync.py) (이전 2026-11-09: 1단2조 팀 프로젝트 종료로 집가 마케팅 종료 표시, 깃허브 프로필 README 재정리) (이전 2026-11-02: 안 쓰면 바로 종료: 유튜브 대시보드 서버 자동 시작 제거·20분 무응답 시 종료, 예약 작업 창 없이 실행·시간 제한, 30분마다 남은 프로그램 정리 `AutoCleanupLeftovers` · jobfit-agent 검증가에 오타·AI 말투 검사 · nudy 팀 프로젝트 종료 반영) (이전 2026-11-02 코인 모의투자 봇 중단)
 
 개인 자동화 프로젝트 모음입니다. 유튜브 채널 운영, 앱 마케팅, 취업 정보 수집, 코인 모의투자, 버추얼 스트리머,
 카카오 마케팅 메시지 에이전트까지 전부 클로드 코드와 함께 만들었고, 메인 PC의 윈도우 작업 스케줄러에서 매일 자동으로 돌아갑니다.
@@ -176,7 +176,7 @@ show/
 │   ├── claude-memory/     ← 메인 PC 클로드 메모리 사본 (비밀정보 제거본, 매일 23:50 tools/memory_sync.py 자동 갱신)
 │   ├── 멀티에이전트/      ← 취업 대비 멀티 에이전트 공부 (개념·내 설계 결정 기록·면접 질문)
 │   └── handoff/           ← 다른 PC → 메인 PC 작업 지시서
-├── tools/                 ← gitwork.sh(브랜치 작업), disk_scan.py(C·D 드라이브 점검, 읽기 전용)
+├── tools/                 ← gitwork.sh(브랜치 작업), disk_scan.py(C·D 드라이브 점검, 읽기 전용), hooks/(모든 저장소 공용 커밋·푸시 검사)
 ├── jobfit-agent/          ← 맞춤 지원서 멀티 에이전트 (LangGraph · RAG · 근거 검증)
 ├── zipga-marketing/       ← 집가 마케팅 자동화
 ├── vtuber/                ← 몽글이 버추얼 스트리머
@@ -193,6 +193,7 @@ show/
 ## 공통 규칙
 
 - 토큰·비밀 파일·영상 결과물·BGM은 커밋하지 않음 (`.gitignore` 참고). 이 저장소는 공개라 메모리 사본도 비밀정보를 지운 뒤 올림
+- **자동 검사 훅 (2026-11-25~)**: 메인 PC의 저장소 8개(show·yt-auto·ai-daily·coin-bot·market-compass·hub·kids-toon·YummyPlanet)는 `core.hooksPath`로 `tools/hooks`를 같이 씁니다. 커밋할 때 gitleaks가 비밀값을 찾으면 커밋을 막고 폰 알림, 푸시할 때 한 번 더 검사해서 막습니다. semgrep은 푸시할 때 바뀐 코드 파일만 검사하고 **경고만** 합니다(오탐으로 자동화가 멈추지 않게). 보고서는 `D:\tools-venv\semgrep-logs`. 오탐은 그 저장소의 `.gitleaksignore`에 지문 줄 추가. 도구 위치: gitleaks = winget, semgrep = `D:\tools-venv\semgrep`. 다른 PC는 훅이 연결되지 않습니다(필요하면 경로를 맞춘 뒤 `install.sh`). 설명 노트: `docs/공부/gitleaks_semgrep.md`
 - `.bat` / `.ps1` 파일에는 한글·이모지 금지 (CP949 깨짐으로 실행 실패한 전례 있음)
 - 유튜브·쇼츠 등 자동재생 페이지는 브라우저로 열지 않고 API로만 상태 확인
 - 이상 징후를 발견하면 주인이 묻기 전에 먼저 보고
