@@ -54,3 +54,5 @@ metadata:
 - 주 1~2회 업로드 기준이면 Omni API 월 약 10~20만 원, 힉스필드 Seedance 2.5는 MCP·사이트 모두 크레딧 차감(MCP는 무제한 적용 안 됨)이라 2~3배 비쌈.
 **2026-10-26 틱톡·릴스 AI 드라마 도구 조사 (조사 에이전트 2, 브라우저 미사용):** 큰 계정(Fruit Love Island 3억 뷰, @dreamfall.art 릴스 5,518만 뷰, @koreansitcom 등)은 도구를 안 밝힘. 밝힌 쪽·업계 보도 기준 Seedance 2.0 ≈ Kling 3.0이 양강(Seedance 언급은 바이트댄스 홍보로 부풀려짐), 그다음 Veo 3, Higgsfield(묶음 사이트), Hailuo·HappyHorse·Vidu·Wan 소수. Sora 드라마 사례 없음, Gemini Omni 드라마 사례 보도 없음. 흔한 조합: 이미지 Nano Banana/Midjourney → 대사·립싱크 Seedance + 동작 Kling (+배경 Veo) → 음성 ElevenLabs/Typecast → CapCut. 틱톡은 서버 접근 차단(WAF)이라 검색 요약으로만 확인.
 **How to apply:** 요금제 이야기가 나오면 위 숫자 기준으로. 싼 대안은 Kling 3.0(회차당 약 110~160크레딧) — 화질·인물 일관성 시험 필요, 바꾸면 sheet.py 작업지시서 문구도 수정. README의 "Plus 무제한 $49" 비용 설명은 git pull 후 고칠 것.
+
+- 2026-11-26 도구 검토: 힉스필드 대안 후보 Renoise(renoise.ai, YouWare HK, 협찬 릴스로 봄). 모델 43개(Seedance·Kling·Nano Banana 등), 터진 영상 링크→구성·컷 분석→한국판 재생성 에이전트, 대화 무료·생성 전 크레딧 표시. 무제한은 Advanced·연간 Standard만, Director Mode·MCP·CLI에선 무제한 안 됨(자동화엔 크레딧). 출력 소유권 사용자, 비공개 입력 학습 안 함(약관). 블프 연간 첫해 최대 79%는 12/3 13시까지. 결제·가입은 주인 판단.
